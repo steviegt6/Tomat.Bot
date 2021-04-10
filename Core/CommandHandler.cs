@@ -26,17 +26,12 @@ namespace TomatBot.Core
 
         private async Task HandleCommandAsync(SocketMessage message)
         {
-            if (message is SocketUserMessage userMessage)
-            {
-                int argPos = 0;
+            if (!(message is SocketUserMessage msg) || message.Author.IsBot || message.Author.IsWebhook)
+                return;
 
-                // If the message doesn't start with our prefix *or* has no mention as the prefix, ignore. Ignored if the message author is a bot as well
-                if (!userMessage.HasStringPrefix(BotStartup.Prefix, ref argPos) &&
-                    !userMessage.HasMentionPrefix(_client.CurrentUser, ref argPos) || userMessage.Author.IsBot)
-                    return;
-
-                await _commands.ExecuteAsync(new SocketCommandContext(_client, userMessage), argPos, null);
-            }
+            int argPos = 0;
+            if (msg.HasStringPrefix(BotStartup.Prefix, ref argPos) || msg.HasMentionPrefix(_client.CurrentUser, ref argPos))
+                await _commands.ExecuteAsync(new SocketCommandContext(_client, msg), argPos, null);
         }
     }
 }
