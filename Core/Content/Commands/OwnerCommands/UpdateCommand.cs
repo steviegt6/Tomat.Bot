@@ -32,8 +32,10 @@ namespace TomatBot.Core.Content.Commands.OwnerCommands
             IUserMessage? message = await ReplyAsync(embed:new EmbedBuilder
             {
                 Title = "Command output",
-                Description = "Starting command... (If there is something to update then the bot will be offline now)"
+                Description = "Starting command"
             }.Build());
+            
+            File.WriteAllText("Restarted.txt", $"{Context.Guild.Id} {Context.Channel.Id}");
             
             // If there is something to update the bot will just exit
             string result = "../update.bash".Bash();
@@ -43,6 +45,8 @@ namespace TomatBot.Core.Content.Commands.OwnerCommands
                 Title = "Command output",
                 Description = result
             }.Build());
+            
+            File.Delete("Restarted.txt");
         }
     }
     

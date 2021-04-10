@@ -13,7 +13,7 @@ using Timer = System.Timers.Timer;
 
 namespace TomatBot.Core
 {
-    public static class BotStartup
+    public class BotStartup
     {
         private static CancellationTokenSource _stopTokenSource = new ();
         private static CancellationToken _stopToken = _stopTokenSource.Token;
@@ -30,7 +30,7 @@ namespace TomatBot.Core
         /// </summary>
         /// <returns>An indefinitely delayed task to keep the program alive.</returns>
         /// <exception cref="TokenFileMissingException">A <c>token.txt</c> file was not found in the same directory as the program.</exception>
-        internal static async Task StartBotAsync()
+        internal async Task StartBotAsync()
         {
             if (!File.Exists("token.txt"))
                 throw new TokenFileMissingException();
@@ -70,6 +70,31 @@ namespace TomatBot.Core
 
             Client.Ready += async () =>
             {
+                if (File.Exists("Restarted.txt"))
+                {
+                    try
+                    {
+                        var ids = File.ReadAllTextAsync("Restarted.txt").Result.Split(' ');
+
+                        var embed = new EmbedBuilder
+                        {
+                            Title = "Bot restarted successfully",
+                            Color = Color.Green
+                        }.Build();
+
+                        await (Client.GetGuild(ulong.Parse(ids[0])).GetChannel(ulong.Parse(ids[1])) as SocketTextChannel)!.SendMessageAsync(embed:embed);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                    finally
+                    {
+                        File.Delete("Restarted.txt");
+                    }
+                }
+                
                 // Set activity and status for the bot
                 await Client.SetActivityAsync(new StatisticsActivity(Client));
                 new Timer(10000)
@@ -86,7 +111,7 @@ namespace TomatBot.Core
             await Task.Delay(-1, _stopToken);
         }
 
-        internal static async Task ShutdownBotAsync()
+        internal async Task ShutdownBotAsync()
         {
             _shuttingDown = true;
             
