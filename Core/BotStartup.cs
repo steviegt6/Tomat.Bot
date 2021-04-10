@@ -52,13 +52,13 @@ namespace TomatBot.Core
             await Client.StartAsync();
 
             // Set activity and status for the bot
+            await Client.SetActivityAsync(new StatisticsActivity(Client));
             new Timer(10000)
             {
                 AutoReset = true,
                 Enabled = true,
             }.Elapsed += async (a, b)
                              => await Client.SetActivityAsync(new StatisticsActivity(Client));
-
             // Set status to DND
             await Client.SetStatusAsync(UserStatus.DoNotDisturb);
 

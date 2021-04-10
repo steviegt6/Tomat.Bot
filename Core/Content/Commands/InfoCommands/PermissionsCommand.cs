@@ -22,6 +22,7 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
         [Command("permissions")]
         [Alias("perms")]
         [Summary("Lists the bot's current permissions.")]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
         public Task HandleCommand()
         {
             string channelPerms = "";

@@ -21,11 +21,11 @@ namespace TomatBot.Core.Content.Activities
                 IReadOnlyCollection<SocketGuild> guilds = _client.Guilds;
                 int totalUserCount = guilds.Sum(guild => guild.MemberCount);
 
-                return $"In {guilds.Count} guilds | Watching {totalUserCount} users";
+                return $"{guilds.Count} guilds | Watching {totalUserCount} users";
             }
         }
 
-        public ActivityType Type => ActivityType.CustomStatus;
+        public ActivityType Type => ActivityType.Watching;
 
         public ActivityProperties Flags => ActivityProperties.None;
 

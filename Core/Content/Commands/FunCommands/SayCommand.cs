@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using TomatBot.Core.Framework.CommandFramework;
 using TomatBot.Core.Framework.DataStructures;
@@ -16,6 +17,7 @@ namespace TomatBot.Core.Content.Commands.FunCommands
 
         [Command("say")]
         [Summary("Echoes back a message.")]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
         public Task HandleCommand(
             [Remainder]
             [Summary("The text you wish you echo.")]

@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using TomatBot.Core.Content.Embeds;
 using TomatBot.Core.Framework.CommandFramework;
@@ -17,6 +18,7 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
 
         [Command("info")]
         [Summary("Sends an embed with basic information about the bot.")]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
         public Task HandleCommand()
         {
             BaseEmbed embed = new BaseEmbed(Context.User)

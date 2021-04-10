@@ -22,6 +22,7 @@ namespace TomatBot.Core.Content.Commands.FunCommands
         [Command("saychannel")]
         [Alias("saych", "chsay", "channelsay")]
         [Summary("Echoes back a message in the specified channel.")]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
         public Task HandleCommand(
             [Summary("The channel you want the text to be displayed in")]
             SocketChannel channel,
