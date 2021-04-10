@@ -11,7 +11,6 @@ namespace TomatBot.Core.Content.Commands.OwnerCommands
 {
     public class UpdateCommand : TomatCommand
     {
-        //TODO: Change this Stevie, I don't know how your Framework works
         public override MethodInfo? AssociatedMethod => GetType().GetMethod("UpdateCommandAsync");
 
         public override HelpCommandData HelpData => new("update", "Owner-only command, updates the bot from Git.");

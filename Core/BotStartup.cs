@@ -19,8 +19,8 @@ namespace TomatBot.Core
         private static CancellationToken _stopToken = _stopTokenSource.Token;
         private static bool _shuttingDown;
         
-        // TODO: Transfer to global config manager or command handler?
-        public static string Prefix => "tomat!"; // todo: server configs
+        // TODO: Transfer to guild config system, guild-configurable prefixes with "tomat!" as a fallback (mentions also work)
+        public static string Prefix => "tomat!";
         
         // TODO: Get this from Service Collection to actually use DependencyInjection
         public static DiscordSocketClient? Client { get; private set; }
