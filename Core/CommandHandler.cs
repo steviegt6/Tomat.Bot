@@ -43,7 +43,7 @@ namespace TomatBot.Core
             {
                 BaseEmbed embed = new(context.User)
                 {
-                    Title = result.Error.ToString(),
+                    Title = $"encountered error: {result.Error}",
                     Description = result.ErrorReason
                 };
 

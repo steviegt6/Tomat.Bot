@@ -28,8 +28,7 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
             string command = "")
         {
             command = command.ToLower();
-
-            // TODO: alias support
+            
             HelpCommandData data = CommandRegistry.helpCommandData!.FirstOrDefault(x => x.command == command || x.aliases != null && x.aliases.Contains(command));
 
             if (!CommandRegistry.helpCommandData!.Contains(data))

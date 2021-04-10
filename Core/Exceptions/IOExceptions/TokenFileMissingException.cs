@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using System;
+﻿using System;
 
 namespace TomatBot.Core.Exceptions.IOExceptions
 {
@@ -8,13 +6,10 @@ namespace TomatBot.Core.Exceptions.IOExceptions
     {
         public override string Message =>
             "token.txt file not found!" +
-            "\nYou'll have to supply the program with your own token.txt file container only your bot's token" +
-            " and place this in the same folder and the bot's generated .exe file." +
-            "\nThis allows this bot to stay open-source and open for contributions.";
+            "\nYou'll have to supply the program with your own token.txt file containing only your bot's token" +
+            " and place this in the same folder as the bot's generated .exe file." +
+            "\nThis allows the bot to stay open-source and open for contributions.";
 
-        // TODO: HelpLink
-        public override string? HelpLink => null;
+        public override string HelpLink => "https://github.com/Steviegt6/TomatBot/wiki/TokenFileMissingException";
     }
 }
-
-#nullable disable
