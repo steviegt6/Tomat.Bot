@@ -84,11 +84,7 @@ namespace TomatBot.Core
 
                         await (Client.GetGuild(ulong.Parse(ids[0])).GetChannel(ulong.Parse(ids[1])) as SocketTextChannel)!.SendMessageAsync(embed:embed);
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        throw;
-                    }
+                    catch (Exception e) { /* ignore */ }
                     finally
                     {
                         File.Delete("Restarted.txt");
@@ -108,7 +104,8 @@ namespace TomatBot.Core
             };
 
             // Block until the program is closed
-            await Task.Delay(-1, _stopToken);
+            try { await Task.Delay(-1, _stopToken); }
+            catch (TaskCanceledException e) { /* ignore */ }
         }
 
         internal async Task ShutdownBotAsync()
