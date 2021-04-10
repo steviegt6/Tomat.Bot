@@ -12,13 +12,15 @@ namespace TomatBot.Core.Content.Commands.OwnerCommands
     public class UpdateCommand : TomatCommand
     {
         //TODO: Change this Stevie, I don't know how your Framework works
-        public override MethodInfo? AssociatedMethod { get; }
-        public override HelpCommandData HelpData { get; }
-        public override CommandType CType { get; }
+        public override MethodInfo? AssociatedMethod => GetType().GetMethod("UpdateCommandAsync");
 
-        [Command("update")]
+        public override HelpCommandData HelpData => new("update", "Owner-only command, updates the bot from Git.");
+
+        public override CommandType CType => CommandType.Info;
+
         [RequireOwnerOrSpecial]
-        [Summary("Updates the bot")]
+        [Command("update")]
+        [Summary("Updates the bot.")]
         public async Task UpdateCommandAsync()
         {
             if (!File.Exists("../update.bash"))
@@ -27,7 +29,7 @@ namespace TomatBot.Core.Content.Commands.OwnerCommands
                 return;
             }
             
-            var message = await ReplyAsync(embed:new EmbedBuilder
+            IUserMessage? message = await ReplyAsync(embed:new EmbedBuilder
             {
                 Title = "Command output",
                 Description = "Starting command... (If there is something to update then the bot will be offline now)"
@@ -48,9 +50,9 @@ namespace TomatBot.Core.Content.Commands.OwnerCommands
     {
         public static string Bash(this string cmd)
         {
-            var escapedArgs = cmd.Replace("\"", "\\\"");
+            string escapedArgs = cmd.Replace("\"", "\\\"");
             
-            var process = new Process
+            Process process = new()
             {
                 StartInfo = new ProcessStartInfo
                 {
@@ -62,9 +64,11 @@ namespace TomatBot.Core.Content.Commands.OwnerCommands
                     RedirectStandardInput = false
                 }
             };
+
             process.Start();
             string result = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
+
             return result;
         }
     }

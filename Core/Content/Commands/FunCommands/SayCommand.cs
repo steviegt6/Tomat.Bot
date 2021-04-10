@@ -11,7 +11,7 @@ namespace TomatBot.Core.Content.Commands.FunCommands
     {
         public override MethodInfo? AssociatedMethod => GetType().GetMethod("HandleCommand");
 
-        public override HelpCommandData HelpData => new HelpCommandData("say", "Echoes the text specified, deletes the message from the user afterward.");
+        public override HelpCommandData HelpData => new("say", "Echoes the text specified, deletes the message from the user afterward.");
 
         public override CommandType CType => CommandType.Fun;
 

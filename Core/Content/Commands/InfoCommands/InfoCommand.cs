@@ -12,7 +12,7 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
     {
         public override MethodInfo? AssociatedMethod => GetType().GetMethod("HandleCommand");
 
-        public override HelpCommandData HelpData => new HelpCommandData("info", "Displays standard information about the bot, including developer contact information and a bot invitation link.");
+        public override HelpCommandData HelpData => new("info", "Displays standard information about the bot, including developer contact information and a bot invitation link.");
 
         public override CommandType CType => CommandType.Info;
 
@@ -21,7 +21,7 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
         [RequireBotPermission(ChannelPermission.SendMessages)]
         public Task HandleCommand()
         {
-            BaseEmbed embed = new BaseEmbed(Context.User)
+            BaseEmbed embed = new(Context.User)
             {
                 Title = "Basic Bot Info",
 

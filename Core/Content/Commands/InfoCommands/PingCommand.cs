@@ -14,7 +14,7 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
     {
         public override MethodInfo? AssociatedMethod => GetType().GetMethod("HandleCommand");
 
-        public override HelpCommandData HelpData => new HelpCommandData("ping", "Shows bot gateway latency and response time.");
+        public override HelpCommandData HelpData => new("ping", "Shows bot gateway latency and response time.");
 
         public override CommandType CType => CommandType.Info;
 
@@ -30,7 +30,7 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
 
             await toDelete.DeleteAsync();
 
-            BaseEmbed embed = new BaseEmbed(Context.User)
+            BaseEmbed embed = new(Context.User)
             {
                 Title = "Ping",
 

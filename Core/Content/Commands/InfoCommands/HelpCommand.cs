@@ -13,7 +13,7 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
     {
         public override MethodInfo? AssociatedMethod => GetType().GetMethod("HandleCommand");
 
-        public override HelpCommandData HelpData => new HelpCommandData("help", "Displays an embed containing basic information on all registered commands.");
+        public override HelpCommandData HelpData => new("help", "Displays an embed containing basic information on all registered commands.");
 
         public override CommandType CType => CommandType.Info;
 
@@ -25,7 +25,7 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
             string listOfInfoCommands = string.Join('\n', CommandRegistry.infoCommands!);
             string listOfFunCommands = string.Join('\n', CommandRegistry.funCommands!);
 
-            BaseEmbed embed = new BaseEmbed(Context.User)
+            BaseEmbed embed = new(Context.User)
             {
                 Title = "Command Help",
 
@@ -35,14 +35,14 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
                               "\n`[]`: optional",
                 Fields = new List<EmbedFieldBuilder>
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         IsInline = false,
                         Name = "Informative Commands",
                         Value = string.IsNullOrEmpty(listOfInfoCommands) ? "N/A" : listOfInfoCommands
                     },
 
-                    new EmbedFieldBuilder
+                    new()
                     {
                         IsInline = false,
                         Name = "Fun Commands",

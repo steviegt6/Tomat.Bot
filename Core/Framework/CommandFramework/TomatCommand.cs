@@ -23,7 +23,7 @@ namespace TomatBot.Core.Framework.CommandFramework
         public abstract CommandType CType { get; }
 
         public BaseEmbed CreateSmallEmbed(string text = "") =>
-            new BaseEmbed(Context.User)
+            new(Context.User)
             {
                 Description =
                     string.IsNullOrEmpty(text)

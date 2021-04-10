@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
 using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using TomatBot.Core.Content.Embeds;
 
 namespace TomatBot.Core
 {
@@ -20,6 +22,7 @@ namespace TomatBot.Core
         {
             // Hook a method to the MessageReceived event, allowing us to detect and respond to messages
             _client.MessageReceived += HandleCommandAsync;
+            _commands.CommandExecuted += HandleError;
 
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
         }
@@ -32,6 +35,20 @@ namespace TomatBot.Core
             int argPos = 0;
             if (msg.HasStringPrefix(BotStartup.Prefix, ref argPos) || msg.HasMentionPrefix(_client.CurrentUser, ref argPos))
                 await _commands.ExecuteAsync(new SocketCommandContext(_client, msg), argPos, null);
+        }
+
+        private static async Task HandleError(Optional<CommandInfo> info, ICommandContext context, IResult result)
+        {
+            if (!result.IsSuccess)
+            {
+                BaseEmbed embed = new(context.User)
+                {
+                    Title = result.Error.ToString(),
+                    Description = result.ErrorReason
+                };
+
+                await context.Channel.SendMessageAsync(embed: embed.Build());
+            }
         }
     }
 }

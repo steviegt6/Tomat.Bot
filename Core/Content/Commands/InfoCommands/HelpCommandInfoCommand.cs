@@ -13,7 +13,7 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
     {
         public override MethodInfo? AssociatedMethod => GetType().GetMethod("HandleCommand");
 
-        public override HelpCommandData HelpData => new HelpCommandData("commandhelp", "Displays an embed containing extra information about the given command.");
+        public override HelpCommandData HelpData => new("commandhelp", "Displays an embed containing extra information about the given command.");
 
         public override CommandType CType => CommandType.Info;
 
@@ -47,7 +47,7 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
             if (data.aliases != null)
                 name += $" ({string.Join(", ", data.aliases)})";
 
-            BaseEmbed embed = new BaseEmbed(Context.User)
+            BaseEmbed embed = new(Context.User)
             {
                 Title = name,
                 Description = description

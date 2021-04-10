@@ -15,7 +15,7 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
     {
         public override MethodInfo? AssociatedMethod => GetType().GetMethod("HandleCommand");
 
-        public override HelpCommandData HelpData => new HelpCommandData("permissions", "Lists all current guild and channel permissions the bot has.");
+        public override HelpCommandData HelpData => new("permissions", "Lists all current guild and channel permissions the bot has.");
 
         public override CommandType CType => CommandType.Info;
 
@@ -43,20 +43,20 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
             else
                 guildPerms = "unable to fetch guild";
 
-            BaseEmbed embed = new BaseEmbed(Context.User)
+            BaseEmbed embed = new(Context.User)
             {
                 Title = "Permissions",
 
                 Fields = new List<EmbedFieldBuilder>
                 {
-                    new EmbedFieldBuilder
+                    new()
                     {
                         IsInline = true,
                         Name = "Guild Permissions",
                         Value = guildPerms
                     },
 
-                    new EmbedFieldBuilder
+                    new()
                     {
                         IsInline = true,
                         Name = "Channel Permissions",
