@@ -91,12 +91,11 @@ namespace TomatBot.Core
             _shuttingDown = true;
             
             _stopTokenSource.Cancel();
-            
+
             // TODO: Add this at some point, you currently don't save the service collection anywhere
             // ServiceCollection.DisposeAsync(); 
-            
-            Task tS = Task.Run(() => Client.StopAsync());
-            tS.Wait();
+
+            await Task.Run(() => Client?.StopAsync());
         }
     }
 }
