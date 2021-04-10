@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using TomatBot.Core.Framework.CommandFramework;
 using TomatBot.Core.Framework.DataStructures;
 
@@ -20,13 +21,22 @@ namespace TomatBot.Core.Content.Commands.FunCommands
         [Command("say")]
         [Summary("Echoes back a message.")]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        public Task HandleCommand(
+        public async Task HandleCommand(
             [Remainder]
             [Summary("The text you wish you echo.")]
             string message)
         {
-            Context.Message.DeleteAsync();
-            return ReplyAsync(message, embed: CreateSmallEmbed().Build());
+            await Context.Message.DeleteAsync();
+            await ReplyAsync(message, embed: CreateSmallEmbed().Build(), allowedMentions:AllowedMentions.None);
         }
+
+        public async Task HandleCommand(
+            [Summary("The channel in which the bot should echo the text")] SocketTextChannel channel, 
+            [Remainder] [Summary("The text")] string text)
+        {
+            await Context.Message.DeleteAsync();
+            await channel.SendMessageAsync(text, embed: CreateSmallEmbed().Build(), allowedMentions:AllowedMentions.None);
+        }
+        
     }
 }
