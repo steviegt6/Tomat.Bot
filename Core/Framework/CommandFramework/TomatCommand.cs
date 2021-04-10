@@ -8,13 +8,13 @@ namespace TomatBot.Core.Framework.CommandFramework
 {
     public abstract class TomatCommand : ModuleBase<SocketCommandContext>
     {
-        public virtual string? Name => AssociatedMethod.CommandNameFromAttribute();
+        public virtual string? Name => AssociatedMethod?.CommandNameFromAttribute();
 
-        public virtual string? CommandSummary => AssociatedMethod.CommandSummaryFromAttribute();
+        public virtual string? CommandSummary => AssociatedMethod?.CommandSummaryFromAttribute();
 
-        public virtual string[]? Aliases => AssociatedMethod.CommandAliasesFromAttribute();
+        public virtual string[]? Aliases => AssociatedMethod?.CommandAliasesFromAttribute();
 
-        public virtual string? Parameters { get; }
+        public virtual string? Parameters => null;
 
         public abstract MethodInfo? AssociatedMethod { get; }
 

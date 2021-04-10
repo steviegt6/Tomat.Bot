@@ -15,6 +15,8 @@ namespace TomatBot.Core.Content.Commands.FunCommands
 
         public override CommandType CType => CommandType.Fun;
 
+        public override string Parameters => "<message>";
+
         [Command("say")]
         [Summary("Echoes back a message.")]
         [RequireBotPermission(ChannelPermission.SendMessages)]

@@ -17,6 +17,8 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
 
         public override CommandType CType => CommandType.Info;
 
+        public override string Parameters => "<command>";
+
         [Command("commandhelp")]
         [Summary("Shows info about a given command.")]
         [Alias("chelp", "helpcommand", "helpc")]
@@ -28,15 +30,27 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
             command = command.ToLower();
 
             // TODO: alias support
-            HelpCommandData data = CommandRegistry.helpCommandData!.FirstOrDefault(x => x.command == command);
+            HelpCommandData data = CommandRegistry.helpCommandData!.FirstOrDefault(x => x.command == command || x.aliases != null && x.aliases.Contains(command));
 
             if (!CommandRegistry.helpCommandData!.Contains(data))
                 data = new HelpCommandData("error", $"no command with the name {command} found.");
 
+            string description = "";
+
+            if (data.parameters != null)
+                description += $"Parameters: {data.parameters}\n";
+
+            description += data.description;
+
+            string name = data.command;
+
+            if (data.aliases != null)
+                name += $" ({string.Join(", ", data.aliases)})";
+
             BaseEmbed embed = new BaseEmbed(Context.User)
             {
-                Title = data.command,
-                Description = data.description
+                Title = name,
+                Description = description
             };
 
             return ReplyAsync(embed: embed.Build());

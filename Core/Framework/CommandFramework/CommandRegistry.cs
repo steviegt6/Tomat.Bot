@@ -32,7 +32,7 @@ namespace TomatBot.Core.Framework.CommandFramework
                     string helpEntry = $"`{command.Name}";
 
                     if (command.Parameters != null)
-                        helpEntry += command.Parameters;
+                        helpEntry += $" {command.Parameters}";
 
                     helpEntry += $"` - {command.CommandSummary}";
 
@@ -50,7 +50,7 @@ namespace TomatBot.Core.Framework.CommandFramework
                             throw new ArgumentOutOfRangeException();
                     }
 
-                    helpCommandData.Add(command.HelpData);
+                    helpCommandData.Add(new HelpCommandData(command.HelpData.command, command.HelpData.description, command.Parameters, command.Aliases));
                 }
 
             Logger.Info("Finished loading commands from attribute data!");

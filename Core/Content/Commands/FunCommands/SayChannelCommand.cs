@@ -19,6 +19,8 @@ namespace TomatBot.Core.Content.Commands.FunCommands
 
         public override CommandType CType => CommandType.Fun;
 
+        public override string? Parameters => "<channel> <message>";
+
         [Command("saychannel")]
         [Alias("saych", "chsay", "channelsay")]
         [Summary("Echoes back a message in the specified channel.")]
