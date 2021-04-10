@@ -74,9 +74,9 @@ namespace TomatBot.Core
                 {
                     try
                     {
-                        var ids = File.ReadAllTextAsync("Restarted.txt").Result.Split(' ');
+                        string[] ids = File.ReadAllTextAsync("Restarted.txt").Result.Split(' ');
 
-                        var embed = new EmbedBuilder
+                        Embed? embed = new EmbedBuilder
                         {
                             Title = "Bot restarted successfully",
                             Color = Color.Green
