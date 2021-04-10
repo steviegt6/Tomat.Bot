@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -9,11 +9,14 @@ using Microsoft.Extensions.DependencyInjection;
 using TomatBot.Core.Content.Activities;
 using TomatBot.Core.Exceptions.IOExceptions;
 using TomatBot.Core.Logging;
+using Timer = System.Timers.Timer;
 
 namespace TomatBot.Core
 {
     public static class BotStartup
     {
+        private static CancellationTokenSource _stopTokenSource = new ();
+        private static CancellationToken _stopToken = _stopTokenSource.Token;
         private static bool _shuttingDown;
         
         // TODO: Transfer to global config manager or command handler?
@@ -80,12 +83,14 @@ namespace TomatBot.Core
             };
 
             // Block until the program is closed
-            await Task.Delay(-1);
+            await Task.Delay(-1, _stopToken);
         }
 
         internal static async Task ShutdownBotAsync()
         {
             _shuttingDown = true;
+            
+            _stopTokenSource.Cancel();
             
             // TODO: Add this at some point, you currently don't save the service collection anywhere
             // ServiceCollection.DisposeAsync(); 
