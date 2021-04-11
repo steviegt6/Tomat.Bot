@@ -42,6 +42,9 @@ namespace TomatBot.Core.Framework.PunishmentFramework
 
         public void SaveAndCheckPunishments()
         {
+            if (File.Exists(PunishmentsPath))
+                File.Copy(PunishmentsPath, PunishmentsPath + ".bak", true);
+
             using StreamWriter stream = File.CreateText(PunishmentsPath);
             JsonSerializer serializer = new();
             serializer.Serialize(stream, Punishments);
