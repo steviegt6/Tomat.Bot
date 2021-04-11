@@ -29,12 +29,16 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
 
             await toDelete.DeleteAsync();
 
+            int latency = Context.Client.Latency;
+            long responseTime = stopwatch.ElapsedMilliseconds;
+
             BaseEmbed embed = new(Context.User)
             {
                 Title = "Ping",
 
-                Description = $"Latency - `{Context.Client.Latency}ms`" +
-                              $"\nResponse Time - `{stopwatch.ElapsedMilliseconds}ms`"
+                Description = $"Latency - `{latency}ms`" +
+                              $"\nResponse Time - `{responseTime}ms`" +
+                              $"\nDelta Time - `{responseTime - latency}ms`"
             };
 
             await ReplyAsync(embed: embed.Build());
