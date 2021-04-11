@@ -48,7 +48,7 @@ namespace TomatBot.Core.Content.Commands.FunCommands
             }
             catch (Exception e)
             {
-                await ReplyAsync($"Couldn't send message to channel: `{e.Message}`");
+                await ReplyAsync(embed:EmbedHelper.ErrorEmbed($"Couldn't send message to channel: `{e.Message}`"));
             }
             
         }
