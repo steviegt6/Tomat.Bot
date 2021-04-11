@@ -19,9 +19,9 @@ namespace TomatBot.Core.Content.Commands.FunCommands
         public override CommandType CType => CommandType.Fun;
 
         [Command("either")]
+        [Alias("wyr", "wouldyourather")]
         [Summary("Displays two fun options for you to select (taken from [either.io](http://either.io/)).")]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-
         public async Task HandleCommand()
         {
             EitherIORequest options = EitherIORequest.MakeRequest();
