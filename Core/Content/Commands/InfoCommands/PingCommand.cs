@@ -23,14 +23,14 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
         [RequireBotPermission(ChannelPermission.SendMessages)]
         public async Task HandleCommand()
         {
+            int latency = Context.Client.Latency;
+
             Stopwatch stopwatch = Stopwatch.StartNew();
-            IUserMessage? toDelete = await ReplyAsync("Calculating...");
+            IUserMessage? sendAndEdit = await ReplyAsync("Calculating...");
             stopwatch.Stop();
 
-            await toDelete.DeleteAsync();
-
-            int latency = Context.Client.Latency;
             long responseTime = stopwatch.ElapsedMilliseconds;
+            long deltaTime = responseTime - latency;
 
             BaseEmbed embed = new(Context.User)
             {
@@ -38,10 +38,10 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
 
                 Description = $"Latency - `{latency}ms`" +
                               $"\nResponse Time - `{responseTime}ms`" +
-                              $"\nDelta Time - `{responseTime - latency}ms`"
+                              $"\nDelta Time - `{deltaTime}ms`"
             };
 
-            await ReplyAsync(embed: embed.Build());
+            await sendAndEdit.ModifyAsync(x => { x.Content = ""; x.Embed = embed.Build(); });
         }
     }
 }
