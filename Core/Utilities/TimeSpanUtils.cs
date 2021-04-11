@@ -20,7 +20,7 @@ namespace TomatBot.Core.Utilities
             if (timeSpan.Minutes != 0)
                 builder.Append($"{(timeSpan.Minutes == 1 ? $"{timeSpan.Minutes}{(shorten ? "m" : " Minute")}" : $"{timeSpan.Minutes}{(shorten ? "m" : " Minutes")}")} ");
             if (timeSpan.Seconds != 0)
-                builder.Append($"{(timeSpan.Seconds == 1 ? $"{timeSpan.Seconds}{(shorten ? "s" : " Second")}" : $"{timeSpan.Seconds}{(shorten ? "s" : " Seconds")}")} ");
+                builder.Append($"{(timeSpan.Seconds == 1 ? $"{timeSpan.Seconds}{(shorten ? "s" : " Second")}" : $"{timeSpan.Seconds}{(shorten ? "s" : " Seconds")}")}");
 
             return builder.ToString();
         }
