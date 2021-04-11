@@ -29,14 +29,5 @@ namespace TomatBot.Core.Content.Commands.FunCommands
             await Context.Message.DeleteAsync();
             await ReplyAsync(message, embed: CreateSmallEmbed().Build(), allowedMentions:AllowedMentions.None);
         }
-
-        public async Task HandleCommand(
-            [Summary("The channel in which the bot should echo the text")] SocketTextChannel channel, 
-            [Remainder] [Summary("The text")] string text)
-        {
-            await Context.Message.DeleteAsync();
-            await channel.SendMessageAsync(text, embed: CreateSmallEmbed().Build(), allowedMentions:AllowedMentions.None);
-        }
-        
     }
 }
