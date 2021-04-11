@@ -34,7 +34,7 @@ namespace TomatBot.Core.Content.Commands.OwnerCommands
                 Description = "Starting command"
             }.Build());
             
-            File.WriteAllText("Restarted.txt", $"{Context.Guild.Id} {Context.Channel.Id}");
+            await File.WriteAllTextAsync("Restarted.txt", $"{Context.Guild.Id} {Context.Channel.Id}");
             
             // If there is something to update the bot will just exit
             string result = "../update.bash".Bash();

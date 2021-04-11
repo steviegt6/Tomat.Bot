@@ -6,7 +6,7 @@ using Discord.WebSocket;
 namespace TomatBot.Core.Content.Activities
 {
     /// <summary>
-    ///     Basic <see cref="IActivity"/> that displays the total amount of servers the bot is in, along with the total memebrs of each server.
+    ///     Basic <see cref="IActivity"/> that displays the total amount of servers the bot is in, along with the total members of each server.
     /// </summary>
     public class StatisticsActivity : IActivity
     {

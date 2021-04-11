@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Discord;
@@ -21,7 +20,7 @@ namespace TomatBot.Core.Content.Commands.FunCommands
 
         public override CommandType CType => CommandType.Fun;
 
-        public override string? Parameters => "<channel> <message>";
+        public override string Parameters => "<channel> <message>";
 
         [Command("saychannel")]
         [Alias("saych", "chsay", "channelsay")]

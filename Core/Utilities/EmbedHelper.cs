@@ -4,30 +4,34 @@ namespace TomatBot.Core.Utilities
 {
     public class EmbedHelper
     {
-        public static Embed SuccessEmbed(string description, EmbedFooterBuilder footer = null)
+        public static Embed SuccessEmbed(string description, EmbedFooterBuilder footer = null!)
         {
-            var successEmbed = new EmbedBuilder();
-
-            successEmbed.WithTitle("Success!");
-            successEmbed.WithColor(Color.Green);
-            successEmbed.WithDescription(description);
-            if (footer != null)
-                successEmbed.WithFooter(footer);
+            EmbedBuilder successEmbed = new()
+            {
+                Title = "Success!",
+                Color = Color.Green,
+                Description = description
+            };
             successEmbed.WithCurrentTimestamp();
-            
+
+            if (footer != null!)
+                successEmbed.WithFooter(footer);
+
             return successEmbed.Build();
         }
 
-        public static Embed ErrorEmbed(string description, EmbedFooterBuilder footer = null)
+        public static Embed ErrorEmbed(string description, EmbedFooterBuilder footer = null!)
         {
-            var successEmbed = new EmbedBuilder();
-
-            successEmbed.WithTitle("Error!");
-            successEmbed.WithColor(Color.Red);
-            successEmbed.WithDescription(description);
-            if (footer != null)
-                successEmbed.WithFooter(footer);
+            EmbedBuilder successEmbed = new()
+            {
+                Title = "Error!",
+                Color = Color.Red,
+                Description = description
+            };
             successEmbed.WithCurrentTimestamp();
+
+            if (footer != null!)
+                successEmbed.WithFooter(footer);
             
             return successEmbed.Build();
         }

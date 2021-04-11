@@ -15,8 +15,8 @@ namespace TomatBot.Core
 {
     public class BotStartup
     {
-        private static CancellationTokenSource _stopTokenSource = new ();
-        private static CancellationToken _stopToken = _stopTokenSource.Token;
+        private static readonly CancellationTokenSource StopTokenSource = new();
+        private static readonly CancellationToken StopToken = StopTokenSource.Token;
         private static bool _shuttingDown;
         
         // TODO: Transfer to guild config system, guild-configurable prefixes with "tomat!" as a fallback (mentions also work)
@@ -97,14 +97,14 @@ namespace TomatBot.Core
                 {
                     AutoReset = true,
                     Enabled = true,
-                }.Elapsed += async (a, b)
+                }.Elapsed += async (_, _)
                     => await Client.SetActivityAsync(new StatisticsActivity(Client));
                 // Set status to DND
                 await Client.SetStatusAsync(UserStatus.DoNotDisturb);
             };
 
             // Block until the program is closed
-            try { await Task.Delay(-1, _stopToken); }
+            try { await Task.Delay(-1, StopToken); }
             catch (TaskCanceledException) { /* ignore */ }
         }
 
@@ -112,7 +112,7 @@ namespace TomatBot.Core
         {
             _shuttingDown = true;
             
-            _stopTokenSource.Cancel();
+            StopTokenSource.Cancel();
 
             // TODO: Add this at some point, you currently don't save the service collection anywhere
             // ServiceCollection.DisposeAsync(); 

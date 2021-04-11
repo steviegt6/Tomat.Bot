@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using TomatBot.Core.Framework.CommandFramework;
 using TomatBot.Core.Framework.DataStructures;
 
