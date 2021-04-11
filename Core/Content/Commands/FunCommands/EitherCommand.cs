@@ -24,12 +24,13 @@ namespace TomatBot.Core.Content.Commands.FunCommands
 
         public async Task HandleCommand()
         {
-            EitherIORequest? options = EitherIORequest.MakeRequest();
+            EitherIORequest options = EitherIORequest.MakeRequest();
 
-            if (!options.HasValue)
+            if (options.exception != null)
             {
                 Embed embed = EmbedHelper.ErrorEmbed(
-                    "Error while attempting to make a request to [either.io](http://either.io/). If the website is up and this issue persists, contact a developer.",
+                    "Error while attempting to make a request to [either.io](http://either.io/). If the website is up and this issue persists, contact a developer." +
+                    $"\n\nException: {options.exception}",
                     new BaseEmbed(Context.User).Footer);
                 await ReplyAsync(embed: embed);
                 return;
@@ -39,8 +40,8 @@ namespace TomatBot.Core.Content.Commands.FunCommands
             {
                 Title = "Would you rather...",
 
-                Description = $":one: {options.Value.optionOne}" +
-                              $"\n:two: {options.Value.optionTwo}"
+                Description = $":one: {options.optionOne}" +
+                              $"\n:two: {options.optionTwo}"
             };
 
             await ReplyAsync(embed: realEmbed.Build());

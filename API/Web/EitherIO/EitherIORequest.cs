@@ -4,33 +4,40 @@ using HtmlAgilityPack;
 
 namespace TomatBot.API.Web.EitherIO
 {
-    public readonly struct EitherIORequest
+    public struct EitherIORequest
     {
         public readonly string optionOne;
         public readonly string optionTwo;
+        public string? exception;
 
         public EitherIORequest(string optionOne, string optionTwo)
         {
             this.optionOne = optionOne;
             this.optionTwo = optionTwo;
+            exception = null;
         }
 
-        public static EitherIORequest? MakeRequest()
+        public EitherIORequest AttachException(string exception)
+        {
+            this.exception = exception;
+            return this;
+        }
+
+        public static EitherIORequest MakeRequest()
         {
             HtmlWeb webClient = new();
             HtmlDocument? htmlDoc = webClient.Load(@"http://www.either.io/");
 
             if (htmlDoc == null)
-                return null;
+                return new EitherIORequest().AttachException("HTML document was null!");
 
             List<HtmlNode> classes = htmlDoc.DocumentNode.Descendants("span")
                 .Where(x => x.Attributes.Contains("class") && x.Attributes["class"].Value.Contains("option-text"))
                 .ToList();
 
-            if (classes.Count != 2)
-                return null;
-
-            return new EitherIORequest(classes[0].InnerText, classes[1].InnerText);
+            return classes.Count != 2
+                ? new EitherIORequest().AttachException($"Found {classes.Count} classes instead of the expected 2!")
+                : new EitherIORequest(classes[0].InnerText, classes[1].InnerText);
         }
     }
 }
