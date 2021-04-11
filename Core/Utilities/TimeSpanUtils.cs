@@ -23,6 +23,9 @@ namespace TomatBot.Core.Utilities
                 .AppendTimeSpanValue(timeSpan.Minutes, "Minute", "Minutes", "m", shorten)
                 .AppendTimeSpanValue(timeSpan.Seconds, "Second", "Seconds", "s", shorten);
 
+            // Remove space at the end
+            builder.Remove(builder.Length - 1, 1);
+
             return builder.ToString();
         }
 
