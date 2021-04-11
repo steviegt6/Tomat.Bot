@@ -5,6 +5,7 @@ using Discord.Commands;
 using TomatBot.Core.Content.Embeds;
 using TomatBot.Core.Framework.CommandFramework;
 using TomatBot.Core.Framework.DataStructures;
+using TomatBot.Core.Utilities;
 
 namespace TomatBot.Core.Content.Commands.InfoCommands
 {
@@ -26,9 +27,9 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
                 Title = "Basic Bot Info",
 
                 Description = "`Tomat` is a general-use bot by `convicted tomatophile#0001`." +
-                              "\n<pending> (features)" +
                               "\n\nFor command help, use `tomat!help`" +
                               "\nIf you have any other questions, give Stevie a DM." +
+                              $"\nBot up-time: {BotStartup.UpTime.FormatToString(true)}" +
                               "\nInvite: ||<https://discord.com/api/oauth2/authorize?client_id=800480899300065321&permissions=8&scope=bot>||"
             };
 

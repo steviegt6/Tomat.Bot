@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,6 +25,8 @@ namespace TomatBot.Core
         
         // TODO: Get this from Service Collection to actually use DependencyInjection
         public static DiscordSocketClient? Client { get; private set; }
+
+        public static TimeSpan UpTime => DateTimeOffset.Now - Process.GetCurrentProcess().StartTime;
 
         /// <summary>
         ///     Starts up our Discord bot.
