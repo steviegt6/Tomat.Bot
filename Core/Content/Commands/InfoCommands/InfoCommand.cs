@@ -29,8 +29,8 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
                 Description = "`Tomat` is a general-use bot by `convicted tomatophile#0001`." +
                               "\n\nFor command help, use `tomat!help`" +
                               "\nIf you have any other questions, give Stevie a DM." +
-                              $"\nBot up-time: {BotStartup.UpTime.FormatToString(true)}" +
-                              "\nInvite: ||<https://discord.com/api/oauth2/authorize?client_id=800480899300065321&permissions=8&scope=bot>||"
+                              $"\nBot up-time: `{BotStartup.UpTime.FormatToString(true)}`" +
+                              "\n\nInvite: ||<https://discord.com/api/oauth2/authorize?client_id=800480899300065321&permissions=8&scope=bot>||"
             };
 
             return ReplyAsync(embed: embed.Build());
