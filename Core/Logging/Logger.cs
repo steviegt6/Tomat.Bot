@@ -91,7 +91,7 @@ namespace TomatBot.Core.Logging
         public static void Fatal(string message) => PrivateLog(message, LogLevel.Fatal, "   Self");
 
         /// <summary>
-        ///     Internal method used for logging Discord.NET messages.
+        ///     Internal method used for logging Discord.NET messages and awaitable messages;
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>

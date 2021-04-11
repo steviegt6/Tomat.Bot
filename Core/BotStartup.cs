@@ -9,6 +9,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using TomatBot.Core.Content.Activities;
+using TomatBot.Core.Content.Services;
 using TomatBot.Core.Exceptions.IOExceptions;
 using TomatBot.Core.Framework.ServiceFramework;
 using TomatBot.Core.Logging;
@@ -104,6 +105,8 @@ namespace TomatBot.Core
                 }));
 
             Collection.AddSingleton(new LoggerService(Provider))
+                .AddSingleton(new ConfigService(Provider))
+                .AddSingleton(new StickyRoleService(Provider))
                 .AddSingleton(new CommandHandler());
         }
 
