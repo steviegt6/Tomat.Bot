@@ -3,38 +3,41 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 using TomatBot.Core.Content.Embeds;
 
 namespace TomatBot.Core
 {
     public class CommandHandler
     {
-        private readonly DiscordSocketClient _client;
-        private readonly CommandService _commands;
+        private DiscordSocketClient Client { get; }
 
-        public CommandHandler(DiscordSocketClient client, CommandService commands)
+        private CommandService Commands { get; }
+
+        public CommandHandler()
         {
-            _client = client;
-            _commands = commands;
+            Client = BotStartup.Client;
+            Commands = BotStartup.Provider.GetRequiredService<CommandService>();
+            _ = InstallCommandsAsync();
         }
 
         internal async Task InstallCommandsAsync()
         {
             // Hook a method to the MessageReceived event, allowing us to detect and respond to messages
-            _client.MessageReceived += HandleCommandAsync;
-            _commands.CommandExecuted += HandleError;
+            Client.MessageReceived += HandleCommandAsync;
+            Commands.CommandExecuted += HandleError;
 
-            await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
+            await Commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
         }
 
         private async Task HandleCommandAsync(SocketMessage message)
         {
-            if (!(message is SocketUserMessage msg) || message.Author.IsBot || message.Author.IsWebhook)
+            if (message is not SocketUserMessage msg || message.Author.IsBot || message.Author.IsWebhook)
                 return;
 
             int argPos = 0;
-            if (msg.HasStringPrefix(BotStartup.Prefix, ref argPos) || msg.HasMentionPrefix(_client.CurrentUser, ref argPos))
-                await _commands.ExecuteAsync(new SocketCommandContext(_client, msg), argPos, null);
+            if (msg.HasStringPrefix(BotStartup.Prefix, ref argPos) || msg.HasMentionPrefix(Client.CurrentUser, ref argPos))
+                await Commands.ExecuteAsync(new SocketCommandContext(Client, msg), argPos, null);
         }
 
         private static async Task HandleError(Optional<CommandInfo> info, ICommandContext context, IResult result)
@@ -43,7 +46,7 @@ namespace TomatBot.Core
             {
                 BaseEmbed embed = new(context.User)
                 {
-                    Title = $"encountered error: {result.Error}",
+                    Title = $"Error encountered: {result.Error}",
                     Description = result.ErrorReason
                 };
 

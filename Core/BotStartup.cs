@@ -22,9 +22,12 @@ namespace TomatBot.Core
         
         // TODO: Transfer to guild config system, guild-configurable prefixes with "tomat!" as a fallback (mentions also work)
         public static string Prefix => "tomat!";
-        
-        // TODO: Get this from Service Collection to actually use DependencyInjection
-        public static DiscordSocketClient? Client { get; private set; }
+
+        public static IServiceCollection Collection { get; private set; } = null!;
+
+        public static ServiceProvider Provider => Collection.BuildServiceProvider();
+
+        public static DiscordSocketClient Client => Provider.GetRequiredService<DiscordSocketClient>();
 
         public static TimeSpan UpTime => DateTimeOffset.Now - Process.GetCurrentProcess().StartTime;
 
@@ -33,14 +36,14 @@ namespace TomatBot.Core
         /// </summary>
         /// <returns>An indefinitely delayed task to keep the program alive.</returns>
         /// <exception cref="TokenFileMissingException">A <c>token.txt</c> file was not found in the same directory as the program.</exception>
-        internal async Task StartBotAsync()
+        internal static async Task StartBotAsync()
         {
             if (!File.Exists("token.txt"))
                 throw new TokenFileMissingException();
 
             // Create a new DiscordSocketClient and hook a logging method
-            Client = new DiscordSocketClient();
-            Client.Log += Logger.TaskLog;
+            DiscordSocketClient client = new();
+            client.Log += Logger.TaskLog;
 
             // Handles standard SIGTERM (-15) Signals
             AppDomain.CurrentDomain.ProcessExit += (_, _) =>
@@ -48,19 +51,11 @@ namespace TomatBot.Core
                 if (!_shuttingDown)
                     ShutdownBotAsync().GetAwaiter().GetResult();
             };
-            
-            // TODO: Save these?
-            new ServiceCollection()
-                .AddSingleton(Client)
-                .AddSingleton(new CommandService())
-                .BuildServiceProvider();
 
-            // TODO: Why not add this to the service collection? The service collection automatically calls the constructor. Events have to be added in a initialize method
-            await new CommandHandler(Client, new CommandService())
-                .InstallCommandsAsync();
+            SetupSingletons(client);
 
             // Login and start
-            await Client.LoginAsync(TokenType.Bot,
+            await client.LoginAsync(TokenType.Bot,
 
                 // Grab token from a token.txt file
                 // The file is copied over when compiled
@@ -69,57 +64,77 @@ namespace TomatBot.Core
                 await File.ReadAllTextAsync("token.txt"));
 
             // Actually start the client
-            await Client.StartAsync();
+            await client.StartAsync();
 
-            Client.Ready += async () =>
-            {
-                if (File.Exists("Restarted.txt"))
-                {
-                    try
-                    {
-                        string[] ids = File.ReadAllTextAsync("Restarted.txt").Result.Split(' ');
-
-                        Embed? embed = new EmbedBuilder
-                        {
-                            Title = "Bot restarted successfully",
-                            Color = Color.Green
-                        }.Build();
-
-                        await (Client.GetGuild(ulong.Parse(ids[0])).GetChannel(ulong.Parse(ids[1])) as SocketTextChannel)!.SendMessageAsync(embed:embed);
-                    }
-                    catch (Exception) { /* ignore */ }
-                    finally
-                    {
-                        File.Delete("Restarted.txt");
-                    }
-                }
-                
-                // Set activity and status for the bot
-                await Client.SetActivityAsync(new StatisticsActivity(Client));
-                new Timer(10000)
-                {
-                    AutoReset = true,
-                    Enabled = true,
-                }.Elapsed += async (_, _)
-                    => await Client.SetActivityAsync(new StatisticsActivity(Client));
-                // Set status to DND
-                await Client.SetStatusAsync(UserStatus.DoNotDisturb);
-            };
+            client.Ready += async () =>
+                            {
+                                await CheckForRestart(client);
+                                await ModifyBotStatus(client);
+                            };
 
             // Block until the program is closed
             try { await Task.Delay(-1, StopToken); }
             catch (TaskCanceledException) { /* ignore */ }
         }
 
-        internal async Task ShutdownBotAsync()
+        private static void SetupSingletons(DiscordSocketClient client)
+        {
+            Collection = new ServiceCollection()
+                .AddSingleton(client)
+                .AddSingleton(new CommandService())
+                .AddSingleton(new CommandHandler());
+        }
+
+        private static async Task CheckForRestart(BaseSocketClient client)
+        {
+            if (File.Exists("Restarted.txt"))
+            {
+                try
+                {
+                    string[] ids = File.ReadAllTextAsync("Restarted.txt").Result.Split(' ');
+
+                    if (ids.Length < 2)
+                        return;
+
+                    Embed? embed = new EmbedBuilder
+                    {
+                        Title = "Bot restarted successfully",
+                        Color = Color.Green
+                    }.Build();
+                    ulong guildId = ulong.Parse(ids[0]);
+                    ulong channelId = ulong.Parse(ids[1]);
+                    SocketTextChannel channel = (client.GetGuild(guildId).GetChannel(channelId) as SocketTextChannel)!;
+
+                    await channel.SendMessageAsync(embed: embed);
+                }
+                catch (Exception) { /* ignore */ }
+                finally
+                {
+                    File.Delete("Restarted.txt");
+                }
+            }
+        }
+
+        private static async Task ModifyBotStatus(BaseSocketClient client)
+        {
+            // Set activity and status for the bot
+            await client.SetActivityAsync(new StatisticsActivity(Client));
+            new Timer(10000)
+            {
+                AutoReset = true,
+                Enabled = true,
+            }.Elapsed += async (_, _)
+                             => await Client.SetActivityAsync(new StatisticsActivity(Client));
+            // Set status to DND
+            await client.SetStatusAsync(UserStatus.DoNotDisturb);
+        }
+
+        internal static async Task ShutdownBotAsync()
         {
             _shuttingDown = true;
             
             StopTokenSource.Cancel();
-
-            // TODO: Add this at some point, you currently don't save the service collection anywhere
-            // ServiceCollection.DisposeAsync(); 
-
+            await Provider.DisposeAsync();
             await Task.Run(() => Client?.StopAsync());
         }
     }
