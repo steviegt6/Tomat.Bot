@@ -44,7 +44,9 @@ namespace TomatBot.Core.Content.Commands.FunCommands
                               $"\n:two: {options.optionTwo}"
             };
 
-            await ReplyAsync(embed: realEmbed.Build());
+            IUserMessage? message = await ReplyAsync(embed: realEmbed.Build());
+            await message?.AddReactionAsync(new Emoji("1️⃣"));
+            await message?.AddReactionAsync(new Emoji("2️⃣"));
         }
     }
 }
