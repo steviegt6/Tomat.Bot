@@ -43,7 +43,7 @@ namespace TomatBot.Core.Content.Commands.FunCommands
 
             try
             {
-                await channel.SendMessageAsync(message);
+                await channel.SendMessageAsync(message, embed: CreateSmallEmbed().Build(), allowedMentions:AllowedMentions.None);
                 await Context.Message.DeleteAsync();
             }
             catch (Exception e)
