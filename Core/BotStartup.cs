@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
@@ -9,6 +10,7 @@ using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using TomatBot.Core.Content.Activities;
 using TomatBot.Core.Exceptions.IOExceptions;
+using TomatBot.Core.Framework.ServiceFramework;
 using TomatBot.Core.Logging;
 using Timer = System.Timers.Timer;
 
@@ -49,7 +51,6 @@ namespace TomatBot.Core
             };
 
             SetupSingletons();
-            Client.Log += Logger.TaskLog;
 
             // Login and start
             await Client.LoginAsync(TokenType.Bot,
@@ -65,6 +66,7 @@ namespace TomatBot.Core
 
             Client.Ready += async () =>
                             {
+                                await InitializeServices();
                                 await CheckForRestart(Client);
                                 await ModifyBotStatus(Client);
                             };
@@ -72,6 +74,14 @@ namespace TomatBot.Core
             // Block until the program is closed
             try { await Task.Delay(-1, StopToken); }
             catch (TaskCanceledException) { /* ignore */ }
+        }
+
+        private static async Task InitializeServices()
+        {
+            foreach (ServiceDescriptor descriptor in Collection!)
+            foreach (object? service in Provider.GetServices(descriptor.ServiceType)
+                .Where(x => x != null && x.GetType().IsSubclassOf(typeof(ServiceBase))))
+                await (service as ServiceBase)?.Initialize()!;
         }
 
         private static void SetupSingletons()
@@ -92,8 +102,9 @@ namespace TomatBot.Core
                     IgnoreExtraArgs = false,
                     DefaultRunMode = RunMode.Async
                 }));
-                
-            Collection.AddSingleton(new CommandHandler());
+
+            Collection.AddSingleton(new LoggerService(Provider))
+                .AddSingleton(new CommandHandler());
         }
 
         private static async Task CheckForRestart(BaseSocketClient client)
@@ -148,7 +159,7 @@ namespace TomatBot.Core
             
             StopTokenSource.Cancel();
             await Provider.DisposeAsync();
-            await Task.Run(() => Client?.StopAsync());
+            await Task.Run(() => Client.StopAsync());
         }
     }
 }

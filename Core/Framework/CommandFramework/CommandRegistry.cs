@@ -15,19 +15,19 @@ namespace TomatBot.Core.Framework.CommandFramework
 
         internal static void LoadCommandEntries()
         {
-            Logger.Info("Initializing commands...");
+            LoggerService.Info("Initializing commands...");
 
             helpCommandData = new List<HelpCommandData>();
             infoCommands = new List<string>();
             funCommands = new List<string>();
 
-            Logger.Info("Loading commands from attribute data...");
+            LoggerService.Info("Loading commands from attribute data...");
 
             foreach (Type type in typeof(CommandRegistry).Assembly.GetTypes().Where(
                 x => x.IsSubclassOf(typeof(TomatCommand)) && !x.IsAbstract && x.GetConstructor(Array.Empty<Type>()) != null))
                 if (Activator.CreateInstance(type) is TomatCommand command)
                 {
-                    Logger.Info($"Found command to register: {command.Name}");
+                    LoggerService.Info($"Found command to register: {command.Name}");
 
                     string helpEntry = $"`{command.Name}";
 
@@ -47,7 +47,7 @@ namespace TomatBot.Core.Framework.CommandFramework
                             break;
 
                         case CommandType.Hidden:
-                            Logger.Info($"Skipping registration of hidden command: {command.Name}");
+                            LoggerService.Info($"Skipping registration of hidden command: {command.Name}");
                             break;
 
                         default:
@@ -57,8 +57,8 @@ namespace TomatBot.Core.Framework.CommandFramework
                     helpCommandData.Add(new HelpCommandData(command.HelpData.command, command.HelpData.description, command.Parameters, command.Aliases));
                 }
 
-            Logger.Info("Finished loading commands from attribute data!");
-            Logger.Info("Initialized commands!");
+            LoggerService.Info("Finished loading commands from attribute data!");
+            LoggerService.Info("Initialized commands!");
         }
     }
 }

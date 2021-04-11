@@ -4,7 +4,7 @@ using Discord;
 
 namespace TomatBot.Core.Logging
 {
-    internal static class Logger
+    public sealed partial class LoggerService //: ServiceBase
     {
         /// <summary>
         ///     Converts a <see cref="LogSeverity"/> to its respective <see cref="LogLevel"/>.
@@ -23,8 +23,24 @@ namespace TomatBot.Core.Logging
             };
         }
 
-        private static void PrivateLog(string message, LogLevel level) =>
+        public static ConsoleColor ConvertToConsoleColor(LogLevel level)
+        {
+            return level switch
+            {
+                LogLevel.Debug => ConsoleColor.DarkGray,
+                LogLevel.Info => ConsoleColor.White,
+                LogLevel.Warn => ConsoleColor.Yellow,
+                LogLevel.Error => ConsoleColor.Red,
+                LogLevel.Fatal => ConsoleColor.DarkRed,
+                _ => throw new ArgumentOutOfRangeException(nameof(level), level, null)
+            };
+        }
+
+        private static void PrivateLog(string message, LogLevel level)
+        {
+            Console.ForegroundColor = ConvertToConsoleColor(level);
             Console.WriteLine($"[{DateTime.UtcNow} (UTC)] [{level}] {message}");
+        }
 
         /// <summary>
         ///     Logs a <see cref="LogLevel.Debug"/> message.
