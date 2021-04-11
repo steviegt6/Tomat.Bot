@@ -27,7 +27,7 @@ namespace TomatBot.Core.Content.Commands.FunCommands
         [RequireBotPermission(ChannelPermission.SendMessages)]
         public async Task HandleCommand(
             string firstNumber,
-            [Remainder] string? secondNumber)
+            string secondNumber = "")
         {
             try
             {
