@@ -3,11 +3,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using TomatBot.API.Web.EitherIO;
 using TomatBot.Core.Content.Embeds;
 using TomatBot.Core.Framework.CommandFramework;
 using TomatBot.Core.Framework.DataStructures;
-using TomatBot.Core.Utilities;
 
 namespace TomatBot.Core.Content.Commands.FunCommands
 {
@@ -35,6 +33,13 @@ namespace TomatBot.Core.Content.Commands.FunCommands
                 string response = string.IsNullOrEmpty(secondNumber)
                     ? numberGenerator.Next(int.Parse(firstNumber) + 1).ToString()
                     : numberGenerator.Next(int.Parse(firstNumber), int.Parse(secondNumber) + 1).ToString();
+
+                if (int.Parse(firstNumber) == 0)
+                    throw new InvalidOperationException("The first number should be greater than zero, or it will always return zero!");
+
+                if (int.Parse(firstNumber) >= int.Parse(secondNumber))
+                    throw new InvalidOperationException(
+                        "The second number should be *greater* than the first number, not less than or equal to the first number!");
 
                 await ReplyAsync(response, embed: CreateSmallEmbed().Build());
             }
