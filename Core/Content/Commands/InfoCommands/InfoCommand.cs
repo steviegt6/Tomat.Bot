@@ -26,7 +26,7 @@ namespace TomatBot.Core.Content.Commands.InfoCommands
             {
                 Title = "Basic Bot Info",
 
-                Description = "`Tomat` is a general-purpose Discord bot programmed by `convicted tomatophile#0001` with the help of `TheStachelfisch#0395`, who also hosts.." +
+                Description = "`Tomat` is a general-purpose Discord bot programmed by `convicted tomatophile#0001` with the help of `TheStachelfisch#0395`, who also hosts." +
                               "\n\nFor command help, use `tomat!help` or ping the bot directly (`@Tomat help`)" +
                               $"\nBot up-time: `{BotStartup.UpTime.FormatToString(true)}`" +
                               "\n\n\nClick [here](https://discord.com/api/oauth2/authorize?client_id=800480899300065321&permissions=8&scope=bot) to invite Tomat to your server."
