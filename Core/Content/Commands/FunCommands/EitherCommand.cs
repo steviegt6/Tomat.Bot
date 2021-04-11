@@ -45,8 +45,8 @@ namespace TomatBot.Core.Content.Commands.FunCommands
             };
 
             IUserMessage? message = await ReplyAsync(embed: realEmbed.Build());
-            await message?.AddReactionAsync(new Emoji("1️⃣"));
-            await message?.AddReactionAsync(new Emoji("2️⃣"));
+            await message.AddReactionAsync(new Emoji("1️⃣"));
+            await message.AddReactionAsync(new Emoji("2️⃣"));
         }
     }
 }
