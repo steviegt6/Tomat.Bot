@@ -15,7 +15,7 @@ namespace TomatBot.Core.Content.Commands.OwnerCommands
 
         public override HelpCommandData HelpData => new("update", "Owner-only command, updates the bot from Git.");
 
-        public override CommandType CType => CommandType.Info;
+        public override CommandType CType => CommandType.Hidden;
 
         [RequireOwnerOrSpecial]
         [Command("update")]

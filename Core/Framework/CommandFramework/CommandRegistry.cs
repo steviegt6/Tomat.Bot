@@ -24,7 +24,7 @@ namespace TomatBot.Core.Framework.CommandFramework
             Logger.Info("Loading commands from attribute data...");
 
             foreach (Type type in typeof(CommandRegistry).Assembly.GetTypes().Where(
-                x => x.IsSubclassOf(typeof(TomatCommand)) && !x.IsAbstract && x.GetConstructor(new Type[0]) != null))
+                x => x.IsSubclassOf(typeof(TomatCommand)) && !x.IsAbstract && x.GetConstructor(Array.Empty<Type>()) != null))
                 if (Activator.CreateInstance(type) is TomatCommand command)
                 {
                     Logger.Info($"Found command to register: {command.Name}");
@@ -44,6 +44,10 @@ namespace TomatBot.Core.Framework.CommandFramework
 
                         case CommandType.Fun:
                             funCommands.Add(helpEntry);
+                            break;
+
+                        case CommandType.Hidden:
+                            Logger.Info($"Skipping registration of hidden command: {command.Name}");
                             break;
 
                         default:

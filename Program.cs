@@ -5,4 +5,4 @@ using TomatBot.Core.Framework.CommandFramework;
 CommandRegistry.LoadCommandEntries();
 
 // Start up the bot
-new BotStartup().StartBotAsync().GetAwaiter().GetResult();
+BotStartup.StartBotAsync().GetAwaiter().GetResult();

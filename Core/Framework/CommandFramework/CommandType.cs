@@ -7,6 +7,7 @@
     public enum CommandType
     {
         Info,
-        Fun
+        Fun,
+        Hidden
     }
 }

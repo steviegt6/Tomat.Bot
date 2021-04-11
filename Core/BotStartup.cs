@@ -14,7 +14,7 @@ using Timer = System.Timers.Timer;
 
 namespace TomatBot.Core
 {
-    public class BotStartup
+    public static class BotStartup
     {
         private static readonly CancellationTokenSource StopTokenSource = new();
         private static readonly CancellationToken StopToken = StopTokenSource.Token;
@@ -23,7 +23,7 @@ namespace TomatBot.Core
         // TODO: Transfer to guild config system, guild-configurable prefixes with "tomat!" as a fallback (mentions also work)
         public static string Prefix => "tomat!";
 
-        public static IServiceCollection Collection { get; private set; } = null!;
+        public static IServiceCollection? Collection { get; private set; }
 
         public static ServiceProvider Provider => Collection.BuildServiceProvider();
 
@@ -41,18 +41,6 @@ namespace TomatBot.Core
             if (!File.Exists("token.txt"))
                 throw new TokenFileMissingException();
 
-            // Create a new DiscordSocketClient and hook a logging method
-            DiscordSocketClient client = new(new DiscordSocketConfig
-            {
-                LogLevel = LogSeverity.Info,
-                ExclusiveBulkDelete = false, // eventually purge logging
-                DefaultRetryMode = RetryMode.RetryRatelimit,
-                AlwaysDownloadUsers = true,
-                ConnectionTimeout = 30 * 1000,
-                MessageCacheSize = 50 // increase if bot is added to more servers?
-            });
-            client.Log += Logger.TaskLog;
-
             // Handles standard SIGTERM (-15) Signals
             AppDomain.CurrentDomain.ProcessExit += (_, _) =>
             {
@@ -60,10 +48,11 @@ namespace TomatBot.Core
                     ShutdownBotAsync().GetAwaiter().GetResult();
             };
 
-            SetupSingletons(client);
+            SetupSingletons();
+            Client.Log += Logger.TaskLog;
 
             // Login and start
-            await client.LoginAsync(TokenType.Bot,
+            await Client.LoginAsync(TokenType.Bot,
 
                 // Grab token from a token.txt file
                 // The file is copied over when compiled
@@ -72,12 +61,12 @@ namespace TomatBot.Core
                 await File.ReadAllTextAsync("token.txt"));
 
             // Actually start the client
-            await client.StartAsync();
+            await Client.StartAsync();
 
-            client.Ready += async () =>
+            Client.Ready += async () =>
                             {
-                                await CheckForRestart(client);
-                                await ModifyBotStatus(client);
+                                await CheckForRestart(Client);
+                                await ModifyBotStatus(Client);
                             };
 
             // Block until the program is closed
@@ -85,17 +74,26 @@ namespace TomatBot.Core
             catch (TaskCanceledException) { /* ignore */ }
         }
 
-        private static void SetupSingletons(DiscordSocketClient client)
+        private static void SetupSingletons()
         {
             Collection = new ServiceCollection()
-                .AddSingleton(client)
+                .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig
+                    {
+                        LogLevel = LogSeverity.Info,
+                        ExclusiveBulkDelete = false, // eventually purge logging
+                        DefaultRetryMode = RetryMode.RetryRatelimit,
+                        AlwaysDownloadUsers = true,
+                        ConnectionTimeout = 30 * 1000,
+                        MessageCacheSize = 50 // increase if bot is added to more servers?
+                }))
                 .AddSingleton(new CommandService(new CommandServiceConfig
                 {
                     CaseSensitiveCommands = false,
                     IgnoreExtraArgs = false,
                     DefaultRunMode = RunMode.Async
-                }))
-                .AddSingleton(new CommandHandler());
+                }));
+                
+            Collection.AddSingleton(new CommandHandler());
         }
 
         private static async Task CheckForRestart(BaseSocketClient client)
