@@ -128,14 +128,16 @@ namespace TomatBot.Core
 
         private static async Task ModifyBotStatus(BaseSocketClient client)
         {
-            // Set activity and status for the bot
-            await client.SetActivityAsync(new StatisticsActivity(Client));
+            // Set activity
+            await client.SetActivityAsync(new StatisticsActivity());
+
+            // Begin refreshing the activity
             new Timer(10000)
             {
                 AutoReset = true,
                 Enabled = true,
             }.Elapsed += async (_, _)
-                             => await Client.SetActivityAsync(new StatisticsActivity(Client));
+                             => await Client.SetActivityAsync(new StatisticsActivity());
             // Set status to DND
             await client.SetStatusAsync(UserStatus.DoNotDisturb);
         }

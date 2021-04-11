@@ -10,15 +10,11 @@ namespace TomatBot.Core.Content.Activities
     /// </summary>
     public class StatisticsActivity : IActivity
     {
-        private readonly DiscordSocketClient _client;
-
-        public StatisticsActivity(DiscordSocketClient client) => _client = client;
-
         public string Name
         {
             get
             {
-                IReadOnlyCollection<SocketGuild> guilds = _client.Guilds;
+                IReadOnlyCollection<SocketGuild> guilds = BotStartup.Client.Guilds;
 
                 // TODO: Make it so we don't count duplicate members? (check IDs)
                 int totalUserCount = guilds.Sum(guild => guild.MemberCount);
