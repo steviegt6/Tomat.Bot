@@ -26,7 +26,7 @@ namespace TomatBot.Core.Content.Commands.FunCommands
         {
             EitherIORequest options = EitherIORequest.MakeRequest();
 
-            if (string.IsNullOrEmpty(options.exception))
+            if (!string.IsNullOrEmpty(options.exception))
             {
                 Embed embed = EmbedHelper.ErrorEmbed(
                     "Error while attempting to make a request to [either.io](http://either.io/). If the website is up and this issue persists, contact a developer." +
