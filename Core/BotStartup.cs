@@ -42,7 +42,15 @@ namespace TomatBot.Core
                 throw new TokenFileMissingException();
 
             // Create a new DiscordSocketClient and hook a logging method
-            DiscordSocketClient client = new();
+            DiscordSocketClient client = new(new DiscordSocketConfig
+            {
+                LogLevel = LogSeverity.Info,
+                ExclusiveBulkDelete = false, // eventually purge logging
+                DefaultRetryMode = RetryMode.RetryRatelimit,
+                AlwaysDownloadUsers = true,
+                ConnectionTimeout = 30 * 1000,
+                MessageCacheSize = 50, // TODO: increase if bot is added to more servers?
+            });
             client.Log += Logger.TaskLog;
 
             // Handles standard SIGTERM (-15) Signals
@@ -81,7 +89,12 @@ namespace TomatBot.Core
         {
             Collection = new ServiceCollection()
                 .AddSingleton(client)
-                .AddSingleton(new CommandService())
+                .AddSingleton(new CommandService(new CommandServiceConfig
+                {
+                    CaseSensitiveCommands = false,
+                    IgnoreExtraArgs = false,
+                    DefaultRunMode = RunMode.Async
+                }))
                 .AddSingleton(new CommandHandler());
         }
 
