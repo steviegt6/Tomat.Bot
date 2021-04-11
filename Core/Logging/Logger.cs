@@ -23,6 +23,11 @@ namespace TomatBot.Core.Logging
             };
         }
 
+        /// <summary>
+        ///     Finds the <see cref="ConsoleColor"/> associated with the provided <see cref="LogLevel"/> (<paramref name="level"/>).
+        /// </summary>
+        /// <param name="level">The <see cref="LogLevel"/> to check.</param>
+        /// <returns>The associated <see cref="ConsoleColor"/>.</returns>
         public static ConsoleColor ConvertToConsoleColor(LogLevel level)
         {
             return level switch
@@ -36,36 +41,54 @@ namespace TomatBot.Core.Logging
             };
         }
 
-        private static void PrivateLog(string message, LogLevel level)
+        /// <summary>
+        ///     Applies extra spaces to the name of a <see cref="LogLevel"/> to make everything line up in mono-space logs.
+        /// </summary>
+        /// <param name="level">The <see cref="LogLevel"/> to modify.</param>
+        /// <returns>A "formatted" string.</returns>
+        public static string ConvertLogLevelToString(LogLevel level)
+        {
+            switch (level)
+            {
+                case LogLevel.Info:
+                case LogLevel.Warn:
+                    return $" {level}";
+
+                default:
+                    return level.ToString();
+            }
+        }
+
+        private static void PrivateLog(string message, LogLevel level, string source, bool removePadding = false)
         {
             Console.ForegroundColor = ConvertToConsoleColor(level);
-            Console.WriteLine($"[{DateTime.UtcNow} (UTC)] [{level}] {message}");
+            Console.WriteLine($"[{DateTime.UtcNow} (UTC)] [{ConvertLogLevelToString(level)}] [{source}]{(removePadding ? "" : " ")}{message}");
         }
 
         /// <summary>
         ///     Logs a <see cref="LogLevel.Debug"/> message.
         /// </summary>
-        public static void Debug(string message) => PrivateLog(message, LogLevel.Debug);
+        public static void Debug(string message) => PrivateLog(message, LogLevel.Debug, "   Self");
 
         /// <summary>
         ///     Logs a <see cref="LogLevel.Info"/> message.
         /// </summary>
-        public static void Info(string message) => PrivateLog(message, LogLevel.Info);
+        public static void Info(string message) => PrivateLog(message, LogLevel.Info, "   Self");
 
         /// <summary>
         ///     Logs a <see cref="LogLevel.Warn"/> message.
         /// </summary>
-        public static void Warn(string message) => PrivateLog(message, LogLevel.Warn);
+        public static void Warn(string message) => PrivateLog(message, LogLevel.Warn, "   Self");
 
         /// <summary>
         ///     Logs a <see cref="LogLevel.Error"/> message.
         /// </summary>
-        public static void Error(string message) => PrivateLog(message, LogLevel.Error);
+        public static void Error(string message) => PrivateLog(message, LogLevel.Error, "   Self");
 
         /// <summary>
         ///     Logs a <see cref="LogLevel.Fatal"/> message.
         /// </summary>
-        public static void Fatal(string message) => PrivateLog(message, LogLevel.Fatal);
+        public static void Fatal(string message) => PrivateLog(message, LogLevel.Fatal, "   Self");
 
         /// <summary>
         ///     Internal method used for logging Discord.NET messages.
@@ -74,7 +97,7 @@ namespace TomatBot.Core.Logging
         /// <returns></returns>
         internal static Task TaskLog(LogMessage message)
         {
-            PrivateLog(message.ToString(), ConvertToLogLevel(message.Severity));
+            PrivateLog(message.ToString(prependTimestamp: false, padSource: null), ConvertToLogLevel(message.Severity), message.Source, true);
 
             return Task.CompletedTask;
         }
