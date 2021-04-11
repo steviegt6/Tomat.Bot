@@ -37,7 +37,7 @@ namespace TomatBot.Core.Content.Commands.FunCommands
                 if (int.Parse(firstNumber) == 0)
                     throw new InvalidOperationException("The first number should be greater than zero, or it will always return zero!");
 
-                if (int.Parse(firstNumber) >= int.Parse(secondNumber))
+                if (!string.IsNullOrEmpty(secondNumber) && int.Parse(firstNumber) >= int.Parse(secondNumber))
                     throw new InvalidOperationException(
                         "The second number should be *greater* than the first number, not less than or equal to the first number!");
 
