@@ -19,6 +19,8 @@ namespace TomatBot.Core.Content.Activities
             get
             {
                 IReadOnlyCollection<SocketGuild> guilds = _client.Guilds;
+
+                // TODO: Make it so we don't count duplicate members? (check IDs)
                 int totalUserCount = guilds.Sum(guild => guild.MemberCount);
 
                 return $"{guilds.Count} guilds | Watching {totalUserCount} users";

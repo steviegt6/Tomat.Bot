@@ -49,7 +49,7 @@ namespace TomatBot.Core
                 DefaultRetryMode = RetryMode.RetryRatelimit,
                 AlwaysDownloadUsers = true,
                 ConnectionTimeout = 30 * 1000,
-                MessageCacheSize = 50, // TODO: increase if bot is added to more servers?
+                MessageCacheSize = 50 // increase if bot is added to more servers?
             });
             client.Log += Logger.TaskLog;
 
