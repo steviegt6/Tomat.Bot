@@ -35,8 +35,8 @@ namespace TomatBot.API.Web.EitherIO
                 .Where(x => x.Attributes.Contains("class") && x.Attributes["class"].Value.Contains("option-text"))
                 .ToList();
 
-            return classes.Count != 2
-                ? new EitherIORequest().AttachException($"Found {classes.Count} classes instead of the expected 2!")
+            return classes.Count < 2
+                ? new EitherIORequest().AttachException("Could not find a minimum of two classes!")
                 : new EitherIORequest(classes[0].InnerText, classes[1].InnerText);
         }
     }
