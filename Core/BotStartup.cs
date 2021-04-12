@@ -97,11 +97,6 @@ namespace TomatBot.Core
                         AlwaysDownloadUsers = true,
                         ConnectionTimeout = 30 * 1000,
                         MessageCacheSize = 50, // increase if bot is added to more servers?
-                        GatewayIntents = GatewayIntents.DirectMessages |
-                                         GatewayIntents.DirectMessageReactions |
-                                         GatewayIntents.DirectMessageTyping |
-                                         GatewayIntents.GuildMembers |
-                                         GatewayIntents.Guilds
                     }))
                 .AddSingleton(new CommandService(new CommandServiceConfig
                 {
