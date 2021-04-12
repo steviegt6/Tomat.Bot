@@ -55,7 +55,7 @@ namespace TomatBot.Core.Logging
                     return $" {level}";
 
                 default:
-                    return level.ToString();
+                    return $"{level}";
             }
         }
 

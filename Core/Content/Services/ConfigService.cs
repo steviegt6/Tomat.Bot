@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
+using TomatBot.Core.Content.Configs;
 using TomatBot.Core.Framework.ServiceFramework;
 
 namespace TomatBot.Core.Content.Services

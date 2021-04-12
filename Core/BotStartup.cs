@@ -32,6 +32,8 @@ namespace TomatBot.Core
 
         public static DiscordSocketClient Client => Provider.GetRequiredService<DiscordSocketClient>();
 
+        public static bool ClientIsReady { get; private set; } = false;
+
         public static TimeSpan UpTime => DateTimeOffset.Now - Process.GetCurrentProcess().StartTime;
 
         /// <summary>
@@ -67,6 +69,7 @@ namespace TomatBot.Core
 
             Client.Ready += async () =>
                             {
+                                ClientIsReady = true;
                                 await InitializeServices();
                                 await CheckForRestart(Client);
                                 await ModifyBotStatus(Client);
@@ -95,8 +98,12 @@ namespace TomatBot.Core
                         DefaultRetryMode = RetryMode.RetryRatelimit,
                         AlwaysDownloadUsers = true,
                         ConnectionTimeout = 30 * 1000,
-                        MessageCacheSize = 50 // increase if bot is added to more servers?
-                }))
+                        MessageCacheSize = 50, // increase if bot is added to more servers?
+                        GatewayIntents = GatewayIntents.DirectMessages |
+                                         GatewayIntents.DirectMessageReactions |
+                                         GatewayIntents.DirectMessageTyping |
+                                         GatewayIntents.GuildMembers
+                    }))
                 .AddSingleton(new CommandService(new CommandServiceConfig
                 {
                     CaseSensitiveCommands = false,
@@ -149,7 +156,7 @@ namespace TomatBot.Core
             new Timer(10000)
             {
                 AutoReset = true,
-                Enabled = true,
+                Enabled = true
             }.Elapsed += async (_, _)
                              => await Client.SetActivityAsync(new StatisticsActivity());
             // Set status to DND
