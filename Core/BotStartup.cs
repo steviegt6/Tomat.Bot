@@ -32,8 +32,6 @@ namespace TomatBot.Core
 
         public static DiscordSocketClient Client => Provider.GetRequiredService<DiscordSocketClient>();
 
-        public static bool ClientIsReady { get; private set; } = false;
-
         public static TimeSpan UpTime => DateTimeOffset.Now - Process.GetCurrentProcess().StartTime;
 
         /// <summary>
@@ -69,10 +67,10 @@ namespace TomatBot.Core
 
             Client.Ready += async () =>
                             {
-                                ClientIsReady = true;
                                 await InitializeServices();
                                 await CheckForRestart(Client);
                                 await ModifyBotStatus(Client);
+                                //await Provider.GetRequiredService<ConfigService>().Config.CreateMissingConfigs();
                             };
 
             // Block until the program is closed
@@ -102,7 +100,8 @@ namespace TomatBot.Core
                         GatewayIntents = GatewayIntents.DirectMessages |
                                          GatewayIntents.DirectMessageReactions |
                                          GatewayIntents.DirectMessageTyping |
-                                         GatewayIntents.GuildMembers
+                                         GatewayIntents.GuildMembers |
+                                         GatewayIntents.Guilds
                     }))
                 .AddSingleton(new CommandService(new CommandServiceConfig
                 {
@@ -112,7 +111,7 @@ namespace TomatBot.Core
                 }));
 
             Collection.AddSingleton(new LoggerService(Provider))
-                .AddSingleton(new ConfigService(Provider))
+                //.AddSingleton(new ConfigService(Provider))
                 .AddSingleton(new StickyRoleService(Provider))
                 .AddSingleton(new CommandHandler());
         }

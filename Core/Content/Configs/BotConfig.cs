@@ -50,80 +50,51 @@ namespace TomatBot.Core.Content.Configs
                 config.AssociatedId = ulong.Parse(Path.GetFileNameWithoutExtension(file));
                 Guilds.Add(config);
             }
-
-            await CreateMissingConfigs();
         }
 
         public async Task CreateMissingConfigs()
         {
-            // 30 seconds to give the bot time to download every guild and user?
-            Timer timer = new(5 * 1000)
+            foreach (SocketGuild guild in BotStartup.Client.Guilds)
             {
-                AutoReset = true,
-                Enabled = true
-            };
+                await guild.DownloadUsersAsync();
 
-            if (BotStartup.Client.Guilds.Count == 0)
-                timer.Elapsed += async (_, _) => await DoCreate();
-
-            async Task DoCreate()
-            {
-                if (!BotStartup.ClientIsReady)
+                foreach (SocketGuildUser user in guild.Users)
                 {
-                    await LoggerService.TaskLog(new LogMessage(LogSeverity.Warning, "Service",
-                        "Client not ready, retrying config generation in 5 seconds..."));
-                    return;
-                }
-
-                timer.Enabled = false;
-
-                await LoggerService.TaskLog(new LogMessage(LogSeverity.Info, "Service",
-                    "Bot guild count was not zero, attempting config generation..."));
-
-                foreach (SocketGuild guild in BotStartup.Client.Guilds)
-                {
-                    await guild.DownloadUsersAsync();
-
-                    foreach (SocketGuildUser user in guild.Users)
-                    {
-                        if (Users.Any(config => user.Id == config.AssociatedId))
-                            break;
-
-                        Users.Add(new UserConfig(user.Id));
-                    }
-
-                    if (Guilds.Any(config => guild.Id == config.AssociatedId))
+                    if (Users.Any(config => user.Id == config.AssociatedId))
                         break;
 
-                    Guilds.Add(new GuildConfig(guild.Id));
+                    Users.Add(new UserConfig(user.Id));
                 }
 
-                await LoggerService.TaskLog(new LogMessage(LogSeverity.Debug, "Service",
-                    "Successfully generated any needed configs, writing configs to files..."));
+                if (Guilds.Any(config => guild.Id == config.AssociatedId))
+                    break;
 
-                int users = 0;
-                int guilds = 0;
-
-                foreach (UserConfig user in Users)
-                {
-                    File.WriteAllText($"{UserConfigsDirectory}/{user.AssociatedId}.json", JsonConvert.SerializeObject(user, Formatting.Indented, ConfigService.SerializationSettings));
-                    users++;
-                }
-
-                foreach (GuildConfig guild in Guilds)
-                {
-                    File.WriteAllText($"{GuildConfigsDirectory}/{guild.AssociatedId}.json",
-                        JsonConvert.SerializeObject(guild, Formatting.Indented, ConfigService.SerializationSettings));
-                    guilds++;
-                }
-
-                await LoggerService.TaskLog(new LogMessage(LogSeverity.Debug, "Service",
-                    $"Saved {users} user configs.")); 
-                await LoggerService.TaskLog(new LogMessage(LogSeverity.Debug, "Service",
-                    $"Saved {guilds} guild configs."));
+                Guilds.Add(new GuildConfig(guild.Id));
             }
 
-            await Task.CompletedTask;
+            await LoggerService.TaskLog(new LogMessage(LogSeverity.Debug, "Service",
+                "Successfully generated any needed configs, writing configs to files..."));
+
+            int users = 0;
+            int guilds = 0;
+
+            foreach (UserConfig user in Users)
+            {
+                await File.WriteAllTextAsync($"{UserConfigsDirectory}/{user.AssociatedId}.json", JsonConvert.SerializeObject(user, Formatting.Indented, ConfigService.SerializationSettings));
+                users++;
+            }
+
+            foreach (GuildConfig guild in Guilds)
+            {
+                await File.WriteAllTextAsync($"{GuildConfigsDirectory}/{guild.AssociatedId}.json",
+                    JsonConvert.SerializeObject(guild, Formatting.Indented, ConfigService.SerializationSettings));
+                guilds++;
+            }
+
+            await LoggerService.TaskLog(new LogMessage(LogSeverity.Debug, "Service",
+                $"Saved {users} user configs."));
+            await LoggerService.TaskLog(new LogMessage(LogSeverity.Debug, "Service",
+                $"Saved {guilds} guild configs."));
         }
 
         public async Task SaveConfigs()
