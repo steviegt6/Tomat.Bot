@@ -1,8 +1,14 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Discord;
+using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using TomatBot.Core.Content.Configs;
 using TomatBot.Core.Framework.ServiceFramework;
+using TomatBot.Core.Logging;
 
 namespace TomatBot.Core.Content.Services
 {
@@ -25,6 +31,26 @@ namespace TomatBot.Core.Content.Services
             };
 
             Config = new BotConfig();
+        }
+
+        public override async Task Initialize()
+        {
+            Client.JoinedGuild += CreateConfigOnGuildJoin;
+
+            await LoggerService.TaskLog(new LogMessage(LogSeverity.Debug, "Service", "Initialized ConfigService!"));
+        }
+
+        private async Task CreateConfigOnGuildJoin(SocketGuild guild)
+        {
+            if (Config.Guilds.Any(cGuild => cGuild.associatedId == guild.Id))
+                return;
+            
+            Config.Guilds.Add(new GuildConfig
+            {
+                associatedId = guild.Id
+            });
+
+            await Task.CompletedTask;
         }
     }
 }

@@ -36,7 +36,9 @@ namespace TomatBot.Core
                 return;
 
             int argPos = 0;
-            if (msg.HasStringPrefix(BotStartup.Prefix, ref argPos) || msg.HasMentionPrefix(Client.CurrentUser, ref argPos))
+            if (msg.HasStringPrefix(BotStartup.DefaultPrefix, ref argPos) 
+                || msg.HasMentionPrefix(Client.CurrentUser, ref argPos) 
+                || msg.Channel is SocketGuildChannel guildChannel && msg.HasStringPrefix(BotStartup.GetGuildPrefix(guildChannel.Guild), ref argPos)) 
                 await Commands.ExecuteAsync(new SocketCommandContext(Client, msg), argPos, null);
         }
 

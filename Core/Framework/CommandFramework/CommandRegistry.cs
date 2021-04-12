@@ -12,6 +12,7 @@ namespace TomatBot.Core.Framework.CommandFramework
         internal static List<HelpCommandData>? helpCommandData;
         internal static List<string>? infoCommands;
         internal static List<string>? funCommands;
+        internal static List<string>? configCommands;
 
         internal static void LoadCommandEntries()
         {
@@ -20,6 +21,7 @@ namespace TomatBot.Core.Framework.CommandFramework
             helpCommandData = new List<HelpCommandData>();
             infoCommands = new List<string>();
             funCommands = new List<string>();
+            configCommands = new List<string>();
 
             LoggerService.Debug("Loading commands from attribute data...");
 
@@ -48,6 +50,10 @@ namespace TomatBot.Core.Framework.CommandFramework
 
                         case CommandType.Hidden:
                             LoggerService.Debug($"Skipping registration of hidden command: {command.Name}");
+                            break;
+
+                        case CommandType.Configuration:
+                            configCommands.Add(helpEntry);
                             break;
 
                         default:

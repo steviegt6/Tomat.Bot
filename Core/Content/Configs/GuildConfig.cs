@@ -5,6 +5,7 @@ namespace TomatBot.Core.Content.Configs
     public sealed class GuildConfig
     {
         public ulong associatedId;
+        public string guildPrefix;
 
         /// <summary>
         /// (dev notes)
@@ -18,6 +19,7 @@ namespace TomatBot.Core.Content.Configs
         public GuildConfig()
         {
             associatedId = 0;
+            guildPrefix = "tomat!";
             levelData = new Dictionary<ulong, (uint, uint, uint)>();
         }
     }

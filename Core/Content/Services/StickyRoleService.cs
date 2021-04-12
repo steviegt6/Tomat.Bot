@@ -18,7 +18,7 @@ namespace TomatBot.Core.Content.Services
         {
             Client.UserLeft += SaveUserRoles; 
             Client.UserJoined += ApplySavedUserRoles;
-            await LoggerService.TaskLog(new LogMessage(LogSeverity.Debug, "Service", "Initialized StickyRoleService"));
+            await LoggerService.TaskLog(new LogMessage(LogSeverity.Debug, "Service", "Initialized StickyRoleService!"));
         }
 
         private async Task SaveUserRoles(SocketGuildUser user)

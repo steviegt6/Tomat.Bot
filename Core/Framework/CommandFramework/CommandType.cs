@@ -8,6 +8,7 @@
     {
         Info,
         Fun,
-        Hidden
+        Hidden,
+        Configuration
     }
 }
