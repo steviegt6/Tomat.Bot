@@ -46,10 +46,12 @@ namespace TomatBot.Core
 
             // Handles standard SIGTERM (-15) Signals
             AppDomain.CurrentDomain.ProcessExit += (_, _) =>
-            {
-                if (!_shuttingDown)
-                    ShutdownBotAsync().GetAwaiter().GetResult();
-            };
+                                                   {
+                                                       Provider.GetRequiredService<ConfigService>().Config
+                                                           .SaveConfigs();
+                                                       if (!_shuttingDown)
+                                                           ShutdownBotAsync().GetAwaiter().GetResult();
+                                                   };
 
             SetupSingletons();
 
@@ -70,7 +72,15 @@ namespace TomatBot.Core
                                 await InitializeServices();
                                 await CheckForRestart(Client);
                                 await ModifyBotStatus(Client);
-                                //await Provider.GetRequiredService<ConfigService>().Config.CreateMissingConfigs();
+                                Provider.GetRequiredService<ConfigService>().Config.PopulateGuildsList();
+
+                                // Auto-save all configs every hour
+                                new Timer(60 * 60 * 1000)
+                                {
+                                    AutoReset = true,
+                                    Enabled = true
+                                }.Elapsed += (_, _) 
+                                                 => Provider.GetRequiredService<ConfigService>().Config.SaveConfigs();
                             };
 
             // Block until the program is closed
@@ -106,7 +116,7 @@ namespace TomatBot.Core
                 }));
 
             Collection.AddSingleton(new LoggerService(Provider))
-                //.AddSingleton(new ConfigService(Provider))
+                .AddSingleton(new ConfigService(Provider))
                 .AddSingleton(new StickyRoleService(Provider))
                 .AddSingleton(new CommandHandler());
         }
@@ -147,12 +157,13 @@ namespace TomatBot.Core
             await client.SetActivityAsync(new StatisticsActivity());
 
             // Begin refreshing the activity
-            new Timer(10000)
+            new Timer(10 * 1000)
             {
                 AutoReset = true,
                 Enabled = true
             }.Elapsed += async (_, _)
                              => await Client.SetActivityAsync(new StatisticsActivity());
+
             // Set status to DND
             await client.SetStatusAsync(UserStatus.DoNotDisturb);
         }

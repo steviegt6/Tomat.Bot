@@ -1,23 +1,16 @@
-﻿using Newtonsoft.Json;
-
-namespace TomatBot.Core.Content.Configs
+﻿namespace TomatBot.Core.Content.Configs
 {
     public sealed class UserConfig
     {
-        [JsonIgnore]
-        public ulong AssociatedId { get; internal set; }
-
-        // public uint Prestige { get; }
+        public ulong AssociatedId { get; }
 
         public uint Level { get; }
         
         public uint Experience { get; }
 
-        [JsonConstructor]
-        public UserConfig(ulong id)
+        public UserConfig()
         {
-            AssociatedId = id;
-            // Prestige = 0;
+            AssociatedId = 0;
             Level = 0;
             Experience = 0;
         }

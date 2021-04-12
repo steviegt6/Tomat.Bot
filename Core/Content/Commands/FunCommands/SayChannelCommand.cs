@@ -34,7 +34,7 @@ namespace TomatBot.Core.Content.Commands.FunCommands
             [Summary("The text you wish you echo.")]
             string message)
         {
-            if (!(Context.User as SocketGuildUser)!.GetPermissions(Context.Channel as IGuildChannel).SendMessages)
+            if (!(Context.User as SocketGuildUser)!.GetPermissions(channel).SendMessages)
             {
                 await ReplyAsync(embed:EmbedHelper.ErrorEmbed("You don't have permissions to send messages in that channel"));
                 return;

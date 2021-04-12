@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace TomatBot.Core.Content.Configs
 {
     public sealed class GuildConfig
     {
-        [JsonIgnore]
-        public ulong AssociatedId { get; internal set; }
+        public ulong associatedId;
 
         /// <summary>
         /// (dev notes)
@@ -15,13 +13,12 @@ namespace TomatBot.Core.Content.Configs
         /// uint2 -> levels
         /// uint3 -> experience
         /// </summary>
-        public Dictionary<ulong, (uint, uint, uint)> LevelData;
-
-        [JsonConstructor]
-        public GuildConfig(ulong id)
+        public Dictionary<ulong, (uint, uint, uint)> levelData;
+        
+        public GuildConfig()
         {
-            AssociatedId = id;
-            LevelData = new Dictionary<ulong, (uint, uint, uint)>();
+            associatedId = 0;
+            levelData = new Dictionary<ulong, (uint, uint, uint)>();
         }
     }
 }
