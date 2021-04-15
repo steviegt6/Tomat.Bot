@@ -22,9 +22,9 @@ namespace TomatBot.Core.Content.Commands.OwnerCommands
         [Summary("Updates the bot.")]
         public async Task UpdateCommandAsync()
         {
-            if (!File.Exists("../update.bash"))
+            if (!File.Exists("../TomatUpdate.bash"))
             {
-                await ReplyAsync($"update.bash file doesn't exist ({MentionUtils.MentionUser(442639987180306432)})");
+                await ReplyAsync($"TomatUpdate.bash file doesn't exist ({MentionUtils.MentionUser(442639987180306432)})");
                 return;
             }
             
@@ -37,7 +37,7 @@ namespace TomatBot.Core.Content.Commands.OwnerCommands
             await File.WriteAllTextAsync("Restarted.txt", $"{Context.Guild.Id} {Context.Channel.Id}");
             
             // If there is something to update the bot will just exit
-            string result = "../update.bash".Bash();
+            string result = "../TomatUpdate.bash".Bash();
             
             await message.ModifyAsync(x => x.Embed = new EmbedBuilder
             {
