@@ -50,9 +50,12 @@ namespace TomatBot.Core.Content.Commands.FunCommands
                 config.ratings.Add(objectToRate.ToLower(), (rating, requestCount));
             }
 
+            ulong user = 0;
+            MentionUtils.TryParseUser(objectToRate, out user);
+
             BaseEmbed embed = new(Context.User)
             {
-                Title = $"I give \"{objectToRate}\"...",
+                Title = $"I give \"{(user == 0 ? objectToRate : Context.Client.Rest.GetUserAsync(user).Result.Username)}\"...",
                 Description = $"...a {rating}/10!" +
                               $"\n\nI have been asked for {objectToRate}'{(objectToRate.Last().Equals('s') ? "" : "s")} rating {requestCount} time{(requestCount == 1 ? "" : "s")}."
             };
