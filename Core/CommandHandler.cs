@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -36,9 +37,9 @@ namespace TomatBot.Core
                 return;
 
             int argPos = 0;
-            if (msg.HasStringPrefix(BotStartup.DefaultPrefix, ref argPos) 
+            if (msg.HasStringPrefix(BotStartup.DefaultPrefix, ref argPos, StringComparison.OrdinalIgnoreCase) 
                 || msg.HasMentionPrefix(Client.CurrentUser, ref argPos) 
-                || msg.Channel is SocketGuildChannel guildChannel && msg.HasStringPrefix(BotStartup.GetGuildPrefix(guildChannel.Guild), ref argPos)) 
+                || msg.Channel is SocketGuildChannel guildChannel && msg.HasStringPrefix(BotStartup.GetGuildPrefix(guildChannel.Guild), ref argPos, StringComparison.OrdinalIgnoreCase)) 
                 await Commands.ExecuteAsync(new SocketCommandContext(Client, msg), argPos, null);
         }
 
