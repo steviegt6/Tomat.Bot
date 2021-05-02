@@ -35,7 +35,7 @@ namespace TomatBot.Core.Content.Commands.FunCommands
             // Check if Celsius was mentioned
             if (temp.Contains("C", StringComparison.OrdinalIgnoreCase) || temp.Contains("Celsius", StringComparison.OrdinalIgnoreCase))
             {
-                double convertedFahrenheit = numbers * 9 / 5 + 32;
+                double convertedFahrenheit = Math.Round((double)numbers * 9 / 5 + 32, 2);
 
                 await ReplyAsync(embed: new EmbedBuilder
                 {
@@ -47,7 +47,7 @@ namespace TomatBot.Core.Content.Commands.FunCommands
             else if (temp.Contains("F", StringComparison.OrdinalIgnoreCase) || temp.Contains("Fahrenheit", StringComparison.OrdinalIgnoreCase))
             {
                 // Avoid loss of fraction
-                double convertedCelsius = (numbers - 32.0) * 5 / 9;
+                double convertedCelsius = Math.Round((numbers - 32.0) * 5 / 9, 2);
                 
                 await ReplyAsync(embed: new EmbedBuilder
                 {
