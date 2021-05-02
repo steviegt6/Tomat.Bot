@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TomatBot.Core.Content.Embeds;
 using TomatBot.Core.Framework.CommandFramework;
@@ -30,7 +31,8 @@ namespace TomatBot.Core.Content.Commands.FunCommands
         public async Task HandleCommand(string temp)
         {
             // Only get numbers from string and then convert to Fahrenheit
-            int numbers = int.Parse(String.Concat(temp.Where(char.IsDigit)));
+            ;
+            double numbers = double.Parse(Regex.Match(temp, @"^-?[0-9]\d*(\.\d+)?").Value);
             
             // Check if Celsius was mentioned
             if (temp.Contains("C", StringComparison.OrdinalIgnoreCase) || temp.Contains("Celsius", StringComparison.OrdinalIgnoreCase))
