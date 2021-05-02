@@ -51,7 +51,7 @@ namespace TomatBot.Core.Content.Commands.FunCommands
                     convertedTemp = ((tempNumber - 32) * 5) / 9;
                     response = temp + " fahrenheit is equal to " + convertedTemp + " celsius!";
                 }
-
+                //throw exception if the checks fail
                 else
                 {
                     throw new InvalidOperationException("Could not read the temperature value or unit, try writing celsius or c!");
