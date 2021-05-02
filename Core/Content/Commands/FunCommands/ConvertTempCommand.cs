@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using TomatBot.Core.Content.Embeds;
 using TomatBot.Core.Framework.CommandFramework;
 using TomatBot.Core.Framework.DataStructures;
+using TomatBot.Core.Utilities;
 
 namespace TomatBot.Core.Content.Commands.FunCommands
 {
@@ -22,38 +23,43 @@ namespace TomatBot.Core.Content.Commands.FunCommands
 
         public override string Parameters => "<temperature>";
 
-        [Command("converttemp")]
-        [Alias("convtemp","tempconv", "tempconvert")]
+        [Command("temp")]
+        [Alias("temperature", "convertTemp", "tempConvert")]
         [Summary("Converts temperatures!")]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        public async Task HandleCommand(
-            string temp = "")
+        public async Task HandleCommand(string temp)
         {
-            try
+            // Only get numbers from string and then convert to Fahrenheit
+            int numbers = int.Parse(String.Concat(temp.Where(char.IsDigit)));
+            
+            // Check if Celsius was mentioned
+            if (temp.Contains("C", StringComparison.OrdinalIgnoreCase) || temp.Contains("Celsius", StringComparison.OrdinalIgnoreCase))
             {
-                int tempNumber;
-                double inCelsius, inFahrenheit;
-                string response;
-                //if the number cannot be read, throw error.
-                if(!int.TryParse(temp, out tempNumber))
-                {
-                    throw new InvalidOperationException("Could not read the temperature value!");
-                }
-                //convert user input into both units of temperature
-                inFahrenheit = (tempNumber * 9) / 5 + 32;
-                inCelsius = ((tempNumber - 32) * 5) / 9;
-                //construct response.
-                response = temp + " celsius is equal to " + inFahrenheit + " fahrenheit!\n" +
-                temp + " fahrenheit is equal to " + inCelsius + " celsius!"; 
+                double convertedFahrenheit = numbers * 9 / 5 + 32;
 
-                await ReplyAsync(response, embed: CreateSmallEmbed().Build());
+                await ReplyAsync(embed: new EmbedBuilder
+                {
+                    Title = "Converted Fahrenheit",
+                    Description = $"{numbers}°C = {convertedFahrenheit}°F",
+                    Color = Color.DarkBlue
+                }.Build());
             }
-            catch (Exception e)
+            else if (temp.Contains("F", StringComparison.OrdinalIgnoreCase) || temp.Contains("Fahrenheit", StringComparison.OrdinalIgnoreCase))
             {
-                BaseEmbed embed = CreateSmallEmbed(e.Message);
-                embed.WithTitle(e.GetType().Name);
-                embed.WithColor(Color.Red);
-                await ReplyAsync(embed: embed.Build());
+                // Avoid loss of fraction
+                double convertedCelsius = (numbers - 32.0) * 5 / 9;
+                
+                await ReplyAsync(embed: new EmbedBuilder
+                {
+                    Title = "Converted Celsius",
+                    Description = $"{numbers}°F = {convertedCelsius}°C",
+                    Color = Color.DarkBlue
+                }.Build());
+            }
+            // If its any other unit than Celsius or Fahrenheit
+            else
+            {
+                await ReplyAsync(embed: EmbedHelper.ErrorEmbed("Unknown unit. Currently only supports Fahrenheit and Celsius"));
             }
         }
     }
