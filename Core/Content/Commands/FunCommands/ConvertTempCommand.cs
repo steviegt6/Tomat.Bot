@@ -25,13 +25,12 @@ namespace TomatBot.Core.Content.Commands.FunCommands
         public override string Parameters => "<temperature>";
 
         [Command("temp")]
-        [Alias("temperature", "convertTemp", "tempConvert")]
+        [Alias("temperature", "convertTemp", "tempConvert", "convert")]
         [Summary("Converts temperatures!")]
         [RequireBotPermission(ChannelPermission.SendMessages)]
         public async Task HandleCommand(string temp)
         {
             // Only get numbers from string and then convert to Fahrenheit
-            ;
             double numbers = double.Parse(Regex.Match(temp, @"^-?[0-9]\d*(\.\d+)?").Value);
             
             // Check if Celsius was mentioned
