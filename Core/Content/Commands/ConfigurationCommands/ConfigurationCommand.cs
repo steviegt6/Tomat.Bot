@@ -38,7 +38,7 @@ namespace TomatBot.Core.Content.Commands.ConfigurationCommands
             await ParseConfigCommand(option, value);
         }
 
-        private bool VerifyValueParameter(string value) => !string.IsNullOrEmpty(value);
+        private static bool VerifyValueParameter(string value) => !string.IsNullOrEmpty(value);
 
         private async Task ParseConfigCommand(string option = "", string value = "")
         {

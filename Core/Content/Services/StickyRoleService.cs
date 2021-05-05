@@ -21,7 +21,7 @@ namespace TomatBot.Core.Content.Services
             await LoggerService.TaskLog(new LogMessage(LogSeverity.Debug, "Service", "Initialized StickyRoleService!"));
         }
 
-        private async Task SaveUserRoles(SocketGuildUser user)
+        private static async Task SaveUserRoles(SocketGuildUser user)
         {
             // TODO: make bot saving configurable, add config for list of users to ignore, add config for list of roles to ignore
             if (user.IsBot || user.IsWebhook)
@@ -30,7 +30,7 @@ namespace TomatBot.Core.Content.Services
             List<IRole> roles = new();
         }
 
-        private async Task ApplySavedUserRoles(SocketGuildUser user)
+        private static async Task ApplySavedUserRoles(SocketGuildUser user)
         {
             // TODO: make bot saving configurable, add config for list of users to ignore, add config for list of roles to ignore
             if (user.IsBot || user.IsWebhook || !user.Roles.Any())

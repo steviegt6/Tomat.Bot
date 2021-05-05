@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using System.Threading.Tasks;
-using Discord;
 using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using TomatBot.Core.Content.Services;
