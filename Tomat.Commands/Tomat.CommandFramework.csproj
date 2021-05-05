@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Tomat.CommandFramework</AssemblyName>
+    <RootNamespace>Tomat.CommandFramework</RootNamespace>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tomat.Logging\Tomat.Logging.csproj" />
+  </ItemGroup>
+
+</Project>
