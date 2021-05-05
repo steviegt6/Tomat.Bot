@@ -33,14 +33,14 @@ namespace TomatBot.Core.Utilities
         /// <param name="argumentPosition">Position of the ref'd argument.</param>
         /// <param name="mentionClient">Instance of a <see cref="DiscordSocketClient"/> if you want to check for mention prefixes.</param>
         /// <returns>Whether the message is valid.</returns>
-        public static bool ValidateMessageMention(SocketMessage message, out InvalidMessageReason invalidReason, out int argumentPosition, DiscordSocketClient? mentionClient = null)
+        public static bool ValidateMessageMention(this SocketMessage message, out InvalidMessageReason invalidReason, out int argumentPosition, DiscordSocketClient? mentionClient = null)
         {
             argumentPosition = 0;
 
             if (!message.ToSocketUserMessage(out SocketUserMessage? userMessage, out invalidReason)) 
                 return false;
 
-            return !userMessage!.CheckAutomaton(out invalidReason) 
+            return userMessage!.CheckAutomaton(out invalidReason) 
                    && HasValidPrefix(userMessage!, out invalidReason, out argumentPosition, mentionClient);
         }
 
