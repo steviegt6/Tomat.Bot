@@ -6,6 +6,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using TomatBot.Core.Content.Embeds;
+using TomatBot.Core.Utilities;
 
 namespace TomatBot.Core
 {
@@ -33,14 +34,22 @@ namespace TomatBot.Core
 
         private async Task HandleCommandAsync(SocketMessage message)
         {
-            if (message is not SocketUserMessage msg || message.Author.IsBot || message.Author.IsWebhook)
-                return;
+            if (message.ValidateMessageMention(out CommandUtilities.InvalidMessageReason invalidReason, out int argPos,
+                Client))
+                await Commands.ExecuteAsync(new SocketCommandContext(Client, message as SocketUserMessage), argPos,
+                    null);
 
-            int argPos = 0;
-            if (msg.HasStringPrefix(BotStartup.DefaultPrefix, ref argPos, StringComparison.OrdinalIgnoreCase) 
-                || msg.HasMentionPrefix(Client.CurrentUser, ref argPos) 
-                || msg.Channel is SocketGuildChannel guildChannel && msg.HasStringPrefix(BotStartup.GetGuildPrefix(guildChannel.Guild), ref argPos, StringComparison.OrdinalIgnoreCase)) 
-                await Commands.ExecuteAsync(new SocketCommandContext(Client, msg), argPos, null);
+            if (CommandUtilities.IsFatalReason(invalidReason))
+            {
+                BaseEmbed embed = new(message.Author)
+                {
+                    Title = $"Validation error encountered: {invalidReason}",
+                    Description =
+                        "This likely isn't much of an issue. If you believe it is, report to the developers immediately!"
+                };
+
+                await message.Channel.SendMessageAsync(embed: embed.Build());
+            }
         }
 
         private static async Task HandleError(Optional<CommandInfo> info, ICommandContext context, IResult result)
