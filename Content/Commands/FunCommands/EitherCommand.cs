@@ -8,7 +8,7 @@ using Tomat.Conveniency.Embeds;
 using Tomat.Conveniency.Utilities;
 using Tomat.MiscWeb.EitherIO;
 
-namespace TomatBot.Content.Commands.FunCommands
+namespace Tomat.TomatBot.Content.Commands.FunCommands
 {
     public sealed class EitherCommand : BaseCommand
     {

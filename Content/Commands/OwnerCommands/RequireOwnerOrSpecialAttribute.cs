@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 
-namespace TomatBot.Content.Commands.OwnerCommands
+namespace Tomat.TomatBot.Content.Commands.OwnerCommands
 {
     public class RequireOwnerOrSpecialAttribute : PreconditionAttribute
     {

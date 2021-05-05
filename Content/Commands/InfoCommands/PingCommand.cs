@@ -7,7 +7,7 @@ using Tomat.CommandFramework;
 using Tomat.CommandFramework.HelpSystem;
 using Tomat.Conveniency.Embeds;
 
-namespace TomatBot.Content.Commands.InfoCommands
+namespace Tomat.TomatBot.Content.Commands.InfoCommands
 {
     public sealed class PingCommand : BaseCommand
     {

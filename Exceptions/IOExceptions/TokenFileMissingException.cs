@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TomatBot.Exceptions.IOExceptions
+namespace Tomat.TomatBot.Exceptions.IOExceptions
 {
     public class TokenFileMissingException : Exception
     {

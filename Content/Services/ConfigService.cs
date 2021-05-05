@@ -7,9 +7,9 @@ using Discord.WebSocket;
 using Newtonsoft.Json;
 using Tomat.Logging;
 using Tomat.ServiceFramework;
-using TomatBot.Content.Configs;
+using Tomat.TomatBot.Content.Configs;
 
-namespace TomatBot.Content.Services
+namespace Tomat.TomatBot.Content.Services
 {
     // TODO: User configs
     public sealed class ConfigService : InitializableService

@@ -1,5 +1,5 @@
 ﻿using Tomat.CommandFramework;
-using TomatBot;
+using Tomat.TomatBot;
 
 // Register bot command information before official bot startup
 // (potential) TODO: start up bot, and change status according to what it's currently doing!

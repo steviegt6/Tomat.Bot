@@ -1,4 +1,4 @@
-﻿namespace TomatBot.Content.Configs
+﻿namespace Tomat.TomatBot.Content.Configs
 {
     public sealed class UserConfig
     {

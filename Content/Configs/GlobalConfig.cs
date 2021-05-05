@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TomatBot.Content.Configs
+namespace Tomat.TomatBot.Content.Configs
 {
     public sealed class GlobalConfig
     {

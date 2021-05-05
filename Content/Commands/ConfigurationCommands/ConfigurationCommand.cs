@@ -8,10 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Tomat.CommandFramework;
 using Tomat.CommandFramework.HelpSystem;
 using Tomat.Conveniency.Utilities;
-using TomatBot.Content.Configs;
-using TomatBot.Content.Services;
+using Tomat.TomatBot.Content.Configs;
+using Tomat.TomatBot.Content.Services;
 
-namespace TomatBot.Content.Commands.ConfigurationCommands
+namespace Tomat.TomatBot.Content.Commands.ConfigurationCommands
 {
     public sealed class ConfigurationCommand : BaseCommand
     {

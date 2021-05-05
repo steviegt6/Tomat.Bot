@@ -11,11 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Tomat.Conveniency.Activities;
 using Tomat.Logging;
 using Tomat.ServiceFramework;
-using TomatBot.Content.Services;
-using TomatBot.Exceptions.IOExceptions;
+using Tomat.TomatBot.Content.Services;
+using Tomat.TomatBot.Exceptions.IOExceptions;
 using Timer = System.Timers.Timer;
 
-namespace TomatBot
+namespace Tomat.TomatBot
 {
     public static class BotStartup
     {

@@ -2,7 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 
-namespace TomatBot.Utilities
+namespace Tomat.TomatBot.Utilities
 {
     public static class CommandUtilities
     {

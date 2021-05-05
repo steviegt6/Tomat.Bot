@@ -5,9 +5,9 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Tomat.Conveniency.Embeds;
-using TomatBot.Utilities;
+using Tomat.TomatBot.Utilities;
 
-namespace TomatBot
+namespace Tomat.TomatBot
 {
     public class CommandHandler
     {

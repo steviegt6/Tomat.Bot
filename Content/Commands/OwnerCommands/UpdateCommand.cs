@@ -5,9 +5,9 @@ using Discord;
 using Discord.Commands;
 using Tomat.CommandFramework;
 using Tomat.CommandFramework.HelpSystem;
-using TomatBot.Utilities;
+using Tomat.TomatBot.Utilities;
 
-namespace TomatBot.Content.Commands.OwnerCommands
+namespace Tomat.TomatBot.Content.Commands.OwnerCommands
 {
     public class UpdateCommand : BaseCommand
     {

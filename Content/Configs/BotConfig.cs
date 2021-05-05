@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 using Newtonsoft.Json;
-using TomatBot.Content.Services;
+using Tomat.TomatBot.Content.Services;
 
-namespace TomatBot.Content.Configs
+namespace Tomat.TomatBot.Content.Configs
 {
     public sealed class BotConfig
     {

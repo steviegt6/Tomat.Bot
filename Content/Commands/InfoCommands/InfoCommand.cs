@@ -7,7 +7,7 @@ using Tomat.CommandFramework.HelpSystem;
 using Tomat.Conveniency.Embeds;
 using Tomat.Conveniency.Utilities;
 
-namespace TomatBot.Content.Commands.InfoCommands
+namespace Tomat.TomatBot.Content.Commands.InfoCommands
 {
     public sealed class InfoCommand : BaseCommand
     {

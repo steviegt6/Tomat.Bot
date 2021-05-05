@@ -6,7 +6,7 @@ using Tomat.CommandFramework;
 using Tomat.CommandFramework.HelpSystem;
 using Tomat.Conveniency.Utilities;
 
-namespace TomatBot.Content.Commands.FunCommands
+namespace Tomat.TomatBot.Content.Commands.FunCommands
 {
     public sealed class SayCommand : BaseCommand
     {

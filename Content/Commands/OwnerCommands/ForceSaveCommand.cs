@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Tomat.CommandFramework;
 using Tomat.CommandFramework.HelpSystem;
 using Tomat.Conveniency.Utilities;
-using TomatBot.Content.Services;
+using Tomat.TomatBot.Content.Services;
 
-namespace TomatBot.Content.Commands.OwnerCommands
+namespace Tomat.TomatBot.Content.Commands.OwnerCommands
 {
     public class ForceSaveCommand : BaseCommand
     {

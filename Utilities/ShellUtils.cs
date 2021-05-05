@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace TomatBot.Utilities
+namespace Tomat.TomatBot.Utilities
 {
     public static class ShellHelper
     {
