@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Core\Content\Punishments\**" />
-    <EmbeddedResource Remove="Core\Content\Punishments\**" />
-    <None Remove="Core\Content\Punishments\**" />
+    <Compile Remove="Content\Punishments\**" />
+    <EmbeddedResource Remove="Content\Punishments\**" />
+    <None Remove="Content\Punishments\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +27,13 @@
     <None Update="token.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tomat.Commands\Tomat.CommandFramework.csproj" />
+    <ProjectReference Include="..\Tomat.Conveniency\Tomat.Conveniency.csproj" />
+    <ProjectReference Include="..\Tomat.MiscWeb\Tomat.MiscWeb.csproj" />
+    <ProjectReference Include="..\Tomat.ServiceFramework\Tomat.ServiceFramework.csproj" />
   </ItemGroup>
 
 </Project>
