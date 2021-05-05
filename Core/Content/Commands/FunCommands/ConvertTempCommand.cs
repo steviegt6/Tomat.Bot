@@ -17,7 +17,8 @@ namespace TomatBot.Core.Content.Commands.FunCommands
             Fahrenheit,
             Celsius,
             Kelvin,
-            Rankine
+            Rankine,
+            Reaumur
         }
 
         public override MethodInfo? AssociatedMethod => GetType().GetMethod("HandleCommand");
@@ -68,36 +69,48 @@ namespace TomatBot.Core.Content.Commands.FunCommands
                     Color = Color.DarkBlue
                 }.Build());
             }
-            else if (temp.EndsWith("R", StringComparison.OrdinalIgnoreCase) ||
+            else if (temp.EndsWith("Ra", StringComparison.OrdinalIgnoreCase) ||
                      temp.EndsWith("Rankine", StringComparison.OrdinalIgnoreCase))
             {
                 await ReplyAsync(embed: new EmbedBuilder
                 {
                     Title = "Converted Rankine",
-                    Description = GetText(numbers, "°R", Unit.Rankine),
+                    Description = GetText(numbers, "°Ra", Unit.Rankine),
+                    Color = Color.DarkBlue
+                }.Build());
+            }
+            else if (temp.EndsWith("Re", StringComparison.OrdinalIgnoreCase) ||
+                     temp.EndsWith("Reaumur", StringComparison.OrdinalIgnoreCase))
+            {
+                await ReplyAsync(embed: new EmbedBuilder
+                {
+                    Title = "Converted Réaumur",
+                    Description = GetText(numbers, "°Re", Unit.Reaumur),
                     Color = Color.DarkBlue
                 }.Build());
             }
             // If its any other unit than Celsius or Fahrenheit
             else
                 await ReplyAsync(
-                    embed: EmbedHelper.ErrorEmbed("Please specify a unit (F, C, K, R, Fahrenheit, Celsius, Kelvin, Rankine)."));
+                    embed: EmbedHelper.ErrorEmbed("Please specify a unit (F, C, K, Ra, Re, Fahrenheit, Celsius, Kelvin, Rankine, Reaumur)."));
         }
 
-        private static string GetText(double temp, string the, Unit unit) =>
-            $"{temp}{the} = {ToFahrenheit(temp, unit)}°F" +
-            $"\n{temp}{the} = {ToCelsius(temp, unit)}°C" +
-            $"\n{temp}{the} = {ToKelvin(temp, unit)}°K," +
-            $"\n{temp}{the} = {ToRankine(temp, unit)}°R";
+        private static string GetText(double temp, string unitCh, Unit unit) =>
+            $"{temp}{unitCh} = {Math.Round(ToFahrenheit(temp, unit), 2)}°F" +
+            $"\n{temp}{unitCh} = {Math.Round(ToCelsius(temp, unit), 2)}°C" +
+            $"\n{temp}{unitCh} = {Math.Round(ToKelvin(temp, unit), 2)}K," +
+            $"\n{temp}{unitCh} = {Math.Round(ToRankine(temp, unit), 2)}°Ra" +
+            $"\n{temp}{unitCh} = {Math.Round(ToReaumur(temp, unit), 2)}°Re";
 
         public static double ToFahrenheit(double temp, Unit fromUnit)
         {
             return fromUnit switch
             {
                 Unit.Fahrenheit => temp,
-                Unit.Celsius => Math.Round(temp * 9 / 5 + 32, 2),
-                Unit.Kelvin => Math.Round((temp - 273.15) * 1.8 + 32, 2),
-                Unit.Rankine => temp - 491.67 + 32,
+                Unit.Celsius => temp * 1.8 + 32,
+                Unit.Kelvin => temp * 1.8 - 459.67,
+                Unit.Rankine => temp - 459.67,
+                Unit.Reaumur => temp * 2.25 + 32,
                 _ => throw new ArgumentOutOfRangeException(nameof(fromUnit), fromUnit, null)
             };
         }
@@ -106,10 +119,11 @@ namespace TomatBot.Core.Content.Commands.FunCommands
         {
             return fromUnit switch
             {
-                Unit.Fahrenheit => Math.Round((temp - 32) / 1.8, 2),
+                Unit.Fahrenheit => (temp - 32) / 1.8,
                 Unit.Celsius => temp,
-                Unit.Kelvin => temp + 273.15,
-                Unit.Rankine => Math.Round((temp - 491.67) / 1.8, 2),
+                Unit.Kelvin => temp - 273.15,
+                Unit.Rankine => (temp - 32 - 459.67) / 1.8,
+                Unit.Reaumur => temp * 1.25,
                 _ => throw new ArgumentOutOfRangeException(nameof(fromUnit), fromUnit, null)
             };
         }
@@ -118,10 +132,11 @@ namespace TomatBot.Core.Content.Commands.FunCommands
         {
             return fromUnit switch
             {
-                Unit.Fahrenheit => Math.Round((temp - 32) / 1.8 + 273.15, 2),
-                Unit.Celsius => temp - 273.15,
+                Unit.Fahrenheit => (temp + 459.67) / 1.8,
+                Unit.Celsius => temp + 273.15,
                 Unit.Kelvin => temp,
-                Unit.Rankine => Math.Round((temp - 491.67) / 1.8 + 273.15, 2),
+                Unit.Rankine => temp / 1.8,
+                Unit.Reaumur => temp * 1.25 + 273.15,
                 _ => throw new ArgumentOutOfRangeException(nameof(fromUnit), fromUnit, null)
             };
         }
@@ -130,10 +145,24 @@ namespace TomatBot.Core.Content.Commands.FunCommands
         {
             return fromUnit switch
             {
-                Unit.Fahrenheit => temp - 32 + 491.67,
-                Unit.Celsius => Math.Round(temp * 1.8 + 491.67, 2),
-                Unit.Kelvin => Math.Round((temp - 273.15) * 1.8, 2) + 491.67,
+                Unit.Fahrenheit => temp + 459.67,
+                Unit.Celsius => temp * 1.8 + 32 + 459.67,
+                Unit.Kelvin => temp * 1.8,
                 Unit.Rankine => temp,
+                Unit.Reaumur => temp * 2.25 + 32 + 459.67,
+                _ => throw new ArgumentOutOfRangeException(nameof(fromUnit), fromUnit, null)
+            };
+        }
+
+        public static double ToReaumur(double temp, Unit fromUnit)
+        {
+            return fromUnit switch
+            {
+                Unit.Fahrenheit => (temp - 32) / 2.25,
+                Unit.Celsius => temp * 0.8,
+                Unit.Kelvin => (temp - 273.15) * 0.8,
+                Unit.Rankine => (temp - 32 - 459.67) / 2.25,
+                Unit.Reaumur => temp,
                 _ => throw new ArgumentOutOfRangeException(nameof(fromUnit), fromUnit, null)
             };
         }
