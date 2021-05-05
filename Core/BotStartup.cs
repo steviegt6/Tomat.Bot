@@ -23,8 +23,9 @@ namespace TomatBot.Core
         private static readonly CancellationToken StopToken = StopTokenSource.Token;
         private static bool _shuttingDown;
         
-        // TODO: Transfer to guild config system, guild-configurable prefixes with "tomat!" as a fallback (mentions also work)
-        public static string DefaultPrefix => "tomat!";
+        public static string DefaultPrefix => Debugger.IsAttached 
+            ? "edge!" 
+            : "tomat!";
 
         public static IServiceCollection? Collection { get; private set; }
 
@@ -181,8 +182,13 @@ namespace TomatBot.Core
         {
             try
             {
-                return Provider.GetRequiredService<ConfigService>().Config.Guilds
+                string value = Provider.GetRequiredService<ConfigService>().Config.Guilds
                     .First(x => x.associatedId == guild?.Id).guildPrefix;
+
+                if (value == "tomat!" && Debugger.IsAttached)
+                    return "edge!";
+
+                return value;
             }
             catch
             {

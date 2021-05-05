@@ -17,7 +17,7 @@ namespace TomatBot.Core.Content.Commands.ConfigurationCommands
     {
         public override MethodInfo? AssociatedMethod => GetType().GetMethod("HandleCommand");
 
-        public override HelpCommandData HelpData => new("configure", "Allows you to configure various aspects about the bot. Do `tomat!configure help` for more.");
+        public override HelpCommandData HelpData => new("configure", $"Allows you to configure various aspects about the bot. Do `{BotStartup.DefaultPrefix}configure help` for more.");
 
         public override CommandType CType => CommandType.Configuration;
 
@@ -31,7 +31,7 @@ namespace TomatBot.Core.Content.Commands.ConfigurationCommands
         {
             if (string.IsNullOrEmpty(option))
             {
-                await ReplyAsync(embed: CreateSmallEmbed("Do \"`tomat!configure help`\" for information on bot configuration!").Build());
+                await ReplyAsync(embed: CreateSmallEmbed($"Do \"`{BotStartup.DefaultPrefix}configure help`\" for information on bot configuration!").Build());
                 return;
             }
 
