@@ -177,6 +177,17 @@ namespace TomatBot.Core
             await Task.Run(() => Client.StopAsync());
         }
 
-        public static string GetGuildPrefix(IGuild? guild) => Provider.GetRequiredService<ConfigService>().Config.Guilds.First(x => x.associatedId == guild.Id).guildPrefix;
+        public static string GetGuildPrefix(IGuild? guild)
+        {
+            try
+            {
+                return Provider.GetRequiredService<ConfigService>().Config.Guilds
+                    .First(x => x.associatedId == guild?.Id).guildPrefix;
+            }
+            catch
+            {
+                return "";
+            }
+        }
     }
 }
