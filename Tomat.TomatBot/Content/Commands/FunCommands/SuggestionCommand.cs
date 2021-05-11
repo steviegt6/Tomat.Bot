@@ -14,7 +14,7 @@ namespace Tomat.TomatBot.Content.Commands.FunCommands
         public override MethodInfo? AssociatedMethod => GetType().GetMethod("HandleCommand");
 
         public override HelpCommandData HelpData =>
-            new("suggestion", "Creates a suggestion embed with an +1, -1, and indifferent option.");
+            new("suggestion", "Creates a suggestion embed with a +1 and -1 option.");
 
         public override CommandType CType => CommandType.Fun;
 
@@ -32,15 +32,11 @@ namespace Tomat.TomatBot.Content.Commands.FunCommands
             {
                 Title = "Suggestion!",
                 Color = Color.Gold,
-                Description = $"{suggestion}" +
-                              $"\n\n" +
-                              $"👍: +1" +
-                              $"👎: -1" +
-                              $"🖕 (lol): Indifferent"
+                Description = suggestion
             };
 
             IUserMessage? message = await ReplyAsync(embed: realEmbed.Build());
-            await message.AddReactionsAsync(new IEmote[] {new Emoji("👍"), new Emoji("👎"), new Emoji("🖕") });
+            await message.AddReactionsAsync(new IEmote[] {new Emoji("👍"), new Emoji("👎") });
         }
     }
 }
