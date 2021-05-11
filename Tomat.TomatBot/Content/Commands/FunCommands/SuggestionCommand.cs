@@ -32,11 +32,15 @@ namespace Tomat.TomatBot.Content.Commands.FunCommands
             {
                 Title = "Suggestion!",
                 Color = Color.Gold,
-                Description = suggestion
+                Description = $"{suggestion}" +
+                              $"\n\n" +
+                              $"👍: +1" +
+                              $"👎: -1" +
+                              $"🖕 (lol): Indifferent"
             };
 
             IUserMessage? message = await ReplyAsync(embed: realEmbed.Build());
-            await message.AddReactionsAsync(new IEmote[] {new Emoji("👍"), new Emoji("👎"), new Emoji("❗")});
+            await message.AddReactionsAsync(new IEmote[] {new Emoji("👍"), new Emoji("👎"), new Emoji("🖕") });
         }
     }
 }
