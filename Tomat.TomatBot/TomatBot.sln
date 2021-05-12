@@ -11,15 +11,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.CommandFramework", "..\Tomat.Commands\Tomat.CommandFramework.csproj", "{7C38C4C0-4CEE-44DB-BD74-4A6DC5AEA18F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.CommandFramework", "..\Tomat.Commands\Tomat.CommandFramework.csproj", "{7C38C4C0-4CEE-44DB-BD74-4A6DC5AEA18F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.Logging", "..\Tomat.Logging\Tomat.Logging.csproj", "{9A9BC971-CE51-45E2-AA39-08CF7EAE2786}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.Logging", "..\Tomat.Logging\Tomat.Logging.csproj", "{9A9BC971-CE51-45E2-AA39-08CF7EAE2786}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.ServiceFramework", "..\Tomat.ServiceFramework\Tomat.ServiceFramework.csproj", "{24989D3F-13DC-4849-BAC8-B1F47CAEC9E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.ServiceFramework", "..\Tomat.ServiceFramework\Tomat.ServiceFramework.csproj", "{24989D3F-13DC-4849-BAC8-B1F47CAEC9E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.Conveniency", "..\Tomat.Conveniency\Tomat.Conveniency.csproj", "{C45A114A-2AD0-4C15-BC4D-1B703401FEB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.Conveniency", "..\Tomat.Conveniency\Tomat.Conveniency.csproj", "{C45A114A-2AD0-4C15-BC4D-1B703401FEB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.MiscWeb", "..\Tomat.MiscWeb\Tomat.MiscWeb.csproj", "{09AC85A0-5366-4F5B-956C-31D56BF15EE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.MiscWeb", "..\Tomat.MiscWeb\Tomat.MiscWeb.csproj", "{09AC85A0-5366-4F5B-956C-31D56BF15EE3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.TatsuSharp", "..\Tomat.TatsuSharp\Tomat.TatsuSharp.csproj", "{D09DD50B-ABCC-4437-8519-E7B0D3A805A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{09AC85A0-5366-4F5B-956C-31D56BF15EE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09AC85A0-5366-4F5B-956C-31D56BF15EE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09AC85A0-5366-4F5B-956C-31D56BF15EE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D09DD50B-ABCC-4437-8519-E7B0D3A805A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D09DD50B-ABCC-4437-8519-E7B0D3A805A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D09DD50B-ABCC-4437-8519-E7B0D3A805A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D09DD50B-ABCC-4437-8519-E7B0D3A805A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
