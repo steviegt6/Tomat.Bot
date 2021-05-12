@@ -23,7 +23,7 @@ namespace Tomat.TomatBot.Content.Commands.OwnerCommands.Debugging
         [RequireOwnerOrSpecial]
         [Command("tatsutest")]
         [Summary("")]
-        public async Task Test()
+        public async Task Test(bool rateLimit)
         {
             if (!File.Exists("tatsu.txt"))
                 throw new TatsuAPIFileMissingException();
@@ -35,21 +35,24 @@ namespace Tomat.TomatBot.Content.Commands.OwnerCommands.Debugging
 
             try
             {
-                TatsuUser user = await client.GetUserProfile(Context.User.Id.ToString());
-
-                await ReplyAsync(embed: new BaseEmbed(Context.User)
+                for (int i = 0; i < (rateLimit ? 1 : 61); i++)
                 {
-                    Title = user.Title,
-                    Description = $"Avatar URL: {user.AvatarURL}" +
-                                  $"\nCredits: {user.Credits}" +
-                                  $"\nDiscriminator: {user.Discriminator}" +
-                                  $"\nID: {user.ID}" +
-                                  $"\nInfo box: {user.InfoBox}" +
-                                  $"\nReputation: {user.Reputation}" +
-                                  $"\nTokens: {user.Tokens}" +
-                                  $"\nUsername: {user.Username}" +
-                                  $"\nXP: {user.XP}"
-                }.Build());
+                    TatsuUser user = await client.GetUserProfile(Context.User.Id.ToString());
+
+                    await ReplyAsync(embed: new BaseEmbed(Context.User)
+                    {
+                        Title = user.Title,
+                        Description = $"Avatar URL: {user.AvatarURL}" +
+                                      $"\nCredits: {user.Credits}" +
+                                      $"\nDiscriminator: {user.Discriminator}" +
+                                      $"\nID: {user.ID}" +
+                                      $"\nInfo box: {user.InfoBox}" +
+                                      $"\nReputation: {user.Reputation}" +
+                                      $"\nTokens: {user.Tokens}" +
+                                      $"\nUsername: {user.Username}" +
+                                      $"\nXP: {user.XP}"
+                    }.Build());
+                }
             }
             catch (RateLimitException)
             {
