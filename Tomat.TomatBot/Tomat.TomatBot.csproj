@@ -24,6 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="tatsu.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="token.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -34,6 +37,7 @@
     <ProjectReference Include="..\Tomat.Conveniency\Tomat.Conveniency.csproj" />
     <ProjectReference Include="..\Tomat.MiscWeb\Tomat.MiscWeb.csproj" />
     <ProjectReference Include="..\Tomat.ServiceFramework\Tomat.ServiceFramework.csproj" />
+    <ProjectReference Include="..\Tomat.TatsuSharp\Tomat.TatsuSharp.csproj" />
   </ItemGroup>
 
 </Project>
