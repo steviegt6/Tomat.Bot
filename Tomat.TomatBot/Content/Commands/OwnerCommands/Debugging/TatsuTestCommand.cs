@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Discord.Commands;
@@ -35,24 +36,33 @@ namespace Tomat.TomatBot.Content.Commands.OwnerCommands.Debugging
 
             try
             {
-                for (int i = 0; i < (rateLimit ? 1 : 61); i++)
+                if (rateLimit)
                 {
-                    TatsuUser user = await client.GetUserProfile(Context.User.Id.ToString());
-
-                    await ReplyAsync(embed: new BaseEmbed(Context.User)
+                    int bruh = 0;
+                    while (true)
                     {
-                        Title = user.Title,
-                        Description = $"Avatar URL: {user.AvatarURL}" +
-                                      $"\nCredits: {user.Credits}" +
-                                      $"\nDiscriminator: {user.Discriminator}" +
-                                      $"\nID: {user.ID}" +
-                                      $"\nInfo box: {user.InfoBox}" +
-                                      $"\nReputation: {user.Reputation}" +
-                                      $"\nTokens: {user.Tokens}" +
-                                      $"\nUsername: {user.Username}" +
-                                      $"\nXP: {user.XP}"
-                    }.Build());
+                        //await ReplyAsync((++bruh).ToString());
+                        Console.WriteLine(++bruh);
+                        await new TatsuClient(await File.ReadAllTextAsync("tatsu.txt")).GetUserProfile(Context.User.Id.ToString());
+                    }
                 }
+
+                TatsuUser user = await client.GetUserProfile(Context.User.Id.ToString());
+
+                await ReplyAsync(embed: new BaseEmbed(Context.User)
+                {
+                    Title = user.Title,
+                    Description = $"Avatar URL: {user.AvatarURL}" +
+                                  $"\nCredits: {user.Credits}" +
+                                  $"\nDiscriminator: {user.Discriminator}" +
+                                  $"\nID: {user.ID}" +
+                                  $"\nInfo box: {user.InfoBox}" +
+                                  $"\nReputation: {user.Reputation}" +
+                                  $"\nTokens: {user.Tokens}" +
+                                  $"\nUsername: {user.Username}" +
+                                  $"\nXP: {user.XP}"
+                }.Build());
+
             }
             catch (RateLimitException)
             {
