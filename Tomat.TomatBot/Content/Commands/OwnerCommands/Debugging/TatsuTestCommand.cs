@@ -41,9 +41,9 @@ namespace Tomat.TomatBot.Content.Commands.OwnerCommands.Debugging
                               $"\nID: {user.ID}" +
                               $"\nInfo box: {user.InfoBox}" +
                               $"\nReputation: {user.Reputation}" +
-                              $"\n{user.Tokens}" +
-                              $"\nUsername:{user.Username}" +
-                              $"\nXP {user.XP}"
+                              $"\nTokens: {user.Tokens}" +
+                              $"\nUsername: {user.Username}" +
+                              $"\nXP: {user.XP}"
             }.Build());
         }
     }
