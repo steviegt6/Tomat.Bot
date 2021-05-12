@@ -5,6 +5,7 @@ using Discord.Commands;
 using Tomat.CommandFramework;
 using Tomat.CommandFramework.HelpSystem;
 using Tomat.Conveniency.Embeds;
+using Tomat.Conveniency.Utilities;
 using Tomat.TatsuSharp;
 using Tomat.TatsuSharp.Data;
 using Tomat.TomatBot.Exceptions.IOExceptions;
@@ -31,20 +32,29 @@ namespace Tomat.TomatBot.Content.Commands.OwnerCommands.Debugging
             TatsuClient client = new(await File.ReadAllTextAsync("tatsu.txt"));
             await ReplyAsync("Created Tatsu client!");
             await ReplyAsync("Displaying profile information...");
-            TatsuUser user = await client.GetUserProfile(Context.User.Id.ToString());
-            await ReplyAsync(embed: new BaseEmbed(Context.User)
+
+            try
             {
-                Title = user.Title,
-                Description = $"Avatar URL: {user.AvatarURL}" +
-                              $"\nCredits: {user.Credits}" +
-                              $"\nDiscriminator: {user.Discriminator}" +
-                              $"\nID: {user.ID}" +
-                              $"\nInfo box: {user.InfoBox}" +
-                              $"\nReputation: {user.Reputation}" +
-                              $"\nTokens: {user.Tokens}" +
-                              $"\nUsername: {user.Username}" +
-                              $"\nXP: {user.XP}"
-            }.Build());
+                TatsuUser user = await client.GetUserProfile(Context.User.Id.ToString());
+
+                await ReplyAsync(embed: new BaseEmbed(Context.User)
+                {
+                    Title = user.Title,
+                    Description = $"Avatar URL: {user.AvatarURL}" +
+                                  $"\nCredits: {user.Credits}" +
+                                  $"\nDiscriminator: {user.Discriminator}" +
+                                  $"\nID: {user.ID}" +
+                                  $"\nInfo box: {user.InfoBox}" +
+                                  $"\nReputation: {user.Reputation}" +
+                                  $"\nTokens: {user.Tokens}" +
+                                  $"\nUsername: {user.Username}" +
+                                  $"\nXP: {user.XP}"
+                }.Build());
+            }
+            catch (RateLimitException)
+            {
+                await ReplyAsync(embed: EmbedHelper.ErrorEmbed("Tatsu API rate limit exceeded!"));
+            }
         }
     }
 }
