@@ -38,12 +38,13 @@ namespace Tomat.TomatBot.Content.Commands.OwnerCommands.Debugging
             {
                 if (rateLimit)
                 {
-                    int bruh = 0;
                     while (true)
                     {
-                        //await ReplyAsync((++bruh).ToString());
-                        Console.WriteLine(++bruh);
-                        await new TatsuClient(await File.ReadAllTextAsync("tatsu.txt")).GetUserProfile(Context.User.Id.ToString());
+                        Console.WriteLine(client.Bucket.Remaining);
+                        Console.WriteLine(client.Bucket.ResetInterval);
+                        Console.WriteLine(client.Bucket.ResetTime);
+                        Console.WriteLine(DateTime.Now);
+                        await client.GetUserProfile(Context.User.Id.ToString());
                     }
                 }
 
@@ -64,9 +65,13 @@ namespace Tomat.TomatBot.Content.Commands.OwnerCommands.Debugging
                 }.Build());
 
             }
-            catch (RateLimitException)
+            catch (Exception e)
             {
-                await ReplyAsync(embed: EmbedHelper.ErrorEmbed("Tatsu API rate limit exceeded!"));
+                Console.WriteLine(e.ToString());
+
+                // TODO: actual exception type lol
+                if (e.Message.Equals("Rate-limited.")) 
+                    await ReplyAsync(embed: EmbedHelper.ErrorEmbed("Tatsu API rate limit exceeded!"));
             }
         }
     }
