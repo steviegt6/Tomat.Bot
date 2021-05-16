@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,26 +52,38 @@ namespace Tomat.TomatBot.Content.Commands
 
         public async Task DisplayCommandHelp(string command)
         {
-            // TODO: lol
-            /*command = command.ToLower();
+            command = command.ToLower();
 
-            HelpCommandData data = CommandRegistry.CommandData.FirstOrDefault(x =>
-                x.command == command || x.aliases != null && x.aliases.Contains(command));
+            CommandHandler.Registry.ModuleData.CommandData? data = null;
 
-            if (!CommandRegistry.CommandData.Contains(data))
-                data = new HelpCommandData("error", $"no command with the name {command} found.");
+            foreach (CommandHandler.Registry.ModuleData.CommandData commandData in
+                CommandHandler.Registry.Modules.SelectMany(module => module.commands.Where(commandData =>
+                    commandData.commandName == command || commandData.commandAliases.Contains(command))))
+            {
+                data = commandData;
+                goto FullBreak;
+            }
 
-            string description = "";
+            if (!data.HasValue)
+            {
+                await ReplyAsync(embed: new BaseEmbed(Context.User)
+                {
+                    Title = $"Error: no command by the name of {command} was found!"
+                }.Build());
+                return;
+            }
 
-            if (data.parameters != null)
-                description += $"Parameters: {data.parameters}\n";
+            FullBreak:
 
-            description += data.description;
+            string name = $"{data.Value.commandName}";
 
-            string name = data.command;
+            if (data.Value.commandParameters != "")
+                name += $" {data.Value.commandParameters}";
 
-            if (data.aliases != null)
-                name += $" ({string.Join(", ", data.aliases)})";
+            if (data.Value.commandAliases != Array.Empty<string>())
+                name += $" ({string.Join(", ", data.Value.commandAliases)})";
+
+            string description = data.Value.commandDescription;
 
             BaseEmbed embed = new(Context.User)
             {
@@ -78,7 +91,7 @@ namespace Tomat.TomatBot.Content.Commands
                 Description = description
             };
 
-            await ReplyAsync(embed: embed.Build());*/
+            await ReplyAsync(embed: embed.Build());
             await ReplyAsync($"todo btw {command}");
         }
 
