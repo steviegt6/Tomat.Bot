@@ -4,3 +4,6 @@
 [submodule "Tomat.Conveniency"]
 	path = Tomat.Conveniency
 	url = https://github.com/TomatCord/Tomat.Conveniency.git
+[submodule "Tomat.MiscWeb"]
+	path = Tomat.MiscWeb
+	url = https://github.com/TomatCord/Tomat.MiscWeb.git
