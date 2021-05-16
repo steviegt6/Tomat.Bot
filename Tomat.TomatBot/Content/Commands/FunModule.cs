@@ -455,7 +455,7 @@ namespace Tomat.TomatBot.Content.Commands
             };
 
             IUserMessage? message = await ReplyAsync(embed: realEmbed.Build());
-            await message.AddReactionsAsync(new IEmote[] { new Emoji("👍"), new Emoji("👎") });
+            await message.AddReactionsAsync(new IEmote[] {new Emoji("👍"), new Emoji("👎")});
         }
 
         #endregion
