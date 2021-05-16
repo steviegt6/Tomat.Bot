@@ -7,3 +7,6 @@
 [submodule "Tomat.MiscWeb"]
 	path = Tomat.MiscWeb
 	url = https://github.com/TomatCord/Tomat.MiscWeb.git
+[submodule "Tomat.ServiceFramework"]
+	path = Tomat.ServiceFramework
+	url = https://github.com/TomatCord/Tomat.ServiceFramework.git
