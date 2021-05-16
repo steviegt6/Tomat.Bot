@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tomat.Conveniency\Tomat.Conveniency.csproj" />
+    <ProjectReference Include="..\Tomat.Logging\Tomat.Logging.csproj" />
     <ProjectReference Include="..\Tomat.MiscWeb\Tomat.MiscWeb.csproj" />
     <ProjectReference Include="..\Tomat.ServiceFramework\Tomat.ServiceFramework.csproj" />
     <ProjectReference Include="..\Tomat.TatsuSharp\Tomat.TatsuSharp.csproj" />

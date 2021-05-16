@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.MiscWeb", "..\Tomat.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.TatsuSharp", "..\Tomat.TatsuSharp\Tomat.TatsuSharp.csproj", "{D09DD50B-ABCC-4437-8519-E7B0D3A805A2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.Logging", "..\Tomat.CommandFramework\Tomat.Logging\Tomat.Logging.csproj", "{8291CEBB-1FED-4D7B-B23C-4AAA7CAE74F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.Logging", "..\Tomat.Logging\Tomat.Logging.csproj", "{2BDED86D-237A-45BE-9DAA-845E0EAC2998}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{D09DD50B-ABCC-4437-8519-E7B0D3A805A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D09DD50B-ABCC-4437-8519-E7B0D3A805A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D09DD50B-ABCC-4437-8519-E7B0D3A805A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8291CEBB-1FED-4D7B-B23C-4AAA7CAE74F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8291CEBB-1FED-4D7B-B23C-4AAA7CAE74F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8291CEBB-1FED-4D7B-B23C-4AAA7CAE74F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8291CEBB-1FED-4D7B-B23C-4AAA7CAE74F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BDED86D-237A-45BE-9DAA-845E0EAC2998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BDED86D-237A-45BE-9DAA-845E0EAC2998}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BDED86D-237A-45BE-9DAA-845E0EAC2998}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BDED86D-237A-45BE-9DAA-845E0EAC2998}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
