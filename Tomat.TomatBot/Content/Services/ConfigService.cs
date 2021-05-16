@@ -11,7 +11,6 @@ using Tomat.TomatBot.Content.Configs;
 
 namespace Tomat.TomatBot.Content.Services
 {
-    // TODO: User configs
     public sealed class ConfigService : InitializableService
     {
         public BotConfig Config { get; }
