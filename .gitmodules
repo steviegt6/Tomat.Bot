@@ -10,6 +10,3 @@
 [submodule "Tomat.ServiceFramework"]
 	path = Tomat.ServiceFramework
 	url = https://github.com/TomatCord/Tomat.ServiceFramework.git
-[submodule "Tomat.CommandFramework"]
-	path = Tomat.CommandFramework
-	url = https://github.com/TomatCord/Tomat.CommandFramework.git
