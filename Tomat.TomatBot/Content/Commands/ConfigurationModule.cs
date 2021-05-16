@@ -5,6 +5,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Tomat.Conveniency.Utilities;
+using Tomat.TomatBot.Common;
 using Tomat.TomatBot.Content.Configs;
 using Tomat.TomatBot.Content.Services;
 
@@ -15,6 +16,7 @@ namespace Tomat.TomatBot.Content.Commands
         [Command("configure")]
         [Alias("config, cfg")]
         [Summary("Allows the configuration of various aspects of Tomat. Run this command with `help` as the only parameter for more.")]
+        [Parameters("<option> [value]")]
         public async Task ConfigureAsync(string option = "", string value = "")
         {
             if (string.IsNullOrEmpty(option))
