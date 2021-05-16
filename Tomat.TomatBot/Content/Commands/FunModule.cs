@@ -15,6 +15,7 @@ using Tomat.TomatBot.Content.Services;
 
 namespace Tomat.TomatBot.Content.Commands
 {
+    [ModuleInfo("Fun and Misc.")]
     public sealed class FunModule : ModuleBase<SocketCommandContext>
     {
         #region Temperature Conversion

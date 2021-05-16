@@ -11,6 +11,7 @@ using Tomat.TomatBot.Content.Services;
 
 namespace Tomat.TomatBot.Content.Commands
 {
+    [ModuleInfo("Configuration")]
     public sealed class ConfigurationModule : ModuleBase<SocketCommandContext>
     {
         [Command("configure")]

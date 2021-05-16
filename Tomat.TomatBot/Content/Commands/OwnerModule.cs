@@ -8,12 +8,14 @@ using Tomat.Conveniency.Embeds;
 using Tomat.Conveniency.Utilities;
 using Tomat.TatsuSharp;
 using Tomat.TatsuSharp.Data;
+using Tomat.TomatBot.Common;
 using Tomat.TomatBot.Content.Services;
 using Tomat.TomatBot.Exceptions.IOExceptions;
 using Tomat.TomatBot.Utilities;
 
 namespace Tomat.TomatBot.Content.Commands
 {
+    [ModuleInfo("Owner-Specific", false)]
     public sealed class OwnerModule : ModuleBase<SocketCommandContext>
     {
         public class RequireOwnerOrSpecialAttribute : PreconditionAttribute

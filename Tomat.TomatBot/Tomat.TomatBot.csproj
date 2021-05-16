@@ -40,8 +40,4 @@
     <ProjectReference Include="..\Tomat.TatsuSharp\Tomat.TatsuSharp.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Common\" />
-  </ItemGroup>
-
 </Project>

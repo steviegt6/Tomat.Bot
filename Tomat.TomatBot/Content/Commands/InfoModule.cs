@@ -11,6 +11,7 @@ using Tomat.TomatBot.Common;
 
 namespace Tomat.TomatBot.Content.Commands
 {
+    [ModuleInfo("Informative")]
     public sealed class InfoModule : ModuleBase<SocketCommandContext>
     {
         #region Help Command
@@ -30,10 +31,9 @@ namespace Tomat.TomatBot.Content.Commands
 
         private async Task DisplayRegularHelp()
         {
-            // TODO: finish
-            string listOfInfoCommands = ""; // string.Join('\n', CommandRegistry.InfoCommands);
-            string listOfFunCommands = ""; // string.Join('\n', CommandRegistry.FunCommands);
-            string listOfConfigCommands = ""; // string.Join('\n', CommandRegistry.ConfigCommands);
+            List<EmbedFieldBuilder> embedFields = CommandHandler.Registry.Modules.Select(data =>
+                new EmbedFieldBuilder
+                    {IsInline = true, Name = data.displayName, Value = string.Join('\n', data.commands)}).ToList();
 
             BaseEmbed embed = new(Context.User)
             {
@@ -43,29 +43,7 @@ namespace Tomat.TomatBot.Content.Commands
                               $"\nAll of these should be prefixed with `{BotStartup.GetGuildPrefix(Context.Guild)}`. (If your guild has changed the prefix, you can also use `{BotStartup.DefaultPrefix}`)" +
                               "\n`<>`: required" +
                               "\n`[]`: optional",
-                Fields = new List<EmbedFieldBuilder>
-                {
-                    new()
-                    {
-                        IsInline = false,
-                        Name = "Informative Commands",
-                        Value = string.IsNullOrEmpty(listOfInfoCommands) ? "N/A" : listOfInfoCommands
-                    },
-
-                    new()
-                    {
-                        IsInline = false,
-                        Name = "Fun Commands",
-                        Value = string.IsNullOrEmpty(listOfFunCommands) ? "N/A" : listOfFunCommands
-                    },
-
-                    new()
-                    {
-                        IsInline = false,
-                        Name = "Configuration Commands",
-                        Value = string.IsNullOrEmpty(listOfConfigCommands) ? "N/A" : listOfConfigCommands
-                    }
-                }
+                Fields = embedFields
             };
 
             await ReplyAsync(embed: embed.Build());
