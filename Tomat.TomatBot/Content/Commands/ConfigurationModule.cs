@@ -1,35 +1,24 @@
 ﻿using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
-using Tomat.CommandFramework;
-using Tomat.CommandFramework.HelpSystem;
 using Tomat.Conveniency.Utilities;
+using Tomat.TomatBot.Common;
 using Tomat.TomatBot.Content.Configs;
 using Tomat.TomatBot.Content.Services;
 
-namespace Tomat.TomatBot.Content.Commands.ConfigurationCommands
+namespace Tomat.TomatBot.Content.Commands
 {
-    public sealed class ConfigurationCommand : BaseCommand
+    [ModuleInfo("Configuration")]
+    public sealed class ConfigurationModule : ModuleBase<SocketCommandContext>
     {
-        public override MethodInfo? AssociatedMethod => GetType().GetMethod("HandleCommand");
-
-        public override HelpCommandData HelpData =>
-            new("configure",
-                $"Allows you to configure various aspects about the bot. Do `{BotStartup.DefaultPrefix}configure help` for more.");
-
-        public override CommandType CType => CommandType.Configuration;
-
-        public override string Parameters => "<option> [value]";
-
         [Command("configure")]
         [Alias("config, cfg")]
-        [Summary("Provides a way to configure the bot.")]
-        [RequireBotPermission(ChannelPermission.SendMessages)]
-        public async Task HandleCommand(string option = "", string value = "")
+        [Summary("Allows the configuration of various aspects of Tomat. Run this command with `help` as the only parameter for more.")]
+        [Parameters("<option> [value]")]
+        public async Task ConfigureAsync(string option = "", string value = "")
         {
             if (string.IsNullOrEmpty(option))
             {
