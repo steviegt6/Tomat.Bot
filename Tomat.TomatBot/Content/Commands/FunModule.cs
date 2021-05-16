@@ -31,7 +31,7 @@ namespace Tomat.TomatBot.Content.Commands
         [Command("temp")]
         [Alias("temperature", "converttemp", "tempconvert", "convert")]
         [Summary("Converts temperatures to: fahrenheit, celsius, kelvin, rankine, and réaumur!")]
-        [Parameters("<temperature> (no symbol suffix)")]
+        [Parameters("<temperature> (symbol suffix)")]
         [RequireBotPermission(ChannelPermission.SendMessages)]
         public async Task ConvertTempAsync(string temp)
         {
