@@ -101,7 +101,7 @@ namespace Tomat.TomatBot.Content.Commands
             };
 
             await ReplyAsync(embed: embed.Build());*/
-            await ReplyAsync("todo");
+            await ReplyAsync($"todo btw {command}");
         }
 
         #endregion
