@@ -41,9 +41,8 @@ namespace Tomat.TomatBot.Content.Commands
                 Title = "Command Help",
 
                 Description = "The following is a list of all bot commands." +
-                              $"\nAll of these should be prefixed with `{BotStartup.GetGuildPrefix(Context.Guild)}`. (If your guild has changed the prefix, you can also use `{BotStartup.DefaultPrefix}`)" +
-                              "\n`<>`: required" +
-                              "\n`[]`: optional",
+                              $"\nAll of these should be prefixed with `{BotStartup.GetGuildPrefix(Context.Guild)}`. " +
+                              $"\n(If your guild has changed the prefix, you can also use `{BotStartup.DefaultPrefix}`)",
                 Fields = embedFields
             };
 
@@ -68,7 +67,7 @@ namespace Tomat.TomatBot.Content.Commands
             {
                 await ReplyAsync(embed: new BaseEmbed(Context.User)
                 {
-                    Title = $"Error: no command by the name of {command} was found!"
+                    Title = $"Error: no command by the name of `{command}` was found!"
                 }.Build());
                 return;
             }
@@ -92,7 +91,6 @@ namespace Tomat.TomatBot.Content.Commands
             };
 
             await ReplyAsync(embed: embed.Build());
-            await ReplyAsync($"todo btw {command}");
         }
 
         #endregion
