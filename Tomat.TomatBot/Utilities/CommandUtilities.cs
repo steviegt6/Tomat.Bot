@@ -8,11 +8,11 @@ namespace Tomat.TomatBot.Utilities
     {
         public enum InvalidMessageReason
         {
-            NoPrefixOrMention = -3,
-            AuthorIsWebhook = -2,
-            AuthorIsBot = -1,
-            NoError = 0,
-            NotUserMessage = 1,
+            NoPrefixOrMention = -4,
+            AuthorIsWebhook = -3,
+            AuthorIsBot = -2,
+            NotUserMessage = -1, // safe since funny discord messages are non-user
+            NoError = 0
         }
 
         // Return true if the error code is above 0
