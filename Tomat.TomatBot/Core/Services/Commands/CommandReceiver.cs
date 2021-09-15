@@ -12,7 +12,7 @@ using Tomat.TomatBot.Common.Embeds;
 using Tomat.TomatBot.Core.Bot;
 using Tomat.TomatBot.Core.Utilities;
 
-namespace Tomat.TomatBot.Core.Services
+namespace Tomat.TomatBot.Core.Services.Commands
 {
     public class CommandReceiver : IInitializableService
     {

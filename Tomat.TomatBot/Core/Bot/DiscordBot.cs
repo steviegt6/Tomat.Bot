@@ -14,6 +14,7 @@ using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Tomat.TomatBot.Core.Configuration;
 using Tomat.TomatBot.Core.Services;
+using Tomat.TomatBot.Core.Services.Commands;
 using Tomat.TomatBot.Core.Utilities;
 using IntervalTimer = System.Timers.Timer;
 
