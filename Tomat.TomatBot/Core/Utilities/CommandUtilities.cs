@@ -1,40 +1,37 @@
-﻿using System;
+﻿#region License
+// Copyright (C) 2021 Tomat and Contributors, MIT License
+#endregion
+
+using System;
 using Discord.Commands;
 using Discord.WebSocket;
+using Tomat.TomatBot.Core.Bot;
 
-namespace Tomat.TomatBot.Utilities
+namespace Tomat.TomatBot.Core.Utilities
 {
     public static class CommandUtilities
     {
         public enum InvalidMessageReason
         {
-            NoPrefixOrMention = -4,
-            AuthorIsWebhook = -3,
-            AuthorIsBot = -2,
-            NotUserMessage = -1, // safe since funny discord messages are non-user
-            NoError = 0
+            NoPrefixOrMention,
+            AuthorIsWebhook,
+            AuthorIsBot,
+            NotUserMessage,
+            NoError
         }
-
-        // Return true if the error code is above 0
-        // 0 is NoError, and all negatives are non-lethal
-        // errors and should be ignored
-        /// <summary>
-        ///     Checks whether or not the given invalid message reason is a concerning error.
-        /// </summary>
-        /// <param name="reason">The <see cref="InvalidMessageReason"/> to check.</param>
-        /// <returns>Returns true if the error code is above 0, and false if it's 0 or below, as 0 indicates no error and all negatives are non-lethal.</returns>
-        public static bool IsFatalReason(InvalidMessageReason reason) => (int) reason > 0;
 
         /// <summary>
         ///     Checks whether or not a <see cref="SocketMessage"/> instance acts as a valid bot mention.
         /// </summary>
         /// <param name="message">The message to verify.</param>
+        /// <param name="bot"></param>
         /// <param name="invalidReason">The reason for failure, if applicable.</param>
         /// <param name="argumentPosition">Position of the ref'd argument.</param>
         /// <param name="mentionClient">Instance of a <see cref="DiscordSocketClient"/> if you want to check for mention prefixes.</param>
         /// <returns>Whether the message is valid.</returns>
-        public static bool ValidateMessageMention(this SocketMessage message, out InvalidMessageReason invalidReason,
-            out int argumentPosition, DiscordSocketClient? mentionClient = null)
+        public static bool ValidateMessageMention(this SocketMessage message, DiscordBot bot,
+            out InvalidMessageReason invalidReason, out int argumentPosition,
+            DiscordSocketClient? mentionClient = null)
         {
             argumentPosition = 0;
 
@@ -42,29 +39,27 @@ namespace Tomat.TomatBot.Utilities
                 return false;
 
             return userMessage!.CheckAutomaton(out invalidReason)
-                   && HasValidPrefix(userMessage!, out invalidReason, out argumentPosition, mentionClient);
+                   && HasValidPrefix(userMessage!, bot, out invalidReason, out argumentPosition, mentionClient);
         }
 
         /// <summary>
         ///     Checks for valid prefixes for a message.
         /// </summary>
         /// <param name="message">The message to check.</param>
+        /// <param name="bot"></param>
         /// <param name="invalidReason">The reason for failure, if applicable.</param>
         /// <param name="argumentPosition">Position of the ref'd argument.</param>
         /// <param name="mentionClient">Instance of a <see cref="DiscordSocketClient"/> if you want to check for mention prefixes.</param>
         /// <returns>Whether the message is validly prefixed.</returns>
-        public static bool HasValidPrefix(SocketUserMessage message, out InvalidMessageReason invalidReason,
-            out int argumentPosition, DiscordSocketClient? mentionClient = null)
+        public static bool HasValidPrefix(SocketUserMessage message, DiscordBot bot,
+            out InvalidMessageReason invalidReason, out int argumentPosition,
+            DiscordSocketClient? mentionClient = null)
         {
             argumentPosition = 0;
             invalidReason = InvalidMessageReason.NoError;
 
-            if (message.HasStringPrefix(BotStartup.DefaultPrefix, ref argumentPosition,
-                    StringComparison.OrdinalIgnoreCase)
-                || message.Channel is SocketGuildChannel guildChannel
-                && message.HasStringPrefix(BotStartup.GetGuildPrefix(guildChannel.Guild),
-                    ref argumentPosition,
-                    StringComparison.OrdinalIgnoreCase))
+            if (message.HasStringPrefix(bot.GetPrefix(message.Channel), ref argumentPosition,
+                StringComparison.OrdinalIgnoreCase))
                 return true;
 
             if (mentionClient != null && message.HasMentionPrefix(mentionClient.CurrentUser, ref argumentPosition))

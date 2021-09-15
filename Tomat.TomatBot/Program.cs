@@ -1,8 +1,13 @@
-﻿using Tomat.TomatBot;
+﻿#region License
+// Copyright (C) 2021 Tomat and Contributors, MIT License
+#endregion
 
-CommandHandler.Registry.Load();
+using System.IO;
+using Tomat.TomatBot.Content;
+using Tomat.TomatBot.Core.Bot;
 
-// Start up the bot
-BotStartup.StartBotAsync()
-    .GetAwaiter()
-    .GetResult();
+string token = await File.ReadAllTextAsync("token.txt");
+string tatsu = await File.ReadAllTextAsync("tatsu.txt");
+
+using DiscordBot discordBot = new TomatBot(token, tatsu);
+await discordBot.StartBot();
