@@ -3,6 +3,7 @@
 #endregion
 
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -37,6 +38,9 @@ namespace Tomat.TomatBot.Core.Services.Commands
 
             Client.MessageReceived += ReceiveCommand;
             Commands.CommandExecuted += HandleErrors;
+
+            foreach (Assembly assembly in Bot.Assemblies)
+                await Commands.AddModulesAsync(assembly, ServiceProvider);
 
             await Task.CompletedTask;
         }
