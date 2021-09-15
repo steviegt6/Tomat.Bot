@@ -45,6 +45,8 @@ namespace Tomat.TomatBot.Core.Bot
 
         public string Token { get; }
 
+        public CommandRepository RegisteredCommands { get; protected set; }
+
         #endregion
 
         #region Constructor and Desconstructor
@@ -84,6 +86,9 @@ namespace Tomat.TomatBot.Core.Bot
 
         public async Task StartBot()
         {
+            RegisteredCommands = new CommandRepository();
+            await RegisteredCommands.RegisterFromBot(this);
+
             await SetupSingletons();
 
             DiscordClient.Log += LogMessageAsync;
