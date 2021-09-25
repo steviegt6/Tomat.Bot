@@ -113,7 +113,7 @@ namespace Tomat.TomatBot.Content.Commands.Modules
                 Title = "Basic Bot Info",
 
                 Description =
-                    "`Tomat` is a general-purpose Discord bot programmed by `Tomat#9999` with the help of `TheStachelfisch#0395`, who also hosts." +
+                    "`Tomat` is a general-purpose Discord bot programmed by `Tomat#9999` with the help of `TheStachelfisch#0395` and other contributors." +
                     $"\n\nFor command help, use `{Context.Bot.GetPrefix(Context.Channel)}help` or ping the bot (`@Tomat help`)." +
                     $"\nBot up-time: `{Context.Bot.UpTime.FormatToString(true)}` (since <t:{Context.Bot.StartTime.ToUnixTimeSeconds()}:F>)"
             }.Build());

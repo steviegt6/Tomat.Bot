@@ -14,24 +14,24 @@ namespace Tomat.TomatBot.Content.Configuration
 {
     public class GlobalBotConfig : IConfigFile
     {
-        public DiscordBot Bot { get; }
+        public virtual DiscordBot Bot { get; }
 
-        public string SavePath => Path.Combine("Data", "GlobalData.json");
+        public virtual string SavePath => Path.Combine("Data", "GlobalData.json");
 
         // Not populated on config load.
         // public Dictionary<ulong, UserConfig> UserConfigs { get; } = new();
 
         // Populated on config load.
-        public Dictionary<ulong, GuildData> GuildConfigs { get; } = new();
+        public virtual Dictionary<ulong, GuildData> GuildConfigs { get; } = new();
 
-        public GlobalData Data { get; set; } = null!;
+        public virtual GlobalData Data { get; set; } = null!;
 
         public GlobalBotConfig(DiscordBot bot)
         {
             Bot = bot;
         }
 
-        public async Task LoadConfig()
+        public virtual async Task LoadConfig()
         {
             // Pre-load guild configs.
             foreach (SocketGuild guild in Bot.DiscordClient.Guilds)
@@ -57,7 +57,7 @@ namespace Tomat.TomatBot.Content.Configuration
             await SaveConfig();
         }
 
-        public async Task SaveConfig()
+        public virtual async Task SaveConfig()
         {
             foreach (GuildData gConfig in GuildConfigs.Values)
                 await SerializeObject(gConfig, GetGuildLocation(gConfig.AssociatedId));
@@ -65,9 +65,9 @@ namespace Tomat.TomatBot.Content.Configuration
             await SerializeObject(Data, SavePath);
         }
 
-        public string GetGuildLocation(ulong id) => Path.Combine("Data", "Guilds", id + ".json");
+        public virtual string GetGuildLocation(ulong id) => Path.Combine("Data", "Guilds", id + ".json");
 
-        public async Task SerializeObject(object value, string savePath)
+        public virtual async Task SerializeObject(object value, string savePath)
         {
             Directory.GetParent(savePath)?.Create();
             await File.WriteAllTextAsync(savePath, JsonConvert.SerializeObject(value, Formatting.Indented));
