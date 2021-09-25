@@ -49,7 +49,7 @@ namespace Tomat.TomatBot.Content.Commands.Modules
             {
                 Title = "Command Help",
 
-                Description = "The following is a lost of all bot commands." +
+                Description = "The following is a list of all bot commands." +
                               $"\nAll of these should be prefixed with `{Context.Bot.GetPrefix(Context.Channel)}`.",
 
                 Fields = modules.ToList()
