@@ -26,7 +26,7 @@ namespace Tomat.TomatBot.Core.Utilities
         /// <param name="message">The message to verify.</param>
         /// <param name="bot"></param>
         /// <param name="invalidReason">The reason for failure, if applicable.</param>
-        /// <param name="argumentPosition">Position of the ref'd argument.</param>
+        /// <param name="argumentPosition">Position of the referenced argument.</param>
         /// <param name="mentionClient">Instance of a <see cref="DiscordSocketClient"/> if you want to check for mention prefixes.</param>
         /// <returns>Whether the message is valid.</returns>
         public static bool ValidateMessageMention(this SocketMessage message, DiscordBot bot,
@@ -48,7 +48,7 @@ namespace Tomat.TomatBot.Core.Utilities
         /// <param name="message">The message to check.</param>
         /// <param name="bot"></param>
         /// <param name="invalidReason">The reason for failure, if applicable.</param>
-        /// <param name="argumentPosition">Position of the ref'd argument.</param>
+        /// <param name="argumentPosition">Position of the reference argument.</param>
         /// <param name="mentionClient">Instance of a <see cref="DiscordSocketClient"/> if you want to check for mention prefixes.</param>
         /// <returns>Whether the message is validly prefixed.</returns>
         public static bool HasValidPrefix(SocketUserMessage message, DiscordBot bot,

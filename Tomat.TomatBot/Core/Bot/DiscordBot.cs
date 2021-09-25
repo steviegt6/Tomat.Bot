@@ -43,6 +43,8 @@ namespace Tomat.TomatBot.Core.Bot
             get { yield return GetType().Assembly; }
         }
 
+        public virtual IUser User => DiscordClient.CurrentUser;
+
         public string Token { get; }
 
         public CommandRepository RegisteredCommands { get; protected set; }
@@ -73,6 +75,7 @@ namespace Tomat.TomatBot.Core.Bot
             }));
 
             Services = services;
+            RegisteredCommands = new CommandRepository();
         }
 
         ~DiscordBot()
@@ -86,7 +89,7 @@ namespace Tomat.TomatBot.Core.Bot
 
         public async Task StartBot()
         {
-            RegisteredCommands = new CommandRepository();
+            // RegisteredCommands = new CommandRepository();
             await RegisteredCommands.RegisterFromBot(this);
 
             await SetupSingletons();

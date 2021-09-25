@@ -3,6 +3,7 @@
 #endregion
 
 using Discord;
+using Tomat.TomatBot.Core.Bot;
 
 namespace Tomat.TomatBot.Common.Embeds
 {
@@ -14,7 +15,7 @@ namespace Tomat.TomatBot.Common.Embeds
         /// <param name="description">The embed's description.</param>
         /// <param name="footer">The embed's footer.</param>
         /// <returns>A <c>built</c> <see cref="Embed"/>.</returns>
-        public static Embed SuccessEmbed(string description, EmbedFooterBuilder footer = null)
+        public static Embed SuccessEmbed(string description, EmbedFooterBuilder? footer = null)
         {
             EmbedBuilder successEmbed = new()
             {
@@ -22,9 +23,10 @@ namespace Tomat.TomatBot.Common.Embeds
                 Color = Color.Green,
                 Description = description
             };
+
             successEmbed.WithCurrentTimestamp();
 
-            if (footer != null!)
+            if (footer != null)
                 successEmbed.WithFooter(footer);
 
             return successEmbed.Build();
@@ -36,7 +38,7 @@ namespace Tomat.TomatBot.Common.Embeds
         /// <param name="description">The embed's description.</param>
         /// <param name="footer">The embed's footer.</param>
         /// <returns>A <c>built</c> <see cref="Embed"/>.</returns>
-        public static Embed ErrorEmbed(string description, EmbedFooterBuilder footer = null)
+        public static Embed ErrorEmbed(string description, EmbedFooterBuilder? footer = null)
         {
             EmbedBuilder successEmbed = new()
             {
@@ -44,15 +46,17 @@ namespace Tomat.TomatBot.Common.Embeds
                 Color = Color.Red,
                 Description = description
             };
+
             successEmbed.WithCurrentTimestamp();
 
-            if (footer != null!)
+            if (footer != null)
                 successEmbed.WithFooter(footer);
 
             return successEmbed.Build();
         }
 
-        public static BaseEmbed CreateSmallEmbed(IUser user, string text = "") => new(user)
+        public static BaseEmbed CreateSmallEmbed(this DiscordBot bot, IUser user, string text = "",
+            Color? embedColor = null) => new(bot, user, embedColor)
         {
             Description = string.IsNullOrEmpty(text)
                 ? "I'm a bot, and this action was performed automatically. If you have a problem with that, go back to Reddit."

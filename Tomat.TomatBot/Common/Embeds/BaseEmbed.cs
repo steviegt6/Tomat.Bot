@@ -4,24 +4,22 @@
 
 using System;
 using Discord;
+using Tomat.TomatBot.Core.Bot;
 
 namespace Tomat.TomatBot.Common.Embeds
 {
     public class BaseEmbed : EmbedBuilder
     {
-        public const string Profile =
-            "https://cdn.discordapp.com/avatars/800480899300065321/60b55c740acf09b8814777b24e4195f1.png?size=128";
+        public Color EmbedColor { get; }
 
-        // salmon color
-        public Color EmbedColor => new(255, 155, 155);
-
-        public string IconURL => Profile;
-
-        public string Name => "Tomat";
-
-        public BaseEmbed(IUser user)
+        public BaseEmbed(DiscordBot bot, IUser user, Color? embedColor = null) : this(bot.User, user, embedColor)
         {
-            Color = EmbedColor;
+        }
+
+        public BaseEmbed(IUser bot, IUser user, Color? embedColor = null)
+        {
+            // salmon color
+            Color = EmbedColor = embedColor ?? new Color(255, 155, 155);
 
             Footer = new EmbedFooterBuilder
             {
@@ -31,8 +29,8 @@ namespace Tomat.TomatBot.Common.Embeds
 
             Author = new EmbedAuthorBuilder
             {
-                IconUrl = IconURL,
-                Name = Name
+                IconUrl = bot.GetAvatarUrl(),
+                Name = bot.Username
             };
 
             Timestamp = DateTime.UtcNow;

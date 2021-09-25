@@ -52,11 +52,11 @@ namespace Tomat.TomatBot.Core.Services.Commands
                     argPos, null);
         }
 
-        private static async Task HandleErrors(Optional<CommandInfo> info, ICommandContext context, IResult result)
+        private async Task HandleErrors(Optional<CommandInfo> info, ICommandContext context, IResult result)
         {
             if (!result.IsSuccess)
             {
-                BaseEmbed embed = new(context.User)
+                BaseEmbed embed = new(Client.CurrentUser, context.User)
                 {
                     Title = $"Error encountered: {result.Error}",
                     Description = result.ErrorReason
