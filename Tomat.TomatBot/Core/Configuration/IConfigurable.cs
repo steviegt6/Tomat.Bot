@@ -8,6 +8,8 @@ namespace Tomat.TomatBot.Core.Configuration
 {
     public interface IConfigurable
     {
+        Task LoadConfig();
+
         Task SaveConfig();
     }
 }

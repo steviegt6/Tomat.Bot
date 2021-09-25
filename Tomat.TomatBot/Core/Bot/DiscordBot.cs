@@ -198,6 +198,8 @@ namespace Tomat.TomatBot.Core.Bot
             await Task.CompletedTask;
         }
 
+        public virtual async Task LoadConfig() => await Task.CompletedTask;
+
         public virtual async Task SaveConfig() => await Task.CompletedTask;
 
         public abstract string GetPrefix(ISocketMessageChannel channel);
