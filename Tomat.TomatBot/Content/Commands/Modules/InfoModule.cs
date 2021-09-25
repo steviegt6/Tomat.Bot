@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Tomat.TomatBot.Common.Embeds;
 using Tomat.TomatBot.Core.CommandContext;
 using Tomat.TomatBot.Core.Services.Commands;
@@ -116,6 +117,59 @@ namespace Tomat.TomatBot.Content.Commands.Modules
                     $"\n\nFor command help, use `{Context.Bot.GetPrefix(Context.Channel)}help` or ping the bot (`@Tomat help`)." +
                     $"\nBot up-time: `{Context.Bot.UpTime.FormatToString(true)}` (since <t:{Context.Bot.StartTime.ToUnixTimeSeconds()}:F>)"
             }.Build());
+        }
+
+        #endregion
+
+        #region Permissions Command
+
+        [Command("permissions")]
+        [Alias("perms")]
+        [Summary("Lists all current guild and channel permissions that the bot has.")]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        public async Task PermissionsAsync()
+        {
+            string channelPerms = "";
+            string guildPerms;
+            SocketGuild? neededGuild = Context.Client.Guilds.FirstOrDefault(x => x == Context.Guild) ?? null;
+
+            if (neededGuild != null)
+            {
+                guildPerms = neededGuild.CurrentUser.GuildPermissions.ToList()
+                    .Aggregate("", (current, gPerm) => current + $"\n * {gPerm}");
+
+                if (Context.Channel is IGuildChannel guildChannel)
+                    channelPerms = neededGuild.CurrentUser.GetPermissions(guildChannel).ToList()
+                        .Aggregate("", (current, cPerm) => current + $"\n * {cPerm}");
+                else
+                    channelPerms = "unable to fetch current channel";
+            }
+            else
+                guildPerms = "unable to fetch guild";
+
+            BaseEmbed embed = new(Context.Bot, Context.User)
+            {
+                Title = "Permissions",
+
+                Fields = new List<EmbedFieldBuilder>
+                {
+                    new()
+                    {
+                        IsInline = true,
+                        Name = "Guild Permissions",
+                        Value = guildPerms
+                    },
+
+                    new()
+                    {
+                        IsInline = true,
+                        Name = "Channel Permissions",
+                        Value = channelPerms
+                    }
+                }
+            };
+
+            await ReplyAsync(embed: embed.Build());
         }
 
         #endregion
