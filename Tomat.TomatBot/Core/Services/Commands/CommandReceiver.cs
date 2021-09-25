@@ -63,7 +63,7 @@ namespace Tomat.TomatBot.Core.Services.Commands
                     EmbedBuilder embed = Bot.CreateSmallEmbed(
                         message.Author,
                         $"Message resolve failed with result: {invalidReason}" +
-                        $"\nIf you feel this is a mistake, please report it to the developers!"
+                        "\nIf you feel this is a mistake, please report it to the developers!"
                     ).WithTitle("Uncaught: Invalid message received?");
 
                     await channel.SendMessageAsync(embed: embed.Build());

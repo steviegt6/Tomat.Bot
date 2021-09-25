@@ -14,6 +14,7 @@ using Discord.Commands;
 using Tomat.TomatBot.Common.Embeds;
 using Tomat.TomatBot.Common.Web.EitherIO;
 using Tomat.TomatBot.Content.Commands.Modules.Temperature;
+using Tomat.TomatBot.Content.Configuration;
 using Tomat.TomatBot.Core.CommandContext;
 using Tomat.TomatBot.Core.Services.Commands;
 
@@ -137,7 +138,7 @@ namespace Tomat.TomatBot.Content.Commands.Modules
         #region Randomization
 
         public static readonly string[] Websites =
-{
+        {
             "https://longdogechallenge.com/",
             "http://heeeeeeeey.com/",
             "http://corndog.io/",
@@ -232,9 +233,60 @@ namespace Tomat.TomatBot.Content.Commands.Modules
             {
                 Title = "Random Useless Website",
 
-                Description = $"Click [here]({Websites[new Random().Next(Websites.Length)]}) to go to a random, useless website." +
-                              $"\nWant another one? Run this command again." +
-                              "\n\nWebsites taken from [TheUselessWeb](https://theuselessweb.com/)."
+                Description =
+                    $"Click [here]({Websites[new Random().Next(Websites.Length)]}) to go to a random, useless website." +
+                    "\nWant another one? Run this command again." +
+                    "\n\nWebsites taken from [TheUselessWeb](https://theuselessweb.com/)."
+            };
+
+            await ReplyAsync(embed: embed.Build());
+        }
+
+        #endregion
+
+        #region Rate Command
+
+        [Command("rate")]
+        [Alias("ratewaifu")] // command name familiarity ;)
+        [Summary("Rates whatever you want." +
+                 "\nChooses a number between 0 and 10, not biased at all and puts lots of thought into ratings!")]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        [Parameters("<object>")]
+        public async Task RateAsync([Remainder] string objectToRate)
+        {
+            if (Context.Bot is not TomatBot tomat)
+                return;
+
+            GlobalData config = tomat.GlobalConfig.Data;
+            int rating;
+            int requestCount;
+
+            if (config.Ratings.ContainsKey(objectToRate.ToLower()))
+            {
+                (int savedRating, int totalCount) = config.Ratings[objectToRate.ToLower()];
+                rating = savedRating;
+                requestCount = ++totalCount;
+
+                config.Ratings[objectToRate.ToLower()] = (savedRating, totalCount);
+            }
+            else
+            {
+                rating = new Random().Next(0, 11);
+                requestCount = 1;
+                config.Ratings.Add(objectToRate.ToLower(), (rating, requestCount));
+            }
+
+            _ = MentionUtils.TryParseUser(objectToRate, out ulong user);
+
+            string title = user == 0 ? objectToRate : Context.Client.Rest.GetUserAsync(user).Result.Username;
+            string es1 = objectToRate.Last().Equals('s') ? "" : "s";
+            string es2 = requestCount == 1 ? "" : "s";
+
+            BaseEmbed embed = new(tomat, Context.User)
+            {
+                Title = $"I give \"{title}\"...",
+                Description = $"...a {rating}/10!" +
+                              $"\n\nI have been asked for {objectToRate}'{es1} rating {requestCount} time{es2}."
             };
 
             await ReplyAsync(embed: embed.Build());

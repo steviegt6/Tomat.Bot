@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Discord;
 using Discord.Commands;
 using Tomat.TomatBot.Common.Logging;
 using Tomat.TomatBot.Core.Bot;
