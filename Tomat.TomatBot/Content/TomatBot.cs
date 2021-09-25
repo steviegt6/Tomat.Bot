@@ -9,6 +9,7 @@ using Discord;
 using Discord.WebSocket;
 using Tomat.TatsuSharp;
 using Tomat.TomatBot.Content.Activities;
+using Tomat.TomatBot.Content.Configuration;
 using Tomat.TomatBot.Core.Bot;
 using Tomat.TomatBot.Core.Tatsu;
 
@@ -18,11 +19,14 @@ namespace Tomat.TomatBot.Content
     {
         public TatsuClient TatsuClient { get; }
 
+        public GlobalBotConfig GlobalConfig { get; }
+
         public string TatsuToken => TatsuClient.APIKey;
 
         public TomatBot(string token, string tatsuToken) : base(token)
         {
             TatsuClient = new TatsuClient(tatsuToken);
+            GlobalConfig = new GlobalBotConfig(this);
         }
 
         public override async Task OnStartAsync()
@@ -35,6 +39,7 @@ namespace Tomat.TomatBot.Content
                 {
                     AutoReset = true,
                     Enabled = true
+                    // ReSharper disable once AsyncVoidLambda
                 }.Elapsed += async (_, _) =>
                     await DiscordClient.SetActivityAsync(new StatisticsActivity(DiscordClient.Guilds));
 
@@ -46,6 +51,10 @@ namespace Tomat.TomatBot.Content
 
         // TODO: Config!
         public override string GetPrefix(ISocketMessageChannel channel) => Debugger.IsAttached ? "edge!" : "tomat!";
+
+        public override async Task SaveConfig() => await GlobalConfig.SaveConfig();
+
+        public override async Task LoadConfig() => await GlobalConfig.LoadConfig();
 
         protected override async void Dispose(bool disposing)
         {

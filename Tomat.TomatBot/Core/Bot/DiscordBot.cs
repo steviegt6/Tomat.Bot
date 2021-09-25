@@ -110,7 +110,10 @@ namespace Tomat.TomatBot.Core.Bot
                 {
                     AutoReset = true,
                     Enabled = true
+                    // ReSharper disable once AsyncVoidLambda
                 }.Elapsed += async (_, _) => await SaveConfig();
+
+                await LoadConfig();
 
                 await Task.CompletedTask;
             };
