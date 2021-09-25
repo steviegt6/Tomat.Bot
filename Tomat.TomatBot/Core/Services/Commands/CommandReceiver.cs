@@ -11,6 +11,7 @@ using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Tomat.TomatBot.Common.Embeds;
 using Tomat.TomatBot.Core.Bot;
+using Tomat.TomatBot.Core.CommandContext;
 using Tomat.TomatBot.Core.Utilities;
 
 namespace Tomat.TomatBot.Core.Services.Commands
@@ -23,13 +24,14 @@ namespace Tomat.TomatBot.Core.Services.Commands
 
         public DiscordBot Bot { get; }
 
-        public CommandService? Commands { get; protected set; }
+        public CommandService Commands { get; protected set; }
 
         public CommandReceiver(IServiceProvider serviceProvider, DiscordSocketClient client, DiscordBot bot)
         {
             ServiceProvider = serviceProvider;
             Client = client;
             Bot = bot;
+            Commands = new CommandService();
         }
 
         public async Task InitializeAsync()
@@ -47,9 +49,29 @@ namespace Tomat.TomatBot.Core.Services.Commands
 
         private async Task ReceiveCommand(SocketMessage message)
         {
-            if (message.ValidateMessageMention(Bot, out CommandUtilities.InvalidMessageReason invalidReason, out int argPos, Client))
-                await Commands!.ExecuteAsync(new SocketCommandContext(Client, message as SocketUserMessage),
-                    argPos, null);
+            if (message.ValidateMessageMention(
+                Bot,
+                out CommandUtilities.InvalidMessageReason invalidReason,
+                out int argPos,
+                Client
+            ))
+            {
+                if (message is not SocketUserMessage socketMessage)
+                {
+                    ISocketMessageChannel channel = message.Channel;
+
+                    EmbedBuilder embed = Bot.CreateSmallEmbed(
+                        message.Author,
+                        $"Message resolve failed with result: {invalidReason}" +
+                        $"\nIf you feel this is a mistake, please report it to the developers!"
+                    ).WithTitle("Uncaught: Invalid message received?");
+
+                    await channel.SendMessageAsync(embed: embed.Build());
+                    return;
+                }
+
+                await Commands.ExecuteAsync(new BotCommandContext(Bot, Client, socketMessage), argPos, null);
+            }
         }
 
         private async Task HandleErrors(Optional<CommandInfo> info, ICommandContext context, IResult result)

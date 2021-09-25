@@ -33,6 +33,8 @@
 
   <ItemGroup>
     <Folder Include="Common\Activities\" />
+    <Folder Include="Content\Commands\Modules\" />
+    <Folder Include="Core\CommandContext\" />
   </ItemGroup>
 
 </Project>

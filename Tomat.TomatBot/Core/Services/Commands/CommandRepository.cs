@@ -11,6 +11,7 @@ using Discord;
 using Discord.Commands;
 using Tomat.TomatBot.Common.Logging;
 using Tomat.TomatBot.Core.Bot;
+using Tomat.TomatBot.Core.CommandContext;
 
 namespace Tomat.TomatBot.Core.Services.Commands
 {
@@ -37,7 +38,7 @@ namespace Tomat.TomatBot.Core.Services.Commands
             {
                 try
                 {
-                    if (Activator.CreateInstance(type) is not ModuleBase<SocketCommandContext>)
+                    if (Activator.CreateInstance(type) is not ModuleBase<BotCommandContext>)
                         continue;
 
                     ModuleInfoAttribute? info = type.GetCustomAttribute<ModuleInfoAttribute>();
