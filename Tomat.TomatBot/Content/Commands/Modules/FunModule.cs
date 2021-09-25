@@ -81,9 +81,10 @@ namespace Tomat.TomatBot.Content.Commands.Modules
             void AddUnit(TempUnit newUnit)
             {
                 string left = temp + converter.TextRepresentation;
-                double rounded = Math.Round(TemperatureConverters[newUnit].ToTemp(temp, converter.AssociatedUnit));
+                ITempConverter newConv = TemperatureConverters[newUnit];
+                double rounded = Math.Round(newConv.ToTemp(temp, converter.AssociatedUnit));
 
-                builder.AppendLine($"{left} = {rounded}");
+                builder.AppendLine($"{left} = {rounded}{newConv.TextRepresentation}");
             }
 
             foreach (TempUnit tUnit in TemperatureConverters.Keys)
