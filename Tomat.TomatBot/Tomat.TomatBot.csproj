@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <Folder Include="Common\Activities\" />
-    <Folder Include="Content\Commands\Modules\Temperature\" />
     <Folder Include="Core\CommandContext\" />
   </ItemGroup>
 

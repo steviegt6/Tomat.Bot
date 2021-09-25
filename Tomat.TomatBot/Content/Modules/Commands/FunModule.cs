@@ -12,12 +12,12 @@ using Discord;
 using Discord.Commands;
 using Tomat.TomatBot.Common.Embeds;
 using Tomat.TomatBot.Common.Web.EitherIO;
-using Tomat.TomatBot.Content.Commands.Modules.Temperature;
 using Tomat.TomatBot.Content.Configuration;
+using Tomat.TomatBot.Content.Modules.Commands.Temperature;
 using Tomat.TomatBot.Core.CommandContext;
 using Tomat.TomatBot.Core.Services.Commands;
 
-namespace Tomat.TomatBot.Content.Commands.Modules
+namespace Tomat.TomatBot.Content.Modules.Commands
 {
     [ModuleInfo("Fun & Misc.")]
     public sealed class FunModule : ModuleBase<BotCommandContext>

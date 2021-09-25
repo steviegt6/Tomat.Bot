@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Tomat.TomatBot.Content.Commands.Modules.Temperature
+namespace Tomat.TomatBot.Content.Modules.Commands.Temperature
 {
     public class FahrenheitConverter : ITempConverter
     {

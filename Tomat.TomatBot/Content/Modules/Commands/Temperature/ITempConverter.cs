@@ -2,7 +2,7 @@
 // Copyright (C) 2021 Tomat and Contributors, MIT License
 #endregion
 
-namespace Tomat.TomatBot.Content.Commands.Modules.Temperature
+namespace Tomat.TomatBot.Content.Modules.Commands.Temperature
 {
     public interface ITempConverter
     {
