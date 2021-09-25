@@ -9,5 +9,8 @@ using Tomat.TomatBot.Core.Bot;
 string token = await File.ReadAllTextAsync("token.txt");
 string tatsu = await File.ReadAllTextAsync("tatsu.txt");
 
+token = token.Trim();
+tatsu = tatsu.Trim();
+
 using DiscordBot discordBot = new TomatBot(token, tatsu);
 await discordBot.StartBot();
