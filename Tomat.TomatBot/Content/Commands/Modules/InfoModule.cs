@@ -4,6 +4,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -87,7 +88,7 @@ namespace Tomat.TomatBot.Content.Commands.Modules
                 name += $" {data.Value.CommandParameters}";
 
             if (data.Value.CommandAliases.Length > 0)
-                name += $" ({string.Join(", ", data.Value.CommandDescription)})";
+                name += $" ({string.Join(", ", data.Value.CommandAliases)})";
 
             BaseEmbed embed = new(Context.Bot, Context.User)
             {
@@ -170,6 +171,41 @@ namespace Tomat.TomatBot.Content.Commands.Modules
             };
 
             await ReplyAsync(embed: embed.Build());
+        }
+
+        #endregion
+
+        #region Ping Command
+
+        [Command("ping")]
+        [Alias("pong")]
+        [Summary("Shows bot gateway latency and response time.")]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        public async Task PingAsync()
+        {
+            int latency = Context.Client.Latency;
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            IUserMessage? sendAndEdit = await ReplyAsync("Calculating...");
+            stopwatch.Stop();
+
+            long responseTime = stopwatch.ElapsedMilliseconds;
+            long deltaTime = responseTime - latency;
+
+            BaseEmbed embed = new(Context.Bot, Context.User)
+            {
+                Title = "Ping",
+
+                Description = $"Latency - `{latency}ms`" +
+                              $"\nResponse Time - `{responseTime}ms`" +
+                              $"\nDelta Time - `{deltaTime}ms`"
+            };
+
+            await sendAndEdit.ModifyAsync(x =>
+            {
+                x.Content = "";
+                x.Embed = embed.Build();
+            });
         }
 
         #endregion
