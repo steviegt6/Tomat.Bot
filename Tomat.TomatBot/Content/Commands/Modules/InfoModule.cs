@@ -11,6 +11,7 @@ using Discord.Commands;
 using Tomat.TomatBot.Common.Embeds;
 using Tomat.TomatBot.Core.CommandContext;
 using Tomat.TomatBot.Core.Services.Commands;
+using Tomat.TomatBot.Core.Utilities;
 
 namespace Tomat.TomatBot.Content.Commands.Modules
 {
@@ -94,6 +95,27 @@ namespace Tomat.TomatBot.Content.Commands.Modules
             };
 
             await ReplyAsync(embed: embed.Build());
+        }
+
+        #endregion
+
+        #region Info Command
+
+        // TODO: Invite link.
+        [Command("info")]
+        [Summary("Displays standard information about the bot namely starter info and bot up-time.")]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        public async Task InfoAsync()
+        {
+            await ReplyAsync(embed: new BaseEmbed(Context.Bot, Context.User)
+            {
+                Title = "Basic Bot Info",
+
+                Description =
+                    "`Tomat` is a general-purpose Discord bot programmed by `Tomat#9999` with the help of `TheStachelfisch#0395`, who also hosts." +
+                    $"\n\nFor command help, use `{Context.Bot.GetPrefix(Context.Channel)}help` or ping the bot (`@Tomat help`)." +
+                    $"\nBot up-time: `{Context.Bot.UpTime.FormatToString(true)}` (since <t:{Context.Bot.StartTime.ToUnixTimeSeconds()}:F>)"
+            }.Build());
         }
 
         #endregion
