@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -136,6 +137,12 @@ namespace Tomat.TomatBot.Core.Bot
 
         public virtual async Task LogMessageAsync(LogMessage arg)
         {
+            if (arg.Severity == LogSeverity.Verbose && !Debugger.IsAttached)
+            {
+                await Task.CompletedTask;
+                return;
+            }
+
             static string Date(DateTime time)
             {
                 StringBuilder builder = new();
