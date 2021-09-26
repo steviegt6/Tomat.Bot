@@ -32,12 +32,15 @@ namespace Tomat.TomatBot.Content
 
         public override async Task OnStartAsync()
         {
-            // Run once to refresh upon start-up.
-            await DiscordClient.SetActivityAsync(new StatisticsActivity(DiscordClient.Guilds));
-
             DiscordClient.JoinedGuild += async _ =>
             {
                 // Run every time the bot joins a guild to update the current count.
+                await DiscordClient.SetActivityAsync(new StatisticsActivity(DiscordClient.Guilds));
+            };
+
+            DiscordClient.ShardReady += async _ =>
+            {
+                // Refresh when a new shard is readied.
                 await DiscordClient.SetActivityAsync(new StatisticsActivity(DiscordClient.Guilds));
             };
 
