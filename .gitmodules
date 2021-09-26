@@ -4,3 +4,6 @@
 [submodule "Victoria"]
 	path = Victoria
 	url = https://github.com/TomatCord/Victoria.git
+[submodule "Tomat.Framework"]
+	path = Tomat.Framework
+	url = https://github.com/TomatCord/Tomat.Framework.git

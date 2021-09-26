@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.TatsuSharp", "Tomat.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Victoria", "Victoria\src\Victoria.csproj", "{1F7C8868-49AF-44D4-8396-113B888A6311}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TomatBot.Framework", "TomatBot.Framework\TomatBot.Framework.csproj", "{6D5F6C93-9688-48B5-9FF3-7948A9F0B09B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tomat.Framework", "Tomat.Framework\Tomat.Framework\Tomat.Framework.csproj", "{45E9B62F-31BF-4EAA-934B-D82EC054E67C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{1F7C8868-49AF-44D4-8396-113B888A6311}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F7C8868-49AF-44D4-8396-113B888A6311}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F7C8868-49AF-44D4-8396-113B888A6311}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D5F6C93-9688-48B5-9FF3-7948A9F0B09B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D5F6C93-9688-48B5-9FF3-7948A9F0B09B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D5F6C93-9688-48B5-9FF3-7948A9F0B09B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D5F6C93-9688-48B5-9FF3-7948A9F0B09B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45E9B62F-31BF-4EAA-934B-D82EC054E67C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45E9B62F-31BF-4EAA-934B-D82EC054E67C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45E9B62F-31BF-4EAA-934B-D82EC054E67C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45E9B62F-31BF-4EAA-934B-D82EC054E67C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
