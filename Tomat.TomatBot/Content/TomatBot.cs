@@ -3,6 +3,7 @@
 #endregion
 
 using System.Diagnostics;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Timers;
 using Discord;
@@ -31,19 +32,13 @@ namespace Tomat.TomatBot.Content
 
         public override async Task OnStartAsync()
         {
-            DiscordClient.ShardReady += async _ =>
+            // Run once to refresh upon start-up.
+            await DiscordClient.SetActivityAsync(new StatisticsActivity(DiscordClient.Guilds));
+
+            DiscordClient.JoinedGuild += async _ =>
             {
+                // Run every time the bot joins a guild to update the current count.
                 await DiscordClient.SetActivityAsync(new StatisticsActivity(DiscordClient.Guilds));
-
-                new Timer(10 * 1000)
-                {
-                    AutoReset = true,
-                    Enabled = true
-                    // ReSharper disable once AsyncVoidLambda
-                }.Elapsed += async (_, _) =>
-                    await DiscordClient.SetActivityAsync(new StatisticsActivity(DiscordClient.Guilds));
-
-                await Task.CompletedTask;
             };
 
             await DiscordClient.SetStatusAsync(UserStatus.DoNotDisturb);
