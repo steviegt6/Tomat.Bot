@@ -7,8 +7,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 using Newtonsoft.Json;
-using Tomat.TomatBot.Core.Bot;
-using Tomat.TomatBot.Core.Configuration;
+using Tomat.Framework.Core.Bot;
+using Tomat.Framework.Core.Configuration;
 
 namespace Tomat.TomatBot.Content.Configuration
 {

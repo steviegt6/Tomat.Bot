@@ -10,13 +10,12 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Tomat.TomatBot.Common.Embeds;
+using Tomat.Framework.Common.Embeds;
+using Tomat.Framework.Core.CommandContext;
+using Tomat.Framework.Core.Services.Commands;
 using Tomat.TomatBot.Common.Web.EitherIO;
 using Tomat.TomatBot.Content.Configuration;
 using Tomat.TomatBot.Content.Modules.Commands.General.Temperature;
-using Tomat.TomatBot.Core.CommandContext;
-using Tomat.TomatBot.Core.Services.Commands;
-using TomatBot.Framework.Common.Embeds;
 
 namespace Tomat.TomatBot.Content.Modules.Commands.General
 {

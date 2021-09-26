@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Tomat.TomatBot.Common.Embeds;
-using Tomat.TomatBot.Core.CommandContext;
-using Tomat.TomatBot.Core.Services.Commands;
-using Tomat.TomatBot.Core.Utilities;
+using Tomat.Framework.Common.Embeds;
+using Tomat.Framework.Core.CommandContext;
+using Tomat.Framework.Core.Services.Commands;
+using Tomat.Framework.Core.Utilities;
 
 namespace Tomat.TomatBot.Content.Modules.Commands.General
 {

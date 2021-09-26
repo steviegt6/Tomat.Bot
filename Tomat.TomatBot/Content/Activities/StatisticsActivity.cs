@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Discord;
 using Discord.WebSocket;
-using Tomat.TomatBot.Common.Activities;
+using Tomat.Framework.Common.Activities;
 
 namespace Tomat.TomatBot.Content.Activities
 {

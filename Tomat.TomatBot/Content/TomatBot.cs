@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using System.Timers;
 using Discord;
 using Discord.WebSocket;
+using Tomat.Framework.Core.Bot;
 using Tomat.TatsuSharp;
 using Tomat.TomatBot.Content.Activities;
 using Tomat.TomatBot.Content.Configuration;
-using Tomat.TomatBot.Core.Bot;
 using Tomat.TomatBot.Core.Tatsu;
 
 namespace Tomat.TomatBot.Content

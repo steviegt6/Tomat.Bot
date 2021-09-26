@@ -3,8 +3,8 @@
 #endregion
 
 using System.IO;
+using Tomat.Framework.Core.Bot;
 using Tomat.TomatBot.Content;
-using Tomat.TomatBot.Core.Bot;
 
 string token = await File.ReadAllTextAsync("token.txt");
 string tatsu = await File.ReadAllTextAsync("tatsu.txt");
