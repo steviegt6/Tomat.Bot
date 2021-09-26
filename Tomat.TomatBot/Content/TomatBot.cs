@@ -31,7 +31,7 @@ namespace Tomat.TomatBot.Content
 
         public override async Task OnStartAsync()
         {
-            DiscordClient.Ready += async () =>
+            DiscordClient.ShardReady += async _ =>
             {
                 await DiscordClient.SetActivityAsync(new StatisticsActivity(DiscordClient.Guilds));
 
