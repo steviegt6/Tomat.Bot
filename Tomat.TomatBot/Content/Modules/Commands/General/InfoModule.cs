@@ -208,5 +208,23 @@ namespace Tomat.TomatBot.Content.Modules.Commands.General
         }
 
         #endregion
+
+        #region Shard Command
+
+        [Command("shard")]
+        [Summary("Show shard data for the current guild.")]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        public async Task ShardAsync()
+        {
+            int shardId = Context.Bot.DiscordClient.GetShardIdFor(Context.Guild);
+
+            await ReplyAsync(embed: new BaseEmbed(Context.Bot, Context.User)
+            {
+                Title = "Shard Info",
+                Description = $"Current guild ({Context.Guild.Id}) is currently using bot shard {shardId}."
+            }.Build());
+        }
+
+        #endregion
     }
 }
