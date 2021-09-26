@@ -29,13 +29,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tomat.TatsuSharp\Tomat.TatsuSharp.csproj" />
+    <ProjectReference Include="..\TomatBot.Framework\TomatBot.Framework.csproj" />
     <ProjectReference Include="..\Victoria\src\Victoria.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Activities\" />
     <Folder Include="Content\Modules\Commands\Audio\" />
-    <Folder Include="Core\CommandContext\" />
+    <Folder Include="Common\" />
   </ItemGroup>
 
 </Project>

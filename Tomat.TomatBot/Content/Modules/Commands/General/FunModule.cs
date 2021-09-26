@@ -16,6 +16,7 @@ using Tomat.TomatBot.Content.Configuration;
 using Tomat.TomatBot.Content.Modules.Commands.General.Temperature;
 using Tomat.TomatBot.Core.CommandContext;
 using Tomat.TomatBot.Core.Services.Commands;
+using TomatBot.Framework.Common.Embeds;
 
 namespace Tomat.TomatBot.Content.Modules.Commands.General
 {

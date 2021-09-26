@@ -9,6 +9,7 @@ using Discord.Commands;
 using Tomat.TomatBot.Common.Embeds;
 using Tomat.TomatBot.Core.CommandContext;
 using Tomat.TomatBot.Core.Services.Commands;
+using TomatBot.Framework.Common.Embeds;
 
 namespace Tomat.TomatBot.Content.Modules.Commands.General
 {

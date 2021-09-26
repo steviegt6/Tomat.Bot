@@ -13,6 +13,7 @@ using Tomat.TomatBot.Common.Embeds;
 using Tomat.TomatBot.Core.Bot;
 using Tomat.TomatBot.Core.CommandContext;
 using Tomat.TomatBot.Core.Utilities;
+using TomatBot.Framework.Common.Embeds;
 
 namespace Tomat.TomatBot.Core.Services.Commands
 {
