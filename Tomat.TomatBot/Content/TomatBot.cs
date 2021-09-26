@@ -48,9 +48,19 @@ namespace Tomat.TomatBot.Content
 
             await DiscordClient.SetStatusAsync(UserStatus.DoNotDisturb);
         }
+        
+        public override string GetPrefix(ISocketMessageChannel channel)
+        {
+            string prefix = Debugger.IsAttached ? "edge!" : "tomat!";
 
-        // TODO: Config!
-        public override string GetPrefix(ISocketMessageChannel channel) => Debugger.IsAttached ? "edge!" : "tomat!";
+            if (channel is not SocketGuildChannel gChannel)
+                return prefix;
+
+            // Gotta be careful to make sure this isn't null or whitespace or empty.
+            string gPrefix = GlobalConfig.GetGuildConfig(gChannel.Guild.Id).GuildPrefix;
+
+            return string.IsNullOrEmpty(gPrefix) ? prefix : gPrefix;
+        }
 
         public override async Task SaveConfig() => await GlobalConfig.SaveConfig();
 

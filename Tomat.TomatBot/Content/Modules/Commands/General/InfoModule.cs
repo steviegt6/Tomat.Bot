@@ -14,7 +14,7 @@ using Tomat.TomatBot.Core.CommandContext;
 using Tomat.TomatBot.Core.Services.Commands;
 using Tomat.TomatBot.Core.Utilities;
 
-namespace Tomat.TomatBot.Content.Modules.Commands
+namespace Tomat.TomatBot.Content.Modules.Commands.General
 {
     [ModuleInfo("Informative")]
     public sealed class InfoModule : ModuleBase<BotCommandContext>

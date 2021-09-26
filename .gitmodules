@@ -1,3 +1,6 @@
 [submodule "Tomat.TatsuSharp"]
 	path = Tomat.TatsuSharp
 	url = https://github.com/TomatCord/Tomat.TatsuSharp.git
+[submodule "Victoria"]
+	path = Victoria
+	url = https://github.com/TomatCord/Victoria.git

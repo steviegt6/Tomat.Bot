@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.4.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,10 +29,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tomat.TatsuSharp\Tomat.TatsuSharp.csproj" />
+    <ProjectReference Include="..\Victoria\src\Victoria.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Common\Activities\" />
+    <Folder Include="Content\Modules\Commands\Audio\" />
     <Folder Include="Core\CommandContext\" />
   </ItemGroup>
 

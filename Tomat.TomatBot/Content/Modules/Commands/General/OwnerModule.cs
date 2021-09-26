@@ -10,7 +10,7 @@ using Tomat.TomatBot.Common.Embeds;
 using Tomat.TomatBot.Core.CommandContext;
 using Tomat.TomatBot.Core.Services.Commands;
 
-namespace Tomat.TomatBot.Content.Modules.Commands
+namespace Tomat.TomatBot.Content.Modules.Commands.General
 {
     [ModuleInfo("Owner-Specific", false)]
     public sealed class OwnerModule : ModuleBase<BotCommandContext>

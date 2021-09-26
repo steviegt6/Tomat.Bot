@@ -72,5 +72,16 @@ namespace Tomat.TomatBot.Content.Configuration
             Directory.GetParent(savePath)?.Create();
             await File.WriteAllTextAsync(savePath, JsonConvert.SerializeObject(value, Formatting.Indented));
         }
+
+        public virtual GuildData GetGuildConfig(ulong id)
+        {
+            if (GuildConfigs.ContainsKey(id))
+                return GuildConfigs[id];
+
+            return GuildConfigs[id] = new GuildData
+            {
+                AssociatedId = id
+            };
+        }
     }
 }
