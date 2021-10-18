@@ -8,9 +8,11 @@ using Tomat.TomatBot.Content;
 
 string token = await File.ReadAllTextAsync("token.txt");
 string tatsu = await File.ReadAllTextAsync("tatsu.txt");
+string lvlnk = await File.ReadAllTextAsync("lvlnk.txt");
 
 token = token.Trim();
 tatsu = tatsu.Trim();
+lvlnk = lvlnk.Trim();
 
-using DiscordBot discordBot = new TomatBot(token, tatsu);
+using DiscordBot discordBot = new TomatBot(token, tatsu, lvlnk);
 await discordBot.StartBot();

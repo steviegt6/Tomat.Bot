@@ -26,10 +26,13 @@ namespace Tomat.TomatBot.Content
 
         public string TatsuToken => TatsuClient.APIKey;
 
-        public TomatBot(string token, string tatsuToken) : base(token)
+        public string LavaLinkPassword { get; }
+
+        public TomatBot(string token, string tatsuToken, string lavaLinkPassword) : base(token)
         {
             TatsuClient = new TatsuClient(tatsuToken);
             GlobalConfig = new GlobalBotConfig(this);
+            LavaLinkPassword = lavaLinkPassword;
         }
 
         public override async Task OnStartAsync()
@@ -78,7 +81,7 @@ namespace Tomat.TomatBot.Content
             {
                 x.Port = 9999;
                 x.Hostname = "127.0.0.1";
-                x.Authorization = "test";
+                x.Authorization = LavaLinkPassword;
                 x.SelfDeaf = true;
             });
         }
