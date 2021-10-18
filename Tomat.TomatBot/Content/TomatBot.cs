@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 using System.Timers;
 using Discord;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 using Tomat.Framework.Core.Bot;
 using Tomat.TatsuSharp;
 using Tomat.TomatBot.Content.Activities;
 using Tomat.TomatBot.Content.Configuration;
 using Tomat.TomatBot.Core.Tatsu;
+using Victoria;
 
 namespace Tomat.TomatBot.Content
 {
@@ -42,7 +44,15 @@ namespace Tomat.TomatBot.Content
             {
                 // Refresh when a new shard is readied.
                 await DiscordClient.SetActivityAsync(new StatisticsActivity(DiscordClient.Guilds));
+
+                LavaNode node = ServiceProvider.GetRequiredService<LavaNode>();
+
+                if (!node.IsConnected)
+                    await node.ConnectAsync();
             };
+
+            LavaNode node = ServiceProvider.GetRequiredService<LavaNode>();
+            node.OnLog += LogMessageAsync;
 
             await DiscordClient.SetStatusAsync(UserStatus.DoNotDisturb);
         }
@@ -60,6 +70,19 @@ namespace Tomat.TomatBot.Content
             return string.IsNullOrEmpty(gPrefix) ? prefix : gPrefix;
         }
 
+        public override async Task SetupSingletons()
+        {
+            await base.SetupSingletons();
+
+            Services.AddLavaNode(x =>
+            {
+                x.Port = 9999;
+                x.Hostname = "127.0.0.1";
+                x.Authorization = "test";
+                x.SelfDeaf = true;
+            });
+        }
+
         public override async Task SaveConfig() => await GlobalConfig.SaveConfig();
 
         public override async Task LoadConfig() => await GlobalConfig.LoadConfig();
@@ -70,6 +93,11 @@ namespace Tomat.TomatBot.Content
 
             if (!disposing)
                 return;
+
+            LavaNode node = ServiceProvider.GetRequiredService<LavaNode>();
+
+            if (node.IsConnected)
+                await node.DisconnectAsync();
 
             TatsuClient.Client.Dispose();
             await TatsuClient.Bucket.Refill();
